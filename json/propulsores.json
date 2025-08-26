@@ -1,0 +1,336 @@
+{
+    "propulsores": {
+        "B1057": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1057.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1057.1": {
+                    "mision": "Polaris Dawn",
+                    "fecha": "16/07/2025",
+                    "url": "https://halconspace.site/lanzamientos/polaris-dawn"
+                }
+            }
+        },
+        "B1058": {
+            "estado": "activo",
+            "img": "https://halconspace.site/img/propulsores/B1058.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1058.1": {
+                    "mision": "Eagle Arrival",
+                    "fecha": "06/08/2025",
+                    "url": "https://halconspace.site/lanzamientos/ev-01"
+                }
+            }
+        },
+        "B1059": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1059.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1059.1": {
+                    "mision": "KALYPSO-3",
+                    "fecha": "09/05/2025",
+                    "url": "https://halconspace.site/lanzamientos/kalypso3"
+                },
+                "B1059.2": {
+                    "mision": "Sentinel 1A & SNIPE-EYE 1",
+                    "fecha": "15/06/2025",
+                    "url": "https://halconspace.site/lanzamientos/sentinel-1A"
+                }
+            }
+        },
+        "B1061": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1061.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1061.1": {
+                    "mision": "NROL-13",
+                    "fecha": "02/05/2025",
+                    "url": "https://halconspace.site/lanzamientos/NROL-13"
+                },
+                "B1061.2": {
+                    "mision": "EAGLE CONNECT",
+                    "fecha": "21/08/2025",
+                    "url": "https://halconspace.site/lanzamientos/ev-02"
+                }
+            }
+        },
+        "B1062": {
+            "estado": "activo",
+            "img": "https://halconspace.site/img/propulsores/B1062.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1062.1": {
+                    "mision": "New Destiny",
+                    "fecha": "09/05/2025",
+                    "url": "https://halconspace.site/lanzamientos/newdestiny"
+                },
+                "B1062.2": {
+                    "mision": "Eyes Above The Horizon 5",
+                    "fecha": "10/05/2025",
+                    "url": "https://halconspace.site/lanzamientos/eath5"
+                }
+            }
+        },
+        "B1065": {
+            "estado": "activo",
+            "img": "https://halconspace.site/img/propulsores/B1065.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1065.1": {
+                    "mision": "Eyes Above The Horizon 4",
+                    "fecha": "30/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/eath4"
+                }
+            }
+        },
+        "B1066": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1066.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1066.1": {
+                    "mision": "TASTN-1",
+                    "fecha": "22/03/2025",
+                    "url": "https://halconspace.site/lanzamientos/tastn1"
+                }
+            }
+        },
+        "B1067": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1067.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1067.1": {
+                    "mision": "CRS-1",
+                    "fecha": "20/01/2025",
+                    "url": ""
+                },
+                "B1067.2": {
+                    "mision": "Eyes Above The Horizon 2",
+                    "fecha": "04/03/2025",
+                    "url": "https://halconspace.site/lanzamientos/eath2"
+                },
+                "B1067.3": {
+                    "mision": "Halycon Ascent",
+                    "fecha": "20/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/halcyonascent"
+                }
+
+            }
+        },
+        "B1068": {
+            "estado": "activo",
+            "img": "https://halconspace.site/img/propulsores/B1068.jpg",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1068.1": {
+                    "mision": "NROL-12",
+                    "fecha": "07/02/2025",
+                    "url": "https://halconspace.site/lanzamientos/NROL-12"
+                },
+                "B1068.2": {
+                    "mision": "GPS-7",
+                    "fecha": "10/06/2025",
+                    "url": "https://halconspace.site/lanzamientos/gps-7"
+                },
+                "B1068.3": {
+                    "mision": "GPS-10",
+                    "fecha": "22/07/2025",
+                    "url": "https://halconspace.site/lanzamientos/gps-10"
+                }
+            }
+        },
+        "B1069": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1069.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1069.1": {
+                    "mision": "MunStrider-1",
+                    "fecha": "19/02/2025",
+                    "url": "https://halconspace.site/lanzamientos/MunStrider"
+                },
+                "B1069.2": {
+                    "mision": "Eyes Above The Horizon 1",
+                    "fecha": "04/03/2025",
+                    "url": "https://halconspace.site/lanzamientos/eath1"
+                },
+                "B1069.3": {
+                    "mision": "GPS-5",
+                    "fecha": "22/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/gps-5"
+                },
+                "B1069.4": {
+                    "mision": "NROL-127",
+                    "fecha": "26/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/NROL-127"
+                },
+                "B1069.5": {
+                    "mision": "GPS-6",
+                    "fecha": "22/05/2025",
+                    "url": "https://halconspace.site/lanzamientos/gps-5"
+                },
+                "B1069.6": {
+                    "mision": "NROL-10",
+                    "fecha": "04/06/2025",
+                    "url": "https://halconspace.site/lanzamientos/NROL-10"
+                },
+                "B1069.7": {
+                    "mision": "SI-SAT 1",
+                    "fecha": "01/07/2025",
+                    "url": "https://halconspace.site/lanzamientos/si-sat-1"
+                }
+            }
+        },
+        "B1070": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1070.jpg",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1070.1": {
+                    "mision": "MoonRadar-1",
+                    "fecha": "11/02/2025",
+                    "url": "https://halconspace.site/lanzamientos/MoonRadar-1"
+                }
+            }
+        },
+        "B1071": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1071.png",
+            "tipo": "Falcon Heavy Side",
+            "vuelos": {
+                "B1071.1": {
+                    "mision": "USSF-15",
+                    "fecha": "26/02/2025",
+                    "url": "https://halconspace.site/lanzamientos/ussf-15"
+                }
+            }
+        },
+        "B1072": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1072.png",
+            "tipo": "Falcon Heavy Side",
+            "vuelos": {
+                "B1072.1": {
+                    "mision": "USSF-15",
+                    "fecha": "26/02/2025",
+                    "url": "https://halconspace.site/lanzamientos/ussf-15"
+                }
+            }
+        },
+        "B1073": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1073.png",
+            "tipo": "Falcon Heavy",
+            "vuelos": {
+                "B1073.1": {
+                    "mision": "USSF-15",
+                    "fecha": "26/02/2025",
+                    "url": "https://halconspace.site/lanzamientos/ussf-15"
+                }
+            }
+        },
+        "B1074": {
+            "estado": "destruido",
+            "img": "https://halconspace.site/img/propulsores/B1074.png",
+            "tipo": "Falcon Heavy Antes F9",
+            "vuelos": {
+                "B1074.1": {
+                    "mision": "NROL-101",
+                    "fecha": "29/03/2025",
+                    "url": "https://halconspace.site/lanzamientos/NROL-101"
+                },
+                "B1074.2": {
+                    "mision": "Eyes above the Horizon 3",
+                    "fecha": "28/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/eath3"
+                }
+            }
+        },
+        "B1075": {
+            "estado": "activo",
+            "img": "https://halconspace.site/img/propulsores/B1075.png",
+            "tipo": "Falcon 9",
+            "vuelos": {
+                "B1075.1": {
+                    "mision": "CRS-2",
+                    "fecha": "18/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/crs-2"
+                },
+                "B1075.2": {
+                    "mision": "GPS-4",
+                    "fecha": "22/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/gps-4"
+                },
+                "B1075.3": {
+                    "mision": "Eyes above the Horizon 3",
+                    "fecha": "28/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/eath3"
+                },
+                "B1075.4": {
+                    "mision": "GPS-8",
+                    "fecha": "02/07/2025",
+                    "url": "https://halconspace.site/lanzamientos/gps-8"
+                },
+                "B1075.5": {
+                    "mision": "StarReach I",
+                    "fecha": "22/07/2025",
+                    "url": "https://halconspace.site/lanzamientos/starreach-1"
+                },
+                "B1075.6": {
+                    "mision": "USSF-101",
+                    "fecha": "01/08/2025",
+                    "url": "https://halconspace.site/lanzamientos/USSF-101"
+                },
+                "B1075.7": {
+                    "mision": "NROL-420",
+                    "fecha": "27/08/2025",
+                    "url": null,
+                    "programado": true
+                }
+            }
+        },
+        "B1076": {
+            "estado": "activo",
+            "img": "https://halconspace.site/img/propulsores/B1076.png",
+            "tipo": "Falcon Heavy Side",
+            "vuelos": {
+                "B1076.1": {
+                    "mision": "Eyes above the Horizon 3",
+                    "fecha": "28/04/2025",
+                    "url": "https://halconspace.site/lanzamientos/eath3"
+                }
+            }
+        }
+    },
+    "capsulas": {
+        "C210": {
+            "estado": "activo",
+            "tipo": "Crew",
+            "img": "https://halconspace.site/img/capsulas/C210.jpg",
+            "vuelos": {
+                "C210.1": {
+                    "mision": "Crew Demo 2",
+                    "fecha": "25/01/2025",
+                    "url": "https://halconspace.site/lanzamientos/Crew-demo-2"
+                }
+            }
+        },
+        "C211": {
+            "estado": "activo",
+            "tipo": "Crew",
+            "img": "https://halconspace.site/img/Capsulas/C211.png",
+            "vuelos": {
+                "C211.1": {
+                    "mision": "Polaris Dawn",
+                    "fecha": "16/07/2025",
+                    "url": "https://halconspace.site/lanzamientos/polaris-dawn"
+                }
+            }
+        }
+    }
+}

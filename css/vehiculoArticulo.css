@@ -1,0 +1,444 @@
+/* ===========================
+   VARIABLES DE COLOR (del root)
+=========================== */
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --accent-primary: #c1272d;
+    --accent-secondary: #ff3b3b;
+    --success: #00ff88;
+    --warning: #ffaa00;
+    --error: #ff4444;
+    --border: #333333;
+    --shadow: rgba(0, 212, 255, 0.1);
+}
+
+/* ===========================
+   ESTILOS GENERALES
+=========================== */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.vehiculo-articulo {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 20px;
+}
+
+/* ===========================
+   HERO SECTION
+=========================== */
+
+.hero-content h1 {
+    font-size: 3rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* ==== GALERIA DE FOTOS ==== */
+
+.container-gallery {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .section-header {
+    margin-bottom: 30px;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .slideshow {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  
+  .slides-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .slides-wrapper img {
+    flex-shrink: 0;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+  
+  /* Flechas */
+  .controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
+  
+  .controls button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .controls button:hover {
+    color: var(--accent-secondary);
+  }
+  
+  /* Dots */
+  .dots {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .dot {
+    display: inline-block;
+    width: 7px;
+    aspect-ratio: 1/1;
+    height: auto;
+    margin: 0 5px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .dot.active {
+    background: var(--accent-primary);
+  }
+  
+  .dot:hover {
+    background: var(--accent-secondary);
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .controls button {
+      font-size: 1.5rem;
+      padding: 7px 10px;
+    }
+  }
+
+/* Imagen del hero */
+.hero-image {
+    flex: 1 1 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-image img {
+    max-width: 100%;
+    border-radius: 12px;
+    transition: transform 0.4s ease;
+}
+
+.hero-image img:hover {
+    transform: scale(1.05);
+}
+
+/* ===========================
+   SECCIÓN DE DETALLES
+=========================== */
+.detalles {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border);
+}
+
+.detalles h2 {
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+}
+
+.detalles ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.detalles li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.detalles li strong {
+    color: var(--text-primary);
+}
+
+/* ===========================
+   ESTADÍSTICAS
+=========================== */
+.estadisticas {
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.estadisticas h2 {
+    color: var(--accent-primary);
+    margin-bottom: 1.5rem;
+}
+
+.chart-container {
+    position: relative;
+    width: 220px;   /* 🔑 Ancho fijo */
+    height: 220px;  /* 🔑 Alto fijo */
+    margin: 0 auto;
+}
+
+/* ===========================
+   GALERÍA
+=========================== */
+.galeria {
+    margin-bottom: 3rem;
+}
+
+.galeria h2 {
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+}
+
+.imagenes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.imagenes img {
+    width: 32%;
+    border-radius: 8px;
+    transition: transform 0.3s;
+    border: 1px solid var(--border);
+}
+
+.imagenes img:hover {
+    transform: scale(1.05);
+}
+
+/* ===========================
+   HISTORIAL DE MISIONES
+=========================== */
+.historial h2 {
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+}
+
+/* ===== Grid de tarjetas ===== */
+#lanzamientos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 10px;
+  }
+  
+  /* Tarjeta de lanzamiento */
+  .card-lanzamiento {
+    background: #1c1c1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card-lanzamiento:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+  }
+  
+  .card-lanzamiento img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .card-lanzamiento .info {
+    padding: 18px;
+  }
+  
+  .card-lanzamiento h3 {
+    margin: 0 0 10px;
+    font-size: 1.3rem;
+    color: #fff;
+  }
+  
+  .card-lanzamiento {
+    background: #1c1c1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card-lanzamiento:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+  }
+  
+  /* Contenedor de la imagen */
+  .card-lanzamiento .img-wrapper {
+    position: relative;
+  }
+  
+  .card-lanzamiento img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Estado superpuesto */
+  .card-lanzamiento .estado {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    background: rgba(0,0,0,0.6); /* fondo semitransparente para contraste */
+    color: white;
+  }
+  
+  /* Colores según estado */
+  .card-lanzamiento .estado.exito {
+    background: rgba(27, 94, 32, 0.8);
+  }
+  
+  .card-lanzamiento .estado.programado {
+    background: rgba(40, 53, 147, 0.8);
+  }
+  
+  .card-lanzamiento .estado.fallo {
+    background: rgba(183, 28, 28, 0.8);
+  }
+  
+  
+  /* Botones de acción */
+  .card-lanzamiento .links {
+    margin-top: 15px;
+  }
+  
+  .card-lanzamiento .btn {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 7px 14px;
+    font-size: 0.9rem;
+    color: #fff;
+    background: #444;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  
+  .card-lanzamiento .btn:hover {
+    background: #666;
+  }
+  
+  .card-lanzamiento .btn.live {
+    background: #e91e63;
+  }
+  
+  .card-lanzamiento .btn.live:hover {
+    background: #ff4d88;
+  }
+  
+  /* ===== Botón principal al pie ===== */
+  .btn-primary {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #e91e63;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background: #ff4d88;
+  }
+  
+  /* ===== Responsividad ===== */
+  @media (max-width: 768px) {
+    .section {
+      padding: 40px 15px;
+    }
+  
+    .section-header h2 {
+      font-size: 1.6rem;
+    }
+  
+    .section-header p {
+      font-size: 0.9rem;
+    }
+  
+    .card-lanzamiento img {
+      height: 160px;
+    }
+  
+    .card-lanzamiento h3 {
+      font-size: 1.1rem;
+    }
+  }
+
+/* ===========================
+   RESPONSIVIDAD
+=========================== */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .imagenes img {
+        width: 100%;
+    }
+}

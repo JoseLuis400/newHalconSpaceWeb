@@ -1,0 +1,29 @@
+[
+    {
+      "nombre": "Falcon 9",
+      "tipo": "Lanzador Mediano",
+      "altura": "70m",
+      "diametro": "3.7m",
+      "masa": "549,054 kg",
+      "cargaLEO": "22,800 kg",
+      "cargaGTO": "8,300 kg",
+      "reutilizable": true,
+      "misiones": 31,
+      "exito": "100%",
+      "imagen": "https://images.unsplash.com/photo-1517976487492-5750f3195933?w=400&h=300&fit=crop"
+    },
+    {
+      "nombre": "Falcon Heavy",
+      "tipo": "Lanzador Pesado",
+      "altura": "70m",
+      "diametro": "12.2m",
+      "masa": "1,420,788 kg",
+      "cargaLEO": "63,800 kg",
+      "cargaGTO": "26,700 kg",
+      "reutilizable": true,
+      "misiones": 2,
+      "exito": "100%",
+      "imagen": "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=300&fit=crop"
+    }
+  ]
+  

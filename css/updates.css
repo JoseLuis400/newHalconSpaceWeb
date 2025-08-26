@@ -1,0 +1,204 @@
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --accent-primary: #c1272d;
+    --accent-secondary: #ff3b3b;
+    --success: #00ff88;
+    --warning: #ffaa00;
+    --error: #ff4444;
+    --border: #333333;
+    --shadow: rgba(0, 212, 255, 0.1);
+  }
+
+/* ======================
+   Estilos Generales
+====================== */
+body {
+    font-family: 'Erbaum', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+}
+
+/* ======================
+   Sección de Actualizaciones
+====================== */
+.updates {
+    position: relative;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+    overflow: hidden;
+}
+
+/* Fondo de estrellas sutil */
+.updates::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="50" cy="50" r="1" fill="white" opacity="0.3"/><circle cx="200" cy="200" r="1" fill="white" opacity="0.2"/><circle cx="400" cy="600" r="1" fill="white" opacity="0.3"/><circle cx="700" cy="800" r="1" fill="white" opacity="0.2"/><circle cx="900" cy="300" r="1" fill="white" opacity="0.3"/></svg>') repeat;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Contenedor */
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header de sección */
+.updates h3 {
+    font-size: 3rem;
+    color: var(--accent-primary);
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.updates p {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* ======================
+   Tarjetas de Actualización
+====================== */
+.update {
+    background: #1e1e22;
+    border-radius: 15px;
+    margin: 40px 0;
+    overflow: hidden;
+
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.4s ease;
+}
+
+/* Hover de zoom solo para imagen */
+.update:hover img {
+    transform: scale(1.05);
+}
+
+/* Imagen */
+.update img {
+    width: 100%;
+    display: block;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    transition: transform 0.4s ease;
+}
+
+/* Contenido de la tarjeta */
+.update-info {
+    padding: 25px 30px;
+}
+
+.update-info .date {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--accent-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.update-info h4 {
+    font-size: 1.7rem;
+    color: var(--accent-primary);
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.update-info p,
+.update-info ul,
+.update-info blockquote {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.update-info a {
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+.update-info a:hover {
+    text-decoration: underline;
+}
+
+.update-info blockquote {
+    border-left: 3px solid var(--accent-primary);
+    padding-left: 15px;
+    font-style: italic;
+    color: var(--text-primary);
+}
+
+/* ======================
+   Botón de contrato
+====================== */
+.btn {
+    display: block;            /* Convertir a bloque para centrar */
+    margin: 0 auto;            /* Centrado horizontal */
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid var(--accent-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-primary);
+}
+
+
+/* ======================
+   Animación opcional al scroll
+====================== */
+.update.fade-in {
+    transform: translateY(50px);
+    opacity: 0;
+}
+
+.update.fade-in.appear {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ======================
+   Responsive
+====================== */
+@media (max-width: 768px) {
+    .updates h3 {
+        font-size: 2.2rem;
+    }
+
+    .update-info h4 {
+        font-size: 1.4rem;
+    }
+
+    .update-info p {
+        font-size: 0.95rem;
+    }
+}

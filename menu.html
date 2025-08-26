@@ -1,0 +1,33 @@
+<header>
+    <div class="logo">
+        <a href="https://halconspace.site/">
+            <img src="https://halconspace.site/img/logo.png" alt="Logo de Halcon Space" id="logoEmpresa">
+          </a>
+          
+        <h1><a href="https://new.halconspace.site/">Halcon Space</a></h1>
+    </div>
+    <span class="menu-toggle">&#9776;</span> <!-- Ícono de menú hamburguesa -->
+    <nav id="menu">
+        <ul>
+            <li><a href="https://new.halconspace.site/vehiculos" data-page="vehiculos">Vehículos</a></li>
+            <li><a href="https://new.halconspace.site/propulsores" data-page="propulsores">Propulsores</a></li>
+            <li><a href="https://new.halconspace.site/actualizaciones" data-page="actualizaciones">Actualizaciones</a></li>
+        </ul>
+    </nav>
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('header nav');
+    
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('open');
+    
+            // Habilita o deshabilita el scroll en el body
+            if (nav.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+    
+</header>

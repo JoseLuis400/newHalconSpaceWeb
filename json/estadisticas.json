@@ -1,0 +1,20 @@
+{
+    "lanzamientos": {
+        "exitosos": 33,
+        "fallidos": 0
+    },
+    "aterrizajes": {
+        "exitosos": 23,
+        "fallidos": 6
+    },
+    "vuelosVehiculos": {
+        "falcon9": {
+            "exitosos": 31,
+            "fallidos": 0
+        },
+        "falconHeavy": {
+            "exitosos": 2,
+            "fallidos": 0
+        }
+    }
+}

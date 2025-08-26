@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falcon 9 Block 5 - Halcon Space</title>
+    <link rel="shortcut icon" href="https://halconspace.site/img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/vehiculoArticulo.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="../js/main.js"></script> <!-- Cargar el menú superior y pie de pagina-->
+    <script src="../js/vehiculoFalcon9.js" defer></script> <!-- Cargar vehículos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script> <!-- Cargar gráficos-->
+    
+
+    <!-- EMBED DE LA PAGINA -->
+     <!-- Open Graph (Facebook, WhatsApp, LinkedIn, etc.) -->
+<meta property="og:title" content="Falcon 9 Block 5 - Halcon Space">
+<meta property="og:description" content="Halcon Space es líder en exploración espacial y comunicación satelital desde Kerbin. Misiones, lanzamientos y vehículos.">
+<meta property="og:url" content="https://halconspace.site/vehiculos/falcon9">
+<meta property="og:image" content="https://halconspace.site/img/misiones/Eyes%20above%20the%20Horizon%201/Aterrizaje.png">
+<meta property="og:image:alt" content="Vehiculos - Halcon Space">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Falcon 9 Block 5 - Halcon Space">
+<meta name="twitter:description" content="Halcon Space es líder en exploración espacial y comunicación satelital desde Kerbin. Misiones, lanzamientos y vehículos.">
+<meta name="twitter:image" content="https://halconspace.site/img/misiones/NROL-12/Landing.jpg">
+<meta name="twitter:image:alt" content="Halcon Space">
+<meta name="twitter:site" content="@HalconSpace">
+</head>
+<body>
+    <div id="menu-container"></div>
+
+    <main class="vehiculo-articulo">
+        <div class="hero-content">
+            <h1>Falcon 9 Block 5</h1>
+            <p>El Falcon 9 es el cohete insignia de Halcon Space, diseñado para transportar cargas útiles a órbitas bajas y geostacionarias. Este vehículo es revolucionario debido a su capacidad de reutilización, lo que ha permitido reducir significativamente los costos de lanzamiento.</p>    
+        </div>
+        
+        <section class="section">
+            <div class="container-gallery">
+              <div class="section-header">
+                <h2>Galería de Imágenes</h2>
+              </div>
+              
+              <div class="slideshow">
+                <div class="slides-wrapper" id="slides-wrapper">
+                  <!-- Las imágenes se agregan dinámicamente -->
+                </div>
+                <div class="controls">
+                  <button id="prev">&#10094;</button>
+                  <button id="next">&#10095;</button>
+                </div>
+                <div class="dots" id="dots"></div>
+              </div>
+            </div>
+          </section>
+
+        <section class="detalles">
+            <h2>Caracteristicas</h2>
+            <ul>
+                <li><strong>Altura:</strong> 70 m</li>
+                <li><strong>Diámetro:</strong> 3.7 m</li>
+                <li><strong>Masa al despegue:</strong> 549,000 kg</li>
+                <li><strong>Empuje al despegue:</strong> 7,607 kN</li>
+                <li><strong>Capacidad en LEO:</strong> 22,800 kg</li>
+                <li><strong>Capacidad en GTO:</strong> 8,300 kg</li>
+                <li><strong>Etapas:</strong> 2</li>
+                <li><strong>Vuelos:</strong> <span id="vuelosTotales">0</span></li>
+                <li><strong>Plataformas compatibles:</strong> LC-39A, SLC-40</li>
+            </ul>
+            <section class="estadisticas">
+                <h2>Estadísticas de Lanzamientos</h2>
+                <div class="chart-container">
+                    <canvas id="lanzamientosChart"></canvas>
+                </div>
+            </section>
+            
+        </section>
+
+        <section class="historial">
+            <h2>Historial de Misiones</h2>
+            <div id="lanzamientos"></div>    
+        </section>
+    </main>
+</body>
+</html>

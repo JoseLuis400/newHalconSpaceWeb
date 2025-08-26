@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propulsores - Halcon Space</title>
+    <link rel="shortcut icon" href="https://halconspace.site/img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/propulsores.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script> <!-- Cargar el menú superior y pie de pagina-->
+    <script src="js/propulsores.js" defer></script> <!-- Cargar propulsores -->
+    
+
+    <!-- EMBED DE LA PAGINA -->
+     <!-- Open Graph (Facebook, WhatsApp, LinkedIn, etc.) -->
+<meta property="og:title" content="Propulsores - Halcon Space">
+<meta property="og:description" content="Halcon Space es líder en exploración espacial y comunicación satelital desde Kerbin. Misiones, lanzamientos y vehículos.">
+<meta property="og:url" content="https://halconspace.site/propulsores">
+<meta property="og:image" content="https://halconspace.site/img/misiones/Eyes%20above%20the%20Horizon%201/Aterrizaje.png">
+<meta property="og:image:alt" content="Propulsores - Halcon Space">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Propulsores - Halcon Space">
+<meta name="twitter:description" content="Halcon Space es líder en exploración espacial y comunicación satelital desde Kerbin. Misiones, lanzamientos y vehículos.">
+<meta name="twitter:image" content="https://halconspace.site/img/misiones/NROL-12/Landing.jpg">
+<meta name="twitter:image:alt" content="Halcon Space">
+<meta name="twitter:site" content="@HalconSpace">
+</head>
+<body>
+    <div id="menu-container"></div>
+    <div class="container">
+        <div class="section-header">
+            <h2 class="header-title">Propulsores</h2>
+            <p class="header-subtitle">Propulsores de vehículos de Halcon Space</p>
+        </div>
+        <div class="filters">
+            <button class="filter-btn btn btn-secondary active" data-filter="all">Todos</button>
+            <button class="filter-btn btn btn-secondary" data-filter="activo">Activos</button>
+            <button class="filter-btn btn btn-secondary" data-filter="retirado">Retirados</button>
+            <button class="filter-btn btn btn-secondary" data-filter="destruido">Destruidos</button>
+            <button class="filter-btn btn btn-secondary" data-filter="testing">En Pruebas</button>
+            
+            <!-- Nuevo buscador -->
+            <input type="text" id="search-input" placeholder="Buscar propulsor..." class="search-box">
+        </div>
+
+        <div class="boosters-grid" id="boosters-grid">
+            <!-- Los propulsores se cargarán aquí dinámicamente -->
+        </div>
+
+        <!-- Modal para detalles del propulsor -->
+    <div class="modal" id="booster-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Contenido del modal se carga dinámicamente -->
+            </div>
+        </div>
+    </div>
+    </div>
+    
+</body>
+</html>

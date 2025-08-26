@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halcon Space</title>
+    <link rel="shortcut icon" href="https://halconspace.site/img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script> <!-- Cargar el menú superior y pie de pagina-->
+    <script src="js/inicio.js"></script> <!-- Cargar lanzamientos-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Cargar gráficos-->
+
+    <!-- EMBED DE LA PAGINA -->
+     <!-- Open Graph (Facebook, WhatsApp, LinkedIn, etc.) -->
+<meta property="og:title" content="Halcon Space - Exploración y conectividad espacial">
+<meta property="og:description" content="Halcon Space es líder en exploración espacial y comunicación satelital desde Kerbin. Misiones, lanzamientos y vehículos.">
+<meta property="og:url" content="https://halconspace.site/">
+<meta property="og:image" content="https://halconspace.site/img/fotos/Falcon%209%20en%20SLC-40.jpg">
+<meta property="og:image:alt" content="Halcon Space">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Halcon Space - Exploración y conectividad espacial">
+<meta name="twitter:description" content="Halcon Space es líder en exploración espacial y comunicación satelital desde Kerbin. Misiones, lanzamientos y vehículos.">
+<meta name="twitter:image" content="https://halconspace.site/img/fotos/Falcon%209%20en%20SLC-40.jpg">
+<meta name="twitter:image:alt" content="Halcon Space">
+<meta name="twitter:site" content="@HalconSpace">
+</head>
+<body>
+    <div id="menu-container"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Halcon Space</h1>
+            <p>Halcon Space es líder en exploración y conectividad espacial. Con tecnología de vanguardia y misiones visionarias, seguimos expandiendo los horizontes del espacio.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                <a href="#" class="btn btn-secondary">Ver Lanzamientos</a>
+                <a href="#" class="btn btn-secondary">Nuestros Vehículos</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container-launches">
+            <div class="section-header">
+                <h2>Lanzamientos Recientes</h2>
+                <p>Nuestras misiones más recientes y próximos lanzamientos programados</p>
+            </div>
+            <div id="lanzamientos"></div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="btn btn-primary">Ver Todos los Lanzamientos</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-primary);">
+        <div class="container-stats">
+          <div class="section-header">
+            <h2>Estadísticas</h2>
+            <p>Distribución de nuestras misiones</p>
+          </div>
+      
+          <section class="estadisticas">
+            <h2>Estadísticas de Lanzamientos</h2>
+            <div class="chart-container">
+                <canvas id="lanzamientosChart"></canvas>
+            </div>
+        </section>
+        </div>
+      </section>
+
+      <section class="section" style="background: var(--bg-secondary);">
+        <div class="container-gallery">
+          <div class="section-header">
+            <h2>Galería de Imágenes</h2>
+          </div>
+          
+          <div class="slideshow">
+            <div class="slides-wrapper" id="slides-wrapper">
+              <!-- Las imágenes se agregan dinámicamente -->
+            </div>
+            <div class="controls">
+              <button id="prev">&#10094;</button>
+              <button id="next">&#10095;</button>
+            </div>
+            <div class="dots" id="dots"></div>
+          </div>
+        </div>
+      </section>
+      
+      <script src="js/galeria.js"></script>
+      
+      
+      
+</body>
+</html>
