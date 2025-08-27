@@ -283,33 +283,66 @@
   
   /* ==== Estadisticas */
 
-  .charts-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 40px;
+  .chart-container {
+    display: flex;                /* Pone los canvas en fila */
+    justify-content: space-around; /* Espacio uniforme entre ellos */
+    align-items: center;           /* Centra verticalmente */
+    flex-wrap: wrap;               /* Para que se acomoden en pantallas pequeñas */
+    gap: 20px;                     /* Separación entre gráficos */
   }
   
-  canvas {
-    background: #1c1c1e;
-    border-radius: 15px;
-    padding: 20px;
-    width: 100% !important;   /* que ocupe todo el ancho del contenedor */
-    max-width: 350px;         /* límite en pantallas grandes */
-    height: auto !important;  /* mantener proporción */
-    aspect-ratio: 1/1;        /* asegura que sea cuadrado */
+  .chart-container canvas {
+    width: 300px !important;   /* Ajusta el tamaño según necesites */
+    height: 300px !important;
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 10px;
   }
   
-  
-  @media (max-width: 768px) {
-    canvas {
-      max-width: 90%;
-      aspect-ratio: 1/1;  /* mantiene proporción en móvil */
-    }
+  .section-header h2,
+  .estadisticas h2,
+  .section-header p {
+    font-size: 1.5rem; /* Aumenta tamaño de títulos */
+    text-align: center;
   }
   
+  .chart-container {
+    font-size: 16px; /* Fuente de labels de los gráficos */
+    
+  }
   
+  /* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .chart-container {
+    justify-content: center; /* centra las gráficas en tablet */
+  }
+
+  .chart-container canvas {
+    flex: 1 1 45%;  /* dos gráficos por fila si hay espacio */
+  }
+}
+
+@media (max-width: 600px) {
+  .chart-container {
+    flex-direction: column;  /* todos en columna en móvil */
+    align-items: center;
+  }
+
+  .chart-container canvas {
+    width: 90% !important;
+    height: auto !important;
+    max-width: 300px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-header p,
+  .estadisticas h2 {
+    font-size: 1.1rem;
+  }
+}
   /* ==== GALERIA DE FOTOS ==== */
 
   .container-gallery {
