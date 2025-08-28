@@ -1,7 +1,7 @@
 ////// ESTADISTICAS
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("../json/estadisticas.json")
+  fetch("https://halconspace.site/json/estadisticas.json")
     .then(res => res.json())
     .then(data => {
 

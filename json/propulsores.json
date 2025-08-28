@@ -76,7 +76,7 @@
             }
         },
         "B1065": {
-            "estado": "activo",
+            "estado": "retirado",
             "img": "https://halconspace.site/img/propulsores/B1065.png",
             "tipo": "Falcon 9",
             "vuelos": {

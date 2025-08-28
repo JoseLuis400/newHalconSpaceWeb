@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Función para obtener y actualizar las estadísticas
     const fetchAndUpdateStats = async () => {
       try {
-        const response = await fetch("http://localhost:5500/json/estadisticas.json");
+        const response = await fetch("https://halconspace.site/json/estadisticas.json");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   document.addEventListener("DOMContentLoaded", async () => {
     try {
-      const response = await fetch("https://new.halconspace.site/json/propulsores.json");
+      const response = await fetch("https://halconspace.site/json/propulsores.json");
       const data = await response.json();
       const propulsores = data.propulsores;
   
