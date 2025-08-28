@@ -12,16 +12,17 @@
     --error: #ff4444;
     --border: #333333;
     --shadow: rgba(0, 212, 255, 0.1);
-  }
+}
 
-  .section-header h2 {
+/* ===== Sección y header ===== */
+.section-header h2 {
     font-size: 2rem;
     color: var(--text-primary);
     text-align: center;
     margin-bottom: 0.5rem;
-  }
-  
-  .section-header p {
+}
+
+.section-header p {
     font-size: 1rem;
     color: var(--text-secondary);
     text-align: center;
@@ -30,9 +31,9 @@
     margin-left: auto;
     margin-right: auto;
     line-height: 1.5;
-  }
-  
-  .section-header h2::after {
+}
+
+.section-header h2::after {
     content: "";
     display: block;
     width: 60px;
@@ -40,153 +41,136 @@
     background: var(--accent-primary);
     margin: 10px auto 0;
     border-radius: 2px;
-  }
+}
 
-  /*===== ESTADISTICAS =====*/
-
-  .stats-container {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-  }
-  
-  #launchesChart {
-    max-width: 400px;
-    margin: 0 auto;
-    display: block;
-  }
-
-  .chart-box {
-    max-width: 300px;
-    text-align: center;
-  }
-
-  .stats-container {
+/* ===== Estadísticas ===== */
+.stats-container {
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 15px;
-  }
-  
-  .chart-wrapper {
+    margin-bottom: 30px;
+}
+
+.chart-wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 40px;
     justify-content: center;
-  }
-  
-  .chart-wrapper canvas {
+}
+
+.chart-wrapper .chart-box {
+    max-width: 250px;
+    text-align: center;
+}
+
+.chart-wrapper canvas {
+    max-width: 100%;
+    height: 200px;
     display: block;
     margin: 0 auto;
-  }
+}
 
-  
-  /*===== FILTROS ======*/
-  .filterr {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-  }
-  .filters {
+/* ===== Filtros ===== */
+.filters {
     padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     gap: 15px;
     align-items: center;
-    margin: 0 auto;
-  }
-  
-  .filters label {
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.filterr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters label {
     color: var(--text-secondary);
     font-size: 0.9rem;
-  }
-  
-  .filters select {
+}
+
+.filters select,
+.filters #search-name {
     background: var(--bg-secondary);
     color: var(--text-primary);
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 5px 10px;
     font-size: 0.9rem;
-  }
-  
-  .filters #search-name {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 0.9rem;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .filters {
-        display: flex;
-      flex-direction: column;
-    }
+    transition: transform 0.2s, box-shadow 0.2s;
+}
 
-    .filterr {
-        display: flex;
-      flex-direction: row;
-    }
+/* Animación al usar filtros */
+.filters select:focus,
+.filters #search-name:focus {
+    transform: scale(1.05);
+    outline: none;
+}
 
-    .filterr#filtro {
-        display: flex;
-      flex-direction: column;
-      text-align: center;
-    }
-    
-  }
-  
-  /* ===== Grid de tarjetas ===== */
-  #launchesContainer {
+/* ===== Grid de tarjetas ===== */
+#launchesContainer {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Hasta 3 tarjetas */
+    grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     padding: 20px;
-  }
-  
-  @media (max-width: 1024px) {
+    transition: all 0.4s ease-in-out;
+}
+
+@media (max-width: 1024px) {
     #launchesContainer {
-      grid-template-columns: repeat(2, 1fr); /* 2 en tablets */
+        grid-template-columns: repeat(2, 1fr);
     }
-  }
-  
-  @media (max-width: 600px) {
+}
+
+@media (max-width: 600px) {
     #launchesContainer {
-      grid-template-columns: 1fr; /* 1 en móviles */
+        grid-template-columns: 1fr;
     }
-  }
-  
-  /* Tarjeta de lanzamiento */
-  .card-lanzamiento {
+}
+
+/* ===== Tarjeta de lanzamiento ===== */
+.card-lanzamiento {
     background: #1c1c1e;
     border: 1px solid #2a2a2a;
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .card-lanzamiento:hover {
+    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+}
+
+.card-lanzamiento:hover {
     transform: translateY(-6px);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
-  }
-  
-  /* Contenedor de imagen */
-  .card-lanzamiento .img-wrapper {
+}
+
+/* Animación al filtrar */
+.card-lanzamiento.fade {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s ease-in-out;
+}
+
+.card-lanzamiento.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Imagen y estado */
+.card-lanzamiento .img-wrapper {
     position: relative;
-  }
-  
-  .card-lanzamiento img {
+}
+
+.card-lanzamiento img {
     width: 100%;
     height: 190px;
     object-fit: cover;
     display: block;
-  }
-  
-  /* Estado superpuesto */
-  .card-lanzamiento .estado {
+}
+
+.card-lanzamiento .estado {
     position: absolute;
     bottom: 10px;
     left: 10px;
@@ -196,38 +180,29 @@
     font-size: 0.8rem;
     background: rgba(0, 0, 0, 0.6);
     color: white;
-  }
-  
-  /* Colores según estado */
-  .card-lanzamiento .estado.exito {
-    background: rgba(27, 94, 32, 0.8);
-  }
-  
-  .card-lanzamiento .estado.programado {
-    background: rgba(40, 53, 147, 0.8);
-  }
-  
-  .card-lanzamiento .estado.fallo {
-    background: rgba(183, 28, 28, 0.8);
-  }
-  
-  /* Info */
-  .card-lanzamiento .info {
+}
+
+.card-lanzamiento .estado.exito { background: rgba(27, 94, 32, 0.8); }
+.card-lanzamiento .estado.programado { background: rgba(40, 53, 147, 0.8); }
+.card-lanzamiento .estado.fallo { background: rgba(183, 28, 28, 0.8); }
+
+/* Info */
+.card-lanzamiento .info {
     padding: 18px;
-  }
-  
-  .card-lanzamiento h3 {
+}
+
+.card-lanzamiento h3 {
     margin: 0 0 10px;
     font-size: 1.3rem;
     color: #fff;
-  }
-  
-  /* Botones */
-  .card-lanzamiento .links {
+}
+
+/* Botones */
+.card-lanzamiento .links {
     margin-top: 15px;
-  }
-  
-  .card-lanzamiento .btn {
+}
+
+.card-lanzamiento .btn {
     display: inline-block;
     margin-right: 10px;
     padding: 7px 14px;
@@ -236,18 +211,19 @@
     background: #444;
     border-radius: 6px;
     text-decoration: none;
-    transition: background 0.3s;
-  }
-  
-  .card-lanzamiento .btn:hover {
+    transition: background 0.3s, transform 0.2s;
+}
+
+.card-lanzamiento .btn:hover {
     background: #666;
-  }
-  
-  .card-lanzamiento .btn.live {
+    transform: scale(1.05);
+}
+
+.card-lanzamiento .btn.live {
     background: #e91e63;
-  }
-  
-  .card-lanzamiento .btn.live:hover {
+}
+
+.card-lanzamiento .btn.live:hover {
     background: #ff4d88;
-  }
-  
+    transform: scale(1.05);
+}
