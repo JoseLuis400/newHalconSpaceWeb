@@ -32,7 +32,7 @@ function parseFecha(fechaStr) {
     <p><strong>Vehículo:</strong> ${l.vehiculo}</p>
     <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
     <div class="links">
-      <a href="#" class="btn">Detalles</a>
+      ${l.detalleUrl ? `<a href="${l.detalleUrl}" class="btn">Detalles</a>` : ""}
       ${l.stream ? `<a href="${l.stream}" target="_blank" class="btn live">Ver transmisión</a>` : ""}
     </div>
   </div>
@@ -94,6 +94,9 @@ function parseFecha(fechaStr) {
             },
             options: opcionesBase("Aterrizajes")
           });
+
+          const vuelosF9 = data.vuelosVehiculos.falcon9.exitosos + data.vuelosVehiculos.falcon9.fallidos;
+          const vuelosFH = data.vuelosVehiculos.falconHeavy.exitosos + data.vuelosVehiculos.falconHeavy.fallidos;
     
           // Vuelos Falcon
           new Chart(document.getElementById("vuelosChart"), {
@@ -101,7 +104,7 @@ function parseFecha(fechaStr) {
             data: {
               labels: ['Falcon 9', 'Falcon Heavy'],
               datasets: [{
-                data: [data.vuelosVehiculos.falcon9, data.vuelosVehiculos.falconHeavy],
+                data: [vuelosF9, vuelosFH],
                 backgroundColor: ['#193CB8', '#1e1a4d']
               }]
             },

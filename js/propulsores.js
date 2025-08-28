@@ -1,5 +1,5 @@
 // API Data URL
-const apiURL = "json/propulsores.json"; // Cambia la ruta si es necesario
+const apiURL = "https://halconspace.site/json/propulsores.json"; // Cambia la ruta si es necesario
 
 // Variables
 let boostersData = [];
