@@ -31,15 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // Actualizar estadísticas generales
         animateCountUp(document.getElementById("totalLanzamientos"), data.lanzamientos.exitosos + data.lanzamientos.fallidos);
         animateCountUp(document.getElementById("lanzamientosFalcon9"), data.vuelosVehiculos.falcon9.exitosos + data.vuelosVehiculos.falcon9.fallidos);
-        animateCountUp(document.getElementById("lanzamientosFalconHeavy"), data.vuelosVehiculos.falconHeavy.exitosos + data.vuelosVehiculos.falconHeavy.fallidos);
+        animateCountUp(document.getElementById("misionesFalconHeavy"), data.vuelosVehiculos.falconHeavy.exitosos + data.vuelosVehiculos.falconHeavy.fallidos);
 
         // Actualizar estadísticas de lanzamientos
         animateCountUp(document.getElementById("exitoFalcon9"), data.vuelosVehiculos.falcon9.exitosos);
         document.getElementById("lanzamientostFalcon9").textContent =  data.vuelosVehiculos.falcon9.exitosos + data.vuelosVehiculos.falcon9.fallidos;
 
         animateCountUp(document.getElementById("exitoFalconHeavy"), data.vuelosVehiculos.falconHeavy.exitosos);
-        document.getElementById("lanzamientostFalconHeavy").textContent =  data.vuelosVehiculos.falconHeavy.exitosos + data.vuelosVehiculos.falconHeavy.fallidos;
-  
+        animateCountUp(document.getElementById("lanzamientostFalconHeavy").textContent = data.vuelosVehiculos.falconHeavy.exitosos + data.vuelosVehiculos.falconHeavy.fallidos);
         
       } catch (error) {
         console.error("Error fetching statistics:", error);
