@@ -32,10 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     footer.innerHTML = `
         <p>© 2025 Halcon Space. Todos los derechos reservados.</p>
         <nav>
-            <a href="lanzamientos">Lanzamientos</a> | 
-            <a href="vehiculos">Vehículos</a> | 
-            <a href="contacto">Contacto</a> | 
-            <a href="discord">Discord</a> | 
+            <a href="https://new.halconspace.site/lanzamientos">Lanzamientos</a> | 
+            <a href="https://new.halconspace.site/vehiculos">Vehículos</a> | 
+            <a href="https://new.halconspace.site/contacto">Contacto</a> | 
+            <a href="https://new.halconspace.site/discord">Discord</a> | 
             <a href="https://www.youtube.com/@HalconSpace" target="_blank">YouTube</a>
         </nav>
     `;
