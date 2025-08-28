@@ -90,7 +90,7 @@ fetch("https://halconspace.site/json/lanzamientos.json")
   <p><strong>Vehículo:</strong> ${l.vehiculo}</p>
   <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
   <div class="links">
-  ${l.detalleUrl ? `<a href="https://halconspace.site${l.detalleUrl}" class="btn">Detalles</a>` : ""}
+  ${l.detalleUrl ? `<a href="https://halconspace.site/${l.detalleUrl}" class="btn">Detalles</a>` : ""}
     ${l.stream ? `<a href="${l.stream}" target="_blank" class="btn live">Ver transmisión</a>` : ""}
   </div>
 </div>
