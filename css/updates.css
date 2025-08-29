@@ -118,6 +118,7 @@ body {
     color: var(--accent-primary);
     margin-bottom: 15px;
     line-height: 1.2;
+    text-align: center;
 }
 
 .update-info p,
@@ -127,6 +128,7 @@ body {
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .update-info a {

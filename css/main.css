@@ -25,6 +25,10 @@ header {
     z-index: 1000;
 }
 
+main {
+    margin-top: 100px;
+}
+
 header .logo {
     display: flex;
     align-items: center;
