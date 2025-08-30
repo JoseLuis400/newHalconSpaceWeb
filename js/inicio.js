@@ -3,6 +3,16 @@ function parseFecha(fechaStr) {
     const [dia, mes, anio] = fechaStr.split("/").map(Number);
     return new Date(anio, mes - 1, dia);
   }
+
+  function normalizeURL(url) {
+    if (!url) return "";
+    url = url.trim();
+
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+    if (!url.startsWith("/")) url = "/" + url;
+
+    return `https://halconspace.site${url}`;
+  }
   
   // Cargar JSON de lanzamientos
   fetch("https://halconspace.site/json/lanzamientos.json")
@@ -23,7 +33,7 @@ function parseFecha(fechaStr) {
   /*${l.detalleUrl ? `<a href="${l.detalleUrl}" class="btn">Detalles</a>` : ""}*/
         card.innerHTML = `
   <div class="img-wrapper">
-    <img src="https://halconspace.site/${l.imagen}" alt="${l.alt}">
+    <img src="${normalizeURL(l.imagen)}" alt="${l.alt ?? ""}">
     <span class="estado ${l.estado}">${l.estado.toUpperCase()}</span>
   </div>
   <div class="info">
