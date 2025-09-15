@@ -191,7 +191,6 @@ section p a:hover {
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    min-height: 300px;
     max-width: 70%;
     margin: 0 auto;
     aspect-ratio: 16 / 9;
