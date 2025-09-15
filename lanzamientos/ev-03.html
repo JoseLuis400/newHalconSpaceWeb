@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Erbaum:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="https://halconspace.site//img/misiones/EV-03/Eagle-Comming-mission-patch.png" type="image/x-icon">
+    <script src="../js/articulo-mision.js" defer></script>
 
     <!-- EMBED DE LA PAGINA -->
      <!-- Open Graph (Facebook, WhatsApp, LinkedIn, etc.) -->
@@ -70,16 +71,24 @@
         <!-- Imágenes destacadas -->
         <section class="imagenes">
             <h3>Imágenes de la misión</h3>
-            <div class="galeria">
-                <img src="https://halconspace.site/img/misiones/EV-03/Ascenso.png" alt="Launch">
-                <img src="https://halconspace.site/img/misiones/EV-03/Stage-sep.png" alt="Stage sep">
-                <img src="https://halconspace.site/img/misiones/EV-03/fairing.png" alt="Fairing sep">
-                <img src="https://halconspace.site/img/misiones/EV-03/landing.png" alt="Landing">
-                <img src="https://halconspace.site/img/misiones/EV-03/sep.png" alt="Separation">
-                <img src="https://halconspace.site/img/misiones/EV-03/orbit.png" alt="Orbit">
+                <div class="slideshow">
+                    <div class="slides-wrapper" id="slides-wrapper">
+                        <img src="https://halconspace.site/img/misiones/EV-03/Ascenso.png" alt="Launch">
+                        <img src="https://halconspace.site/img/misiones/EV-03/Stage-sep.png" alt="Stage sep">
+                        <img src="https://halconspace.site/img/misiones/EV-03/fairing.png" alt="Fairing sep">
+                        <img src="https://halconspace.site/img/misiones/EV-03/landing.png" alt="Landing">
+                        <img src="https://halconspace.site/img/misiones/EV-03/sep.png" alt="Separation">
+                        <img src="https://halconspace.site/img/misiones/EV-03/orbit.png" alt="Orbit">
+                    </div>
+                    <div class="controls">
+                      <button id="prev">&#10094;</button>
+                      <button id="next">&#10095;</button>
+                    </div>
+                    <div class="dots" id="dots"></div>
+                  </div>
             </div>
             <h3>Videos</h3>
-            <div class="galeria">
+            <div class="galeria vid">
                 <video src="https://halconspace.site/img/misiones/EV-03/tormenta.mp4" autoplay muted loop></video>
                 <video src="https://halconspace.site/img/misiones/EV-03/stage-sep.mp4" autoplay muted loop></video>
                 <video src="https://halconspace.site/img/misiones/EV-03/fairing.mp4" autoplay muted loop></video>
@@ -90,6 +99,5 @@
         </section>
 
     </main>
-
 </body>
 </html>

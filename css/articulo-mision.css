@@ -1,3 +1,19 @@
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --accent-primary: #c1272d;
+    --accent-secondary: #ff3b3b;
+    --success: #00ff88;
+    --warning: #ffaa00;
+    --error: #ff4444;
+    --border: #333333;
+    --shadow: rgba(0, 212, 255, 0.1);
+  }
+
 /* =======================
    HERO / CABECERA
 ======================= */
@@ -161,7 +177,7 @@ section p a:hover {
     margin-top: 1.5rem;
 }
 
-.galeria img,
+
 .galeria video {
     width: 100%;
     aspect-ratio: 16 / 9; /* Siempre 16:9 */
@@ -171,12 +187,97 @@ section p a:hover {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.galeria img:hover,
-.galeria video:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 5px rgba(255, 64, 129, 0.6);
-}
+.slideshow {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    min-height: 300px;
+    max-width: 70%;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+  }
 
+  @media (max-width: 768px) {
+    .slideshow {
+      width: 90%;   /* en móvil ocupa todo */
+      max-width: 800px;
+    }
+}
+  
+  .slides-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .slides-wrapper img {
+    flex: 0 0 100%;   /* cada imagen ocupa 100% del contenedor */
+    height: auto;
+    border-radius: 12px;
+    width: 100%;
+  height: 100%;
+  object-fit: cover; /* para que no se deforme */
+  }
+  
+  
+  /* Flechas */
+  .controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
+  
+  .controls button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .controls button:hover {
+    color: var(--accent-secondary);
+  }
+  
+  /* Dots */
+  .dots {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .dot {
+    display: inline-block;
+    width: 7px;
+    aspect-ratio: 1/1;
+    height: auto;
+    margin: 0 5px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .dot.active {
+    background: var(--accent-primary);
+  }
+  
+  .dot:hover {
+    background: var(--accent-secondary);
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .controls button {
+      font-size: 1.5rem;
+      padding: 7px 10px;
+    }
+  }
 /* =======================
    VIDEOS
 ======================= */
