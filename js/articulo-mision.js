@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =======================
   (async () => {
     try {
-      const response = await fetch("https://halconspace.site/json/lanzamientos.json");
+      const response = await fetch("http://127.0.0.1:5500/json/lanzamientos.json");
       const lanzamientos = await response.json();
 
       const misionHeader = document.querySelector(".mision-header");
