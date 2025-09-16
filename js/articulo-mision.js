@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =======================
   (async () => {
     try {
-      const response = await fetch("../json/lanzamientos.json");
+      const response = await fetch("https://halconspace.site/json/lanzamientos.json");
       const lanzamientos = await response.json();
 
       const misionHeader = document.querySelector(".mision-header");
@@ -76,7 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Actualizar cabecera
       const misionContent = misionHeader.querySelector(".mision-content");
-      misionHeader.style.backgroundImage = `url('${lanzamiento.imagen}')`;
+      let imagenUrl = lanzamiento.imagen;
+      if (!imagenUrl.startsWith("https://halconspace.site/")) {
+        imagenUrl = `https://halconspace.site/${lanzamiento.imagen}`;
+      }
+      misionHeader.style.backgroundImage = `url('${imagenUrl}')`;
 
       const [dia, mes, año] = lanzamiento.fecha.split("/");
       const meses = [
