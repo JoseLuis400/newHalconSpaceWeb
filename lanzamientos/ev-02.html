@@ -6,11 +6,10 @@
     <title>EAGLE CONNECT | Halcon Space</title>
     <link rel="stylesheet" href="../css/articulo-mision.css">
     <link rel="stylesheet" href="../css/main.css">
-    <script src="../js/articulo-mision.js" defer></script>
-    <script src="../js/main.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Erbaum:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="https://halconspace.site/img/misiones/EV-02/Eagle-Connect%20mission%20patch.png" type="image/x-icon">
+    <link rel="shortcut icon" href="https://halconspace.site//img/misiones/EV-02/Eagle-Connect%20mission%20patch.png" type="image/x-icon">
+    <script src="../js/articulo-mision.js" defer></script>
 
     <!-- Título de la página -->
   <meta property="og:title" content="EAGLE CONNECT • Halcon Space">
@@ -32,24 +31,23 @@
 
   <meta property="article:author" content="Halcon Space">
   <meta property="article:section" content="Lanzamiento">
-  
-  <!-- Idioma y región opcionales -->
-  <meta property="og:locale" content="es_ES">
 </head>
 <body>
     <!-- Encabezado -->
     <div id="menu-container"></div>
+    <script src="../js/main.js"></script>
 
     <!-- Sección principal -->
     <main>
         <!-- Encabezado destacado -->
-        <section class="mision-header">
-            <h2>EAGLE CONNECT</h2>
-            <p><strong>Vehículo:</strong> Falcon 9 Block 5</p>
-            <p><strong>Fecha:</strong> 21 de agosto de 2025</p>
-            <p><strong>Estado:</strong> Exito</p>
-            <img src="../img/misiones/EV-02/Despegue.png" alt="Despegue">
+        <section class="mision-header" data-lanzamiento="EAGLE CONNECT">
+            <div class="overlay"></div>
+            <div class="mision-content">
+                <!-- contenido será reemplazado por JS -->
+            </div>
         </section>
+        
+              
 
         <!-- Introducción -->
         <section class="introduccion">
@@ -60,66 +58,38 @@
         <!-- Detalles técnicos -->
         <section class="detalles-tecnicos">
             <h3>Detalles Técnicos</h3>
-            <ul>
-                <li><strong>Vehículo:</strong> Falcon 9 Block 5</li>
-                <li><strong>Altura del cohete:</strong> 70 m</li>
-                <li><strong>Propulsor:</strong> B1061.2</li>
-                <li><strong>Carga útil:</strong> Módulo EV-02</li>
-                <li><strong>Órbita:</strong> 550 km y 0°</li>
-                <li><strong>Recuperación:</strong> Desechable</li>
-            </ul>
+            <table>
+              <tr><th>Vehículo :</th><td>Falcon 9 Block 5</td></tr>
+              <tr><th>Altura :</th><td>70 m</td></tr>
+              <tr><th>Propulsor :</th><td>B1061.2</td></tr>
+              <tr><th>Carga útil :</th><td>Módulo EV-02</td></tr>
+              <tr><th>Órbita :</th><td>550 km y 0°</td></tr>
+              <tr><th>Recuperación :</th><td>Desechable</td></tr>
+            </table>
         </section>
+          
 
         <!-- Imágenes destacadas -->
         <section class="imagenes">
             <h3>Imágenes de la misión</h3>
-            <div class="galeria">
-                <img src="../img/misiones/EV-02/En_espera.png" alt="En espera">
-                <img src="../img/misiones/EV-02/Drone_view.png" alt="Drone view">
-                <img src="../img/misiones/EV-02/Plataforma.png" alt="Falcon 9 en plataforma">
-                <img src="../img/misiones/EV-02/Despegue.png" alt="Despegue">
-                <img src="../img/misiones/EV-02/Orbita.png" alt="En órbita">
-                <img src="../img/misiones/EV-02/Dock.png" alt="Docking">
+                <div class="slideshow">
+                    <div class="slides-wrapper" id="slides-wrapper">
+                        <img src="../img/misiones/EV-02/En_espera.png" alt="En espera">
+                        <img src="../img/misiones/EV-02/Drone_view.png" alt="Drone view">
+                        <img src="../img/misiones/EV-02/Plataforma.png" alt="Falcon 9 en plataforma">
+                        <img src="../img/misiones/EV-02/Despegue.png" alt="Despegue">
+                        <img src="../img/misiones/EV-02/Orbita.png" alt="En órbita">
+                        <img src="../img/misiones/EV-02/Dock.png" alt="Docking">
+                    </div>
+                    <div class="controls">
+                      <button id="prev">&#10094;</button>
+                      <button id="next">&#10095;</button>
+                    </div>
+                    <div class="dots" id="dots"></div>
+                  </div>
             </div>
         </section>
 
-        
-
-        <!-- Transmisión en directo con pestañas -->
-<section class="video-directo-tabs">
-    <h3>Videos de misión</h3>
-    <div class="tabs">
-        <button class="tab-button active" data-target="lanzamiento">Lanzamiento</button>
-        <button class="tab-button" data-target="acoplamiento">Acoplamiento</button>
-    </div>
-    <div class="tab-content">
-        <div class="tab-pane" id="lanzamiento">
-            <div class="video-container">
-                <iframe 
-                    src="https://www.youtube.com/embed/0B18MIpVkE4?autoplay=1" 
-                    title="YouTube video player" 
-                    frameborder="0" 
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-        <div class="tab-pane" id="acoplamiento" style="display:none;">
-            <div class="video-container">
-                <iframe 
-                    src="https://www.youtube.com/embed/Hje45cm8QPs?autoplay=1" 
-                    title="YouTube video player" 
-                    frameborder="0" 
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-    </div>
-</section>
-
-
     </main>
-    
 </body>
 </html>
