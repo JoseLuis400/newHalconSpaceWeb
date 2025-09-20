@@ -54,7 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // =======================
   (async () => {
     try {
-      const response = await fetch("https://halconspace.site/json/lanzamientos.json");
+      const response = await fetch("https://halconspace.site/json/lanzamientos.json"); // Cargar por API
+      //const response = await fetch("../json/lanzamientos.json"); // Cargar por archivo
       const lanzamientos = await response.json();
 
       const misionHeader = document.querySelector(".mision-header");
@@ -89,11 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
       ];
       const fechaFormateada = dia ? `${dia} de ${meses[parseInt(mes,10)-1]} de ${año}` : `${meses[parseInt(mes,10)-1]} de ${año}`;
 
+      let estado = lanzamiento.estado;
+      if(estado == "exito") {
+        estado = "Éxito";
+      }
+
       misionContent.innerHTML = `
         <h2>${lanzamiento.nombre}</h2>
         <p><strong>Vehículo:</strong> ${lanzamiento.vehiculo}</p>
         <p><strong>Fecha:</strong> ${fechaFormateada}</p>
-        <p><strong>Estado:</strong> ${lanzamiento.estado}</p>
+        <p><strong>Estado:</strong> ${estado}</p>
       `;
 
       // =======================
