@@ -11,7 +11,7 @@ function parseFecha(fechaStr) {
     if (url.startsWith("http://") || url.startsWith("https://")) return url;
     if (!url.startsWith("/")) url = "/" + url;
 
-    return `https://halconspace.site${url}`;
+    return `https://new.halconspace.site${url}`;
   }
   
   // Cargar JSON de lanzamientos
