@@ -104,7 +104,7 @@ setInterval(() => {
   document.querySelectorAll(".card-lanzamiento .contador").forEach(span => {
     const card = span.closest(".card-lanzamiento");
     const estado = card.getAttribute("data-estado");
-    const isPaused = (estado === "hold" || estado === "scrub");
+    const isPaused = estado === "hold" || estado === "scrub";
 
     const fecha = card.dataset.fecha;
     const time = card.dataset.timeutc || "00:00:00";
@@ -114,12 +114,15 @@ setInterval(() => {
     if (!isPaused) delete span.dataset.freezeTime;
 
     const nuevoValor = calcularContador(fecha, time, now);
-    if (!span.dataset.lastText) span.dataset.lastText = nuevoValor;
+    const lastText = span.dataset.lastText || "";
+    
+    // Normalizar longitudes de lastText y nuevoValor
+    const maxLength = Math.max(lastText.length, nuevoValor.length);
+    const lastChars = lastText.padEnd(maxLength, " ").split("");
+    const newChars = nuevoValor.padEnd(maxLength, " ").split("");
 
-    const lastChars = span.dataset.lastText.split("");
-    const newChars = nuevoValor.split("");
-
-    span.innerHTML = '';
+    // Limpiar span y reconstruir cada dígito
+    span.innerHTML = "";
     newChars.forEach((c, i) => {
       const wrapper = document.createElement("span");
       wrapper.classList.add("digit-wrapper");
@@ -127,6 +130,7 @@ setInterval(() => {
       digit.classList.add("digit");
       digit.textContent = c;
 
+      // Animar solo si cambió el carácter
       if (lastChars[i] !== c) {
         digit.style.transform = 'translateY(-100%)';
         setTimeout(() => digit.style.transform = 'translateY(0)', 10);

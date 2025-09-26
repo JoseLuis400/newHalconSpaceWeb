@@ -153,30 +153,67 @@ document.addEventListener("DOMContentLoaded", () => {
   platformFilter.addEventListener("change", aplicarFiltros);
   searchInput.addEventListener("input", aplicarFiltros);
 
-  // ===== Contadores dinámicos =====
-  setInterval(() => {
-    document.querySelectorAll(".card-lanzamiento .contador").forEach(span => {
-      const card = span.closest(".card-lanzamiento");
-      const estado = card.dataset.estado;
-      const isPaused = estado === "hold" || estado === "scrub";
+  // ===== Contadores dinámicos con animación de dígitos =====
+setInterval(() => {
+  document.querySelectorAll(".card-lanzamiento .contador").forEach(span => {
+    const card = span.closest(".card-lanzamiento");
+    const estado = card.dataset.estado;
+    const isPaused = estado === "hold" || estado === "scrub";
 
-      if (card.dataset.contador === "true") {
-        const fecha = card.dataset.fecha;
-        const time = card.dataset.timeutc;
-        let now = null;
+    if (card.dataset.contador === "true") {
+      const fecha = card.dataset.fecha;
+      const time = card.dataset.timeutc;
+      let now = null;
 
-        if (isPaused) {
-          if (!span.dataset.freezeTime) span.dataset.freezeTime = Date.now();
-          now = new Date(Number(span.dataset.freezeTime));
-        } else {
-          delete span.dataset.freezeTime;
+      if (isPaused) {
+        if (!span.dataset.freezeTime) span.dataset.freezeTime = Date.now();
+        now = new Date(Number(span.dataset.freezeTime));
+      } else {
+        delete span.dataset.freezeTime;
+      }
+
+      const nuevoValor = calcularContador(fecha, time, now);
+
+      const lastText = span.dataset.lastText || "";
+      const lastChars = lastText.split("");
+      const newChars = nuevoValor.split("");
+
+      // Limpiar contenido
+      span.innerHTML = "";
+
+      // Crear elementos por cada dígito y animar si cambió
+      newChars.forEach((c, i) => {
+        const wrapper = document.createElement("span");
+        wrapper.classList.add("digit-wrapper");
+
+        const digit = document.createElement("span");
+        digit.classList.add("digit");
+        digit.textContent = c;
+
+        if (lastChars[i] !== c) {
+          digit.style.transform = "translateY(-100%)";
+          setTimeout(() => {
+            digit.style.transition = "transform 0.3s";
+            digit.style.transform = "translateY(0)";
+          }, 10);
         }
 
-        const nuevoValor = calcularContador(fecha, time, now);
-        span.textContent = nuevoValor;
+        wrapper.appendChild(digit);
+        span.appendChild(wrapper);
+      });
+
+      span.dataset.lastText = nuevoValor;
+
+      // Atributo data-state para CSS glow si está en hold o scrub
+      if (isPaused) {
+        span.setAttribute("data-state", estado);
+      } else {
+        span.removeAttribute("data-state");
       }
-    });
-  }, 1000);
+    }
+  });
+}, 1000);
+
 
   // ===== Estadísticas desde Firebase =====
   async function loadStats() {

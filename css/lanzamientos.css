@@ -210,7 +210,8 @@
 .card-lanzamiento .contador .digit-wrapper {
     display: inline-block;
     position: relative;
-    width: 1ch; /* ancho fijo por dígito */
+    width: 1.1ch; /* ancho fijo por dígito */
+    
 }
 
 /* Dígito animable */
