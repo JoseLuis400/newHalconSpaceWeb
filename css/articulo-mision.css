@@ -68,6 +68,63 @@
     color: #ddd;
 }
 
+/* ===== Estilo minimalista para el contador T-/T+ ===== */
+#t-counter {
+    display: inline-flex; /* cambiar a flex para alinear dígitos */
+    font-family: "Roboto Mono", monospace; /* tipografía digital minimalista */
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #ffffff;  /* blanco puro */
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    background: rgba(0,0,0,0.4); /* discreto fondo translúcido */
+    backdrop-filter: blur(4px);   /* efecto vidrio esmerilado */
+    transition: color 0.3s ease;
+    letter-spacing: 0.5px;
+    text-align: center;
+    user-select: none;
+    overflow: hidden; /* ocultar desbordes de dígitos */
+    height: 1.5em; /* altura del contador */
+}
+
+/* Contenedor por dígito para animación */
+#t-counter span.digit-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 1ch; /* ancho fijo por dígito */
+    overflow: hidden;
+}
+
+/* Dígito animable */
+#t-counter span.digit {
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+/* HOLD: parpadeo lento naranja */
+#t-counter[data-state="hold"] {
+    color: orange;
+    animation: blinkHold 1s infinite;
+}
+
+/* SCRUB: parpadeo rápido rojo */
+#t-counter[data-state="scrub"] {
+    color: red;
+    animation: blinkScrub 0.5s infinite;
+}
+
+/* Animaciones de parpadeo */
+@keyframes blinkHold {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.4; }
+}
+
+@keyframes blinkScrub {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.2; }
+}
+
 /* =======================
    SECCIONES GENERALES
 ======================= */

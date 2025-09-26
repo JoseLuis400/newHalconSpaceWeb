@@ -1,163 +1,129 @@
-////// ESTADISTICAS
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getFirestore, collection, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("https://halconspace.site/json/estadisticas.json")
-    .then(res => res.json())
-    .then(data => {
+// Config Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyAiLw2zwfsjdMP-IlEoE5JugyFvmaQLFC0",
+  authDomain: "halcon-space-348e7.firebaseapp.com",
+  projectId: "halcon-space-348e7",
+  storageBucket: "halcon-space-348e7.firebasestorage.app",
+  messagingSenderId: "741724706453",
+  appId: "1:741724706453:web:519531e63f2b923f952d9c",
+  measurementId: "G-VG1Y2YMY4W"
+};
 
-      const totalVuelos = data.vuelosVehiculos.falconHeavy.exitosos + data.vuelosVehiculos.falconHeavy.fallidos;
-      document.getElementById("vuelosTotales").textContent = totalVuelos;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-      const opcionesBase = (titulo) => ({
-        responsive: true,
-        maintainAspectRatio: true, // 🔑 Mantiene proporción cuadrada
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { color: '#fff' }
-          },
-          title: {
-            display: true,
-            text: titulo,
-            color: '#fff',
-            font: { size: 16 }
-          }
-        }
-      });
+let lanzamientosChart = null;
 
-      // Lanzamientos
-      new Chart(document.getElementById("lanzamientosChart"), {
-        type: 'pie',
-        data: {
-          labels: ['Exitosos', 'Fallidos'],
-          datasets: [{
-            data: [data.vuelosVehiculos.falconHeavy.exitosos, data.vuelosVehiculos.falconHeavy.fallidos],
-            backgroundColor: ['#178236', '#A50C36']
-          }]
-        },
-        options: opcionesBase("Lanzamientos")
-      });
-    })
-    .catch(err => console.error("Error cargando estadísticas:", err));
-});
-
-
-//// LANZAMIENTOS
-
-// Función para convertir DD/MM/YYYY a Date
+// ===== Funciones Auxiliares =====
 function parseFecha(fechaStr) {
   const [dia, mes, anio] = fechaStr.split("/").map(Number);
   return new Date(anio, mes - 1, dia);
 }
 
-// Cargar JSON de lanzamientos
-fetch("https://halconspace.site/json/lanzamientos.json")
-  .then(res => res.json())
-  .then(lanzamientos => {
+function normalizeURL(url) {
+  if (!url) return "";
+  url = url.trim();
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  if (!url.startsWith("/")) url = "/" + url;
+  return `https://new.halconspace.site${url}`;
+}
 
+// ===== Actualizar gráfico =====
+function actualizarGrafico(exitosos, fallidos) {
+  const ctx = document.getElementById("lanzamientosChart").getContext("2d");
+  if (lanzamientosChart) {
+    lanzamientosChart.data.datasets[0].data = [exitosos, fallidos];
+    lanzamientosChart.update();
+  } else {
+    lanzamientosChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Exitosos', 'Fallidos'],
+        datasets: [{ data: [exitosos, fallidos], backgroundColor: ['#178236','#A50C36'] }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: '#fff' } },
+          title: { display: true, text: 'Lanzamientos', color: '#fff', font: { size: 16 } }
+        }
+      }
+    });
+  }
+}
+
+// ===== Estadísticas Falcon Heavy =====
+function cargarEstadisticas() {
+  console.log("Cargando estadísticas Falcon Heavy desde Firebase...");
+  const estadisticasDoc = doc(db, "estadisticas", "general");
+
+  onSnapshot(estadisticasDoc, snapshot => {
+    const data = snapshot.data();
+    const falconHeavyStats = data.vuelosVehiculos.falconHeavy;
+
+    const exitosos = falconHeavyStats.exitosos || 0;
+    const fallidos = falconHeavyStats.fallidos || 0;
+    const total = exitosos + fallidos;
+
+    console.log("Falcon Heavy - Total:", total, "Exitosos:", exitosos, "Fallidos:", fallidos);
+
+    document.getElementById("vuelosTotales").textContent = total;
+    actualizarGrafico(exitosos, fallidos);
+  });
+}
+
+// ===== Últimos 3 lanzamientos Falcon Heavy =====
+function cargarLanzamientos() {
+  const lanzamientosCol = collection(db, "lanzamientos");
+
+  onSnapshot(lanzamientosCol, snapshot => {
     const hoy = new Date();
 
-    // Filtrar solo lanzamientos pasados y del Falcon 9
-    const filtrados = lanzamientos.filter(l => 
-      parseFecha(l.fecha) <= hoy && l.vehiculo.toLowerCase().includes("falcon heavy")
-    );
+    const vuelosFalconHeavy = snapshot.docs
+      .map(doc => ({ id: doc.id, ...doc.data(), fechaObj: parseFecha(doc.data().fecha) }))
+      .filter(v => v.vehiculo.toLowerCase().includes("falcon heavy") && v.fechaObj <= hoy);
 
-    // Ordenar de más reciente a más antiguo
-    filtrados.sort((a, b) => parseFecha(b.fecha) - parseFecha(a.fecha));
+    vuelosFalconHeavy.sort((a,b) => b.fechaObj - a.fechaObj);
 
-    // Tomar solo los 3 más recientes
-    const ultimos = filtrados.slice(0, 3);
+    const ultimos = vuelosFalconHeavy.slice(0,3);
+    console.log("Últimos 3 vuelos Falcon Heavy:", ultimos);
 
     const contenedor = document.getElementById("lanzamientos");
+    contenedor.innerHTML = "";
 
     ultimos.forEach(l => {
       const card = document.createElement("div");
       card.className = "card-lanzamiento";
 
-      let imagenUrl = l.imagen;
-  if (!imagenUrl.startsWith("https://halconspace.site/")) {
-    imagenUrl = `https://halconspace.site/${imagenUrl}`;
-  }
+      let imagenUrl = l.imagen ?? `https://halconspace.site/img/propulsores/${l.propulsor ?? l.id}.png`;
 
       card.innerHTML = `
-<div class="img-wrapper">
-  <img src="${imagenUrl}" alt="${l.alt}">
-  <span class="estado ${l.estado}">${l.estado.toUpperCase()}</span>
-</div>
-<div class="info">
-  <h3>${l.nombre}</h3>
-  <p><strong>Fecha:</strong> ${l.fecha}</p>
-  <p><strong>Vehículo:</strong> ${l.vehiculo}</p>
-  <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
-  <div class="links">
-  ${l.detalleUrl ? `<a href="https://halconspace.site/${l.detalleUrl}" class="btn">Detalles</a>` : ""}
-    ${l.stream ? `<a href="${l.stream}" target="_blank" class="btn live">Ver transmisión</a>` : ""}
-  </div>
-</div>
-`;
+        <div class="img-wrapper">
+          <img src="${normalizeURL(imagenUrl)}" alt="${l.alt ?? l.nombre}">
+          <span class="estado ${(l.estado ?? "desconocido").toLowerCase()}">${(l.estado ?? "Desconocido").toUpperCase()}</span>
+        </div>
+        <div class="info">
+          <h3>${l.nombre ?? l.id}</h3>
+          <p><strong>Fecha:</strong> ${l.fecha}</p>
+          <p><strong>Vehículo:</strong> ${l.vehiculo}</p>
+          <div class="links">
+            ${l.detalleUrl ? `<a href="${l.detalleUrl}" class="btn">Detalles</a>` : ""}
+            ${l.stream ? `<a href="${l.stream}" target="_blank" class="btn live">Ver transmisión</a>` : ""}
+          </div>
+        </div>
+      `;
 
       contenedor.appendChild(card);
     });
-  })
-  .catch(err => console.error("Error cargando lanzamientos:", err));
-
-  //// GALERIA DE FOTOS
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const images = [
-      { src: "https://halconspace.site/img/vehiculos/Falcon%20Heavy/Falcon%20Heavy%201.jpg", alt: "Falcon 9 en SLC-40" },
-      { src: "https://halconspace.site/img/vehiculos/Falcon%20Heavy/Falcon%20Heavy%202.jpg", alt: "Crew Demo 2" },
-      { src: "https://halconspace.site/img/vehiculos/Falcon%20Heavy/Falcon%20Heavy%203.jpg", alt: "Crew Demo 2" },
-      { src: "https://halconspace.site/img/misiones/Eyes%20Above%20The%20Horizon%203/Landed.png", alt: "Eyes above the Horizon 1" },
-      { src: "https://halconspace.site/img/misiones/Eyes%20Above%20The%20Horizon%203/OBAscent.png", alt: "USSF-101" },
-      { src: "https://halconspace.site/img/misiones/USSF-15/Despegue%20[2].png", alt: "Eyes above the Horizon 1" },
-      { src: "https://halconspace.site/img/misiones/USSF-15/Booster%20sep%20[2].png", alt: "Crew Demo 2" },
-      { src: "https://halconspace.site/img/misiones/USSF-15/Transito%20solar%20[1].png", alt: "NROL-12" },
-      { src: "https://halconspace.site/img/misiones/USSF-15/Kerbin%20[1].png", alt: "Eyes above the Horizon 2" },
-    ];
-  
-    let current = 0;
-    const wrapper = document.getElementById("slides-wrapper");
-    const prevBtn = document.getElementById("prev");
-    const nextBtn = document.getElementById("next");
-    const dotsContainer = document.getElementById("dots");
-  
-    // Crear las imágenes dentro del wrapper
-    images.forEach(img => {
-      const el = document.createElement("img");
-      el.src = img.src;
-      el.alt = img.alt;
-      wrapper.appendChild(el);
-    });
-  
-    const slides = wrapper.querySelectorAll("img");
-    wrapper.style.width = `${images.length * 100}%`;
-    slides.forEach(slide => slide.style.width = `${100 / images.length}%`);
-  
-    // Crear dots
-    images.forEach((_, i) => {
-      const dot = document.createElement("span");
-      dot.className = "dot";
-      dot.addEventListener("click", () => showSlide(i));
-      dotsContainer.appendChild(dot);
-    });
-    const dots = document.querySelectorAll(".dot");
-  
-    function updateDots() {
-      dots.forEach(d => d.classList.remove("active"));
-      dots[current].classList.add("active");
-    }
-  
-    function showSlide(index) {
-      current = (index + images.length) % images.length;
-      wrapper.style.transform = `translateX(-${current * (100 / images.length)}%)`;
-      updateDots();
-    }
-  
-    prevBtn.addEventListener("click", () => showSlide(current - 1));
-    nextBtn.addEventListener("click", () => showSlide(current + 1));
-  
-    showSlide(0);
-    setInterval(() => showSlide(current + 1), 5000);
   });
-  
+}
+
+// ===== Inicializar =====
+document.addEventListener("DOMContentLoaded", () => {
+  cargarEstadisticas();
+  cargarLanzamientos();
+});

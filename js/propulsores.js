@@ -1,83 +1,88 @@
-// API Data URL
-const apiURL = "https://halconspace.site/json/propulsores.json"; // Cambia la ruta si es necesario
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-// Variables
+// ===== Config Firebase =====
+const firebaseConfig = {
+  apiKey: "AIzaSyAiLw2zwfsjdMP-IlEoE5JugyFvmaQLFC0",
+  authDomain: "halcon-space-348e7.firebaseapp.com",
+  projectId: "halcon-space-348e7",
+  storageBucket: "halcon-space-348e7.firebasestorage.app",
+  messagingSenderId: "741724706453",
+  appId: "1:741724706453:web:519531e63f2b923f952d9c",
+  measurementId: "G-VG1Y2YMY4W"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ===== Variables =====
 let boostersData = [];
 let currentFilter = "all";
 let filteredBoosters = [];
 
-// Elementos DOM
+// ===== Elementos DOM =====
 const boostersGrid = document.getElementById("boosters-grid");
 const filterButtons = document.querySelectorAll(".filter-btn");
 const modal = document.getElementById("booster-modal");
 const modalBody = document.getElementById("modal-body");
 const modalClose = document.querySelector(".modal-close");
 
-// Funciones de fecha
+// ===== Función para formatear fechas =====
 function formatDate(dateString) {
   if (!dateString) return "N/A";
   const [day, month, year] = dateString.split("/");
   const date = new Date(year, month - 1, day);
-  return date.toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
+  return date.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
 }
 
-// Cargar datos desde la API
-async function loadBoostersData() {
-    try {
-      const response = await fetch(apiURL);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-  
-      // Convertimos el objeto de propulsores a array
-      boostersData = Object.entries(data.propulsores).map(([id, booster]) => {
-        const missions = Object.entries(booster.vuelos).map(([flightId, v]) => ({
-          flightNumber: flightId,
-          name: v.mision,
-          date: v.fecha,
-          url: v.url || "",
-          programado: v.programado || false  // si viene programado desde API
-        }));
-  
-        // Filtramos vuelos completados (no programados) para contar los vuelos totales
-        const completedMissions = missions.filter(m => !m.programado);
-  
-        return {
-          name: id,
-          type: booster.tipo,
-          status: booster.estado,
-          flights: completedMissions.length,
-          missions,
-          image: booster.img,
-          firstFlight: completedMissions.length ? completedMissions[0].date : null,
-          lastFlight: completedMissions.length ? completedMissions[completedMissions.length - 1].date : null
-        };
-      });
-  
-      filteredBoosters = [...boostersData];
-    } catch (error) {
-      console.error("[API] Error cargando datos:", error);
-      if (boostersGrid) {
-        boostersGrid.innerHTML = '<div class="loading" style="color: #ef4444;">Error cargando datos de propulsores.</div>';
-      }
-    }
-  }
-  
+// ===== Cargar datos desde Firebase =====
+function loadBoostersData() {
+  const boostersCol = collection(db, "propulsores");
 
-// Renderizar tarjetas
+  onSnapshot(boostersCol, snapshot => {
+    boostersData = snapshot.docs.map(doc => {
+      const data = doc.data();
+      const missions = Object.entries(data.vuelos || {}).map(([id, v]) => ({
+        flightNumber: id,
+        name: v.mision,
+        date: v.fecha,
+        url: v.url || "",
+        programado: v.programado || false
+      }));
+
+      const completedMissions = missions.filter(m => !m.programado);
+
+      return {
+        name: doc.id,
+        type: data.tipo,
+        status: data.estado,
+        flights: completedMissions.length,
+        missions,
+        image: data.img,
+        firstFlight: completedMissions[0]?.date || null,
+        lastFlight: completedMissions[completedMissions.length - 1]?.date || null
+      };
+    });
+
+    // Orden inverso por ID (B1076 → B1054)
+    boostersData.sort((a, b) => b.name.localeCompare(a.name));
+
+    filteredBoosters = [...boostersData];
+    renderBoosters();
+  }, err => console.error("[Firebase] Error cargando propulsores:", err));
+}
+
+// ===== Renderizar tarjetas =====
 function renderBoosters() {
   boostersGrid.innerHTML = "";
   if (filteredBoosters.length === 0) {
     boostersGrid.innerHTML = '<div class="loading">No se encontraron propulsores para este filtro.</div>';
     return;
   }
-  filteredBoosters.forEach((booster) => boostersGrid.appendChild(createBoosterCard(booster)));
+  filteredBoosters.forEach(booster => boostersGrid.appendChild(createBoosterCard(booster)));
 }
 
-// Crear tarjeta de propulsor
+// ===== Crear tarjeta de propulsor =====
 function createBoosterCard(booster) {
   const card = document.createElement("div");
   card.className = "booster-card";
@@ -106,7 +111,7 @@ function createBoosterCard(booster) {
   return card;
 }
 
-// Filtros
+// ===== Filtros =====
 function setActiveFilter(filter) {
   filterButtons.forEach(btn => btn.classList.remove("active"));
   document.querySelector(`[data-filter="${filter}"]`).classList.add("active");
@@ -118,10 +123,32 @@ function filterBoosters(filter) {
   renderBoosters();
 }
 
-// Modal
+// ===== Modal con vuelos ordenados =====
 function openModal(booster) {
   let flightHistoryHTML = "";
   if (booster.missions.length > 0) {
+    // Ordenar vuelos por flightNumber ascendente (B10xx.1 → B10xx.2)
+const orderedMissions = [...booster.missions].sort((a, b) => {
+  const aStr = String(a.flightNumber); // forzar string
+  const bStr = String(b.flightNumber);
+
+  const aParts = aStr.split(".");
+  const bParts = bStr.split(".");
+
+  // Extraer parte numérica principal
+  const aMain = parseInt(aParts[0].replace(/\D/g, ""), 10) || 0;
+  const bMain = parseInt(bParts[0].replace(/\D/g, ""), 10) || 0;
+
+  if (aMain !== bMain) return aMain - bMain;
+
+  // Extraer subparte (después del punto) si existe
+  const aSub = parseInt(aParts[1], 10) || 0;
+  const bSub = parseInt(bParts[1], 10) || 0;
+
+  return aSub - bSub;
+});
+
+
     flightHistoryHTML = `
       <div class="flight-history">
         <h3>Historial de Vuelos</h3>
@@ -135,7 +162,7 @@ function openModal(booster) {
             </tr>
           </thead>
           <tbody>
-            ${booster.missions.map(mission => `
+            ${orderedMissions.map(mission => `
               <tr>
                 <td><strong>${mission.flightNumber}</strong></td>
                 <td>${mission.name}</td>
@@ -182,12 +209,13 @@ function openModal(booster) {
   document.body.style.overflow = "hidden";
 }
 
+// ===== Cerrar modal =====
 function closeModal() {
   modal.style.display = "none";
   document.body.style.overflow = "auto";
 }
 
-// Event listeners
+// ===== Event listeners =====
 function setupEventListeners() {
   filterButtons.forEach(button => {
     button.addEventListener("click", function () {
@@ -196,6 +224,7 @@ function setupEventListeners() {
       filterBoosters(filter);
     });
   });
+
   modalClose.addEventListener("click", closeModal);
   modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
@@ -204,20 +233,15 @@ function setupEventListeners() {
   const searchInput = document.getElementById("search-input");
   searchInput.addEventListener("input", () => {
     const query = searchInput.value.toLowerCase();
-    const boosters = document.querySelectorAll(".booster-card");
-    boosters.forEach(booster => {
-      const name = booster.querySelector(".booster-name").textContent.toLowerCase();
-      booster.style.display = name.includes(query) ? "block" : "none";
-    });
+    filteredBoosters = boostersData.filter(b => b.name.toLowerCase().includes(query) || b.type.toLowerCase().includes(query));
+    if (currentFilter !== "all") filteredBoosters = filteredBoosters.filter(b => b.status === currentFilter);
+    renderBoosters();
   });
 }
 
-// Inicialización
-document.addEventListener("DOMContentLoaded", async () => {
+// ===== Inicialización =====
+document.addEventListener("DOMContentLoaded", () => {
   boostersGrid.innerHTML = '<div class="loading">Cargando propulsores...</div>';
-  await loadBoostersData();
-  if (boostersData.length > 0) {
-    renderBoosters();
-    setupEventListeners();
-  }
+  loadBoostersData();
+  setupEventListeners();
 });

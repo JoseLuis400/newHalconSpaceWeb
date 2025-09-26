@@ -184,6 +184,57 @@
     object-fit: cover;
     display: block;
   }
+
+  /* Contador estilo tarjeta sobre imagen, arriba a la izquierda */
+.card-lanzamiento .contador {
+  position:absolute;
+  top:5px;
+  left:5px;
+  background:rgba(0,0,0,0.5);
+  padding:2px 5px;
+  border-radius:3px;
+  font-weight:bold;
+  border: 1px solid rgba(40, 53, 147, 0.8);
+  font-size: 0.95rem;
+  cursor: default;
+  }
+
+/* Contenedor de cada dígito para animación */
+.card-lanzamiento .contador .digit-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 1ch; /* ancho fijo por dígito */
+}
+
+/* Dígito animable */
+.card-lanzamiento .contador .digit {
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+/* ===== HOLD y SCRUB glow ===== */
+.card-lanzamiento .contador[data-state="hold"] {
+  color: orange;
+  text-shadow: 0 0 5px orange;
+  animation: holdGlow 1.5s infinite ease-in-out;
+}
+
+.card-lanzamiento .contador[data-state="scrub"] {
+  color: red;
+  text-shadow: 0 0 5px red;
+  animation: scrubGlow 1s infinite ease-in-out;
+}
+
+/* Animaciones glow */
+@keyframes holdGlow {
+  0%,100% { text-shadow: 0 0 5px orange; }
+  50% { text-shadow: 0 0 15px orange; }
+}
+
+@keyframes scrubGlow {
+  0%,100% { text-shadow: 0 0 5px red; }
+  50% { text-shadow: 0 0 20px red; }
+}
   
   /* Estado superpuesto */
   .card-lanzamiento .estado {
@@ -210,6 +261,10 @@
   .card-lanzamiento .estado.fallo {
     background: rgba(183, 28, 28, 0.8);
   }
+
+  
+.card-lanzamiento .estado.hold { background: rgba(255, 165, 0, 0.8); }
+.card-lanzamiento .estado.scrub { background: rgba(201, 0, 0, 0.8); }
   
   
   /* Botones de acción */
