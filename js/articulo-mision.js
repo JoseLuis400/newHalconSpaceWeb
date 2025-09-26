@@ -15,6 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+
 // ===== Función auxiliar para el contador con soporte HOLD/SCRUB =====
 function calcularContador(fechaStr, timeStr, now = null) {
   const [dia, mes, anio] = fechaStr.split("/").map(Number);
@@ -206,4 +207,57 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error cargando la cabecera desde Firebase:", error);
     }
   })();
+
+});
+
+//// GALERÍA DE FOTOS (corrigiendo cálculo de ancho)
+
+//// GALERÍA DE FOTOS - usando imágenes del HTML directamente
+
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.getElementById("slides-wrapper");
+  const slides = wrapper.querySelectorAll("img");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const dotsContainer = document.getElementById("dots");
+
+  let current = 0;
+  const total = slides.length;
+
+  // Hacemos que el wrapper sea flex y todas las imágenes ocupen 100% del viewport
+  wrapper.style.display = "flex";
+  wrapper.style.transition = "transform 0.5s ease";
+  slides.forEach(slide => {
+    slide.style.flex = "0 0 100%"; // cada imagen ocupa todo el ancho visible
+  });
+
+  // Crear dots dinámicamente
+  slides.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    dot.addEventListener("click", () => showSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+  const dots = dotsContainer.querySelectorAll(".dot");
+
+  function updateDots() {
+    dots.forEach(d => d.classList.remove("active"));
+    if (dots[current]) dots[current].classList.add("active");
+  }
+
+  function showSlide(index) {
+    current = (index + total) % total;
+    wrapper.style.transform = `translateX(-${current * 100}%)`;
+    updateDots();
+  }
+
+  // Botones
+  prevBtn.addEventListener("click", () => showSlide(current - 1));
+  nextBtn.addEventListener("click", () => showSlide(current + 1));
+
+  // Inicialización
+  showSlide(0);
+
+  // Autoplay cada 5s
+  setInterval(() => showSlide(current + 1), 10000);
 });
