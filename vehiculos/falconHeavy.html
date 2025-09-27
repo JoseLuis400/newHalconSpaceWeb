@@ -10,6 +10,7 @@
     <script src="../js/main.js"></script> <!-- Cargar el menú superior y pie de pagina-->
     <script type="module" src="../js/vehiculoFalconH.js" defer></script> <!-- Cargar vehículos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script> <!-- Cargar gráficos-->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script> <!-- Importamos model-viewer -->
     
 
     <!-- EMBED DE LA PAGINA -->
@@ -38,6 +39,20 @@
             <h1>Falcon Heavy</h1>
             <p>El Falcon Heavy se trata de un cohete reutilizable de alta capacidad, diseñado para transportar cargas útiles a órbitas bajas, geostacionarias y otros cuerpos celestes. Este vehículo es revolucionario debido a su capacidad gran capacidad de carga y su capacidad de reutilización, lo que ha permitido reducir significativamente los costos de lanzamiento interplanetarios.</p>    
         </div>
+
+        <section class="modelo3D">
+          <div class="modelo3D-container">
+            <h2>Ver modelo 3D</h2>
+            <model-viewer src="../img/3D/falcon_heavy.glb" 
+                          alt="Falcon 9"
+                          auto-rotate
+                          camera-controls
+                          shadow-intensity="1"
+                          exposure="1.2"
+                          interaction-prompt="auto">
+            </model-viewer>
+          </div>
+        </section>
         
         <section class="section">
             <div class="container-gallery">
