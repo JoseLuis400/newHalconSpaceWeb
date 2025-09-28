@@ -80,11 +80,17 @@ document.addEventListener("DOMContentLoaded", () => {
         let estado = lanzamiento.estado;
         if(estado?.toLowerCase() === "exito") estado = "Éxito";
 
+        let horaEl = "";
+
+        if(lanzamiento.contador === true) {
+          horaEl = `<p><strong>Hora:</strong> ${lanzamiento.timeUTC} UTC</p>`;
+        }
+
         misionContent.innerHTML = `
           <h2>${lanzamiento.nombre}</h2>
           <p><strong>Vehículo:</strong> ${lanzamiento.vehiculo}</p>
           <p><strong>Fecha:</strong> ${fechaFormateada}</p>
-          <p><strong>Hora:</strong> ${lanzamiento.timeUTC} UTC</p>
+          ${horaEl}
           <p><strong>Estado:</strong> ${estado}</p>
           ${lanzamiento.contador ? `<p><span id="t-counter"></span></p>` : ""}
         `;
