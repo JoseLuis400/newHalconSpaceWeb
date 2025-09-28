@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <h2>${lanzamiento.nombre}</h2>
           <p><strong>Vehículo:</strong> ${lanzamiento.vehiculo}</p>
           <p><strong>Fecha:</strong> ${fechaFormateada}</p>
+          <p><strong>Hora:</strong> ${lanzamiento.timeUTC} UTC</p>
           <p><strong>Estado:</strong> ${estado}</p>
           ${lanzamiento.contador ? `<p><span id="t-counter"></span></p>` : ""}
         `;
