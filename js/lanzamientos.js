@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return `https://halconspace.site${url}`;
   };
 
+  const getFechaHora = (fechaStr, timeStr = "00:00:00") => {
+    const [dia, mes, anio] = fechaStr.split("/").map(Number);
+    const [h, m, s] = (timeStr || "00:00:00").split(":").map(Number);
+    return new Date(Date.UTC(anio, mes - 1, dia, h, m, s));
+  };
+  
+
   const normalizeURLArticulo = url => {
     if (!url) return "";
     url = url.trim();
@@ -69,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== Renderizado de tarjetas =====
   const renderizarLanzamientos = lanzamientos => {
     contenedor.innerHTML = "";
-    lanzamientos.sort((a,b) => parseFecha(b.fecha) - parseFecha(a.fecha));
+    lanzamientos.sort((a, b) => getFechaHora(b.fecha, b.timeUTC) - getFechaHora(a.fecha, a.timeUTC));
 
     lanzamientos.forEach(l => {
       const card = document.createElement("div");
