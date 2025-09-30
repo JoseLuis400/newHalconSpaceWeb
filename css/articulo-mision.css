@@ -196,6 +196,12 @@ section p a:hover {
     background: rgba(0, 212, 255, 0.08);
 }
 
+.detalles-tecnicos a {
+    color: #00d4ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 /* =======================
    GALERÍA
 ======================= */
