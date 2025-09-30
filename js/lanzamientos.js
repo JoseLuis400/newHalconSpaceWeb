@@ -76,26 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== Renderizado de tarjetas =====
   const renderizarLanzamientos = lanzamientos => {
     contenedor.innerHTML = "";
-    lanzamientos.sort((a, b) => {
-      const now = Date.now();
-      const fechaA = getFechaHora(a.fecha, a.timeUTC);
-      const fechaB = getFechaHora(b.fecha, b.timeUTC);
+    lanzamientos.sort((a, b) => parseFecha(b.fecha) - parseFecha(a.fecha));
     
-      const esFuturoA = fechaA > now;
-      const esFuturoB = fechaB > now;
-    
-      // 1) Si uno es futuro y el otro pasado → primero el futuro
-      if (esFuturoA && !esFuturoB) return -1;
-      if (!esFuturoA && esFuturoB) return 1;
-    
-      // 2) Ambos futuros → de más próximo a más lejano
-      if (esFuturoA && esFuturoB) return fechaB - fechaA;
-    
-      // 3) Ambos pasados → de más reciente a más antiguo
-      return fechaB - fechaA;
-    });
-    
-
     lanzamientos.forEach(l => {
       const card = document.createElement("div");
       card.className = "card-lanzamiento";
