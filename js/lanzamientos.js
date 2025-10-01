@@ -24,6 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const platformFilter = document.getElementById("filter-plataforma");
   const searchInput = document.getElementById("search-name");
   const noResults = document.getElementById("no-results");
+  const viewSelector = document.getElementById("view-selector");
+
+  let allLanzamientos = [];
+  let currentView = 'card';
+
+  if (viewSelector) {
+    viewSelector.value = currentView;
+    viewSelector.addEventListener("change", () => {
+      currentView = viewSelector.value;
+      renderLanzamientos(allLanzamientos);
+    });
+  }
 
   // ===== Funciones Auxiliares =====
   const parseFecha = fechaStr => {
@@ -73,26 +85,31 @@ document.addEventListener("DOMContentLoaded", () => {
     return dias > 0 ? `${signo}${dias}D / ${horas}:${minutos}:${segundos}` : `${signo}${horas}:${minutos}:${segundos}`;
   };
 
-  // ===== Renderizado de tarjetas =====
-  const renderizarLanzamientos = lanzamientos => {
-    contenedor.innerHTML = "";
-    lanzamientos.sort((a, b) => parseFecha(b.fecha) - parseFecha(a.fecha));
-    
-    lanzamientos.forEach(l => {
-      const card = document.createElement("div");
-      card.className = "card-lanzamiento";
-      card.dataset.estado = (l.estado ?? "desconocido").toLowerCase();
-      card.dataset.vehiculo = (l.vehiculo ?? "desconocido").toLowerCase();
-      card.dataset.plataforma = (l.plataforma ?? "desconocido").toLowerCase();
-      card.dataset.fecha = l.fecha;
-      card.dataset.timeutc = l.timeUTC || "00:00:00";
-      card.dataset.contador = l.contador === true ? "true" : "false";
+  // ===== Renderizado de lanzamientos =====
 
+const renderLanzamientos = lanzamientos => {
+  contenedor.innerHTML = "";
+  lanzamientos.sort((a, b) => parseFecha(b.fecha) - parseFecha(a.fecha));
+  
+  lanzamientos.forEach(l => {
+    const item = document.createElement("div");
+    item.className = `item-lanzamiento ${currentView}-lanzamiento`;
+    item.dataset.estado = (l.estado ?? "desconocido").toLowerCase();
+    item.dataset.vehiculo = (l.vehiculo ?? "desconocido").toLowerCase();
+    item.dataset.plataforma = (l.plataforma ?? "desconocido").toLowerCase();
+    item.dataset.fecha = l.fecha;
+    item.dataset.timeutc = l.timeUTC || "00:00:00";
+    item.dataset.contador = l.contador === true ? "true" : "false";
+
+    let content = '';
+
+    if (currentView === 'card') {
+      // ===== Vista TARJETA (sin cambios) =====
       const contadorHTML = l.contador ? 
-        `<span class="contador" style="position:absolute;top:5px;left:5px;background:rgba(0,0,0,0.5);padding:2px 5px;border-radius:3px;font-weight:bold;">${calcularContador(l.fecha, l.timeUTC)}</span>` 
+        `<span class="contador status-${(l.estado ?? "desconocido").toLowerCase()}" style="position:absolute;top:5px;left:5px;background:rgba(0,0,0,0.5);padding:2px 5px;border-radius:3px;font-weight:bold;">${calcularContador(l.fecha, l.timeUTC)}</span>` 
         : "";
 
-      card.innerHTML = `
+      content = `
         <div class="img-wrapper" style="position:relative;">
           <img src="${normalizeURL(l.imagen)}" alt="${l.alt ?? ""}">
           <span class="estado ${(l.estado ?? "desconocido").toLowerCase()}">${(l.estado ?? "Desconocido").toUpperCase()}</span>
@@ -109,16 +126,35 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
-      contenedor.appendChild(card);
-    });
+    } else { // list
+      content = `
+        <div class="data-wrapper">
+          <h3>${l.vehiculo} • ${l.nombre}</h3>
+          <p><strong>Estado:</strong> ${(l.estado ?? "Desconocido").toUpperCase()}</p>
+          <p><strong>Fecha:</strong> ${l.fecha}</p>
+          <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
+          <div class="links">
+            ${l.detalleUrl ? `<a href="${normalizeURLArticulo(l.detalleUrl)}" class="btn">Detalles</a>` : ""}
+            ${l.stream ? `<a href="${normalizeURL(l.stream)}" target="_blank" class="btn live">Ver transmisión</a>` : ""}
+          </div>
+        </div>
+      `;
+    }
+    
+    
 
-    aplicarFiltros();
-  };
+    item.innerHTML = content;
+    contenedor.appendChild(item);
+  });
+
+  aplicarFiltros();
+};
+
 
   // ===== Cargar lanzamientos desde Firebase =====
   onSnapshot(collection(db, "lanzamientos"), snapshot => {
-    const lanzamientos = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
-    renderizarLanzamientos(lanzamientos);
+    allLanzamientos = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+    renderLanzamientos(allLanzamientos);
   });
 
   // ===== Filtros y búsqueda =====
@@ -129,11 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchValue = searchInput.value.toLowerCase();
     let anyVisible = false;
 
-    document.querySelectorAll("#launchesContainer .card-lanzamiento").forEach(card => {
-      const estado = card.dataset.estado;
-      const vehiculo = card.dataset.vehiculo;
-      const plataforma = card.dataset.plataforma;
-      const nombre = card.querySelector("h3").textContent.toLowerCase();
+    document.querySelectorAll("#launchesContainer .item-lanzamiento").forEach(item => {
+      const estado = item.dataset.estado;
+      const vehiculo = item.dataset.vehiculo;
+      const plataforma = item.dataset.plataforma;
+      const nombre = item.querySelector("h3").textContent.toLowerCase();
 
       const matchStatus = statusValue === "all" || estado === statusValue;
       const matchVehicle = vehicleValue === "all" || vehiculo.includes(vehicleValue);
@@ -141,14 +177,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const matchSearch = searchValue === "" || nombre.includes(searchValue);
 
       if (matchStatus && matchVehicle && matchPlatform && matchSearch) {
-        card.classList.remove("fade");
-        card.style.display = "block";
-        setTimeout(() => card.classList.add("show"), 10);
+        item.classList.remove("fade");
+        item.style.display = "block";
+        setTimeout(() => item.classList.add("show"), 10);
         anyVisible = true;
       } else {
-        card.classList.remove("show");
-        card.classList.add("fade");
-        setTimeout(() => { card.style.display = "none"; }, 300);
+        item.classList.remove("show");
+        item.classList.add("fade");
+        setTimeout(() => { item.style.display = "none"; }, 300);
       }
     });
 
@@ -161,65 +197,65 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("input", aplicarFiltros);
 
   // ===== Contadores dinámicos con animación de dígitos =====
-setInterval(() => {
-  document.querySelectorAll(".card-lanzamiento .contador").forEach(span => {
-    const card = span.closest(".card-lanzamiento");
-    const estado = card.dataset.estado;
-    const isPaused = estado === "hold" || estado === "scrub";
+  setInterval(() => {
+    document.querySelectorAll(".item-lanzamiento .contador").forEach(span => {
+      const item = span.closest(".item-lanzamiento");
+      const estado = item.dataset.estado;
+      const isPaused = estado === "hold" || estado === "scrub";
 
-    if (card.dataset.contador === "true") {
-      const fecha = card.dataset.fecha;
-      const time = card.dataset.timeutc;
-      let now = null;
+      if (item.dataset.contador === "true") {
+        const fecha = item.dataset.fecha;
+        const time = item.dataset.timeutc;
+        let now = null;
 
-      if (isPaused) {
-        if (!span.dataset.freezeTime) span.dataset.freezeTime = Date.now();
-        now = new Date(Number(span.dataset.freezeTime));
-      } else {
-        delete span.dataset.freezeTime;
-      }
-
-      const nuevoValor = calcularContador(fecha, time, now);
-
-      const lastText = span.dataset.lastText || "";
-      const lastChars = lastText.split("");
-      const newChars = nuevoValor.split("");
-
-      // Limpiar contenido
-      span.innerHTML = "";
-
-      // Crear elementos por cada dígito y animar si cambió
-      newChars.forEach((c, i) => {
-        const wrapper = document.createElement("span");
-        wrapper.classList.add("digit-wrapper");
-
-        const digit = document.createElement("span");
-        digit.classList.add("digit");
-        digit.textContent = c;
-
-        if (lastChars[i] !== c) {
-          digit.style.transform = "translateY(-100%)";
-          setTimeout(() => {
-            digit.style.transition = "transform 0.3s";
-            digit.style.transform = "translateY(0)";
-          }, 10);
+        if (isPaused) {
+          if (!span.dataset.freezeTime) span.dataset.freezeTime = Date.now();
+          now = new Date(Number(span.dataset.freezeTime));
+        } else {
+          delete span.dataset.freezeTime;
         }
 
-        wrapper.appendChild(digit);
-        span.appendChild(wrapper);
-      });
+        const nuevoValor = calcularContador(fecha, time, now);
 
-      span.dataset.lastText = nuevoValor;
+        const lastText = span.dataset.lastText || "";
+        const lastChars = lastText.split("");
+        const newChars = nuevoValor.split("");
 
-      // Atributo data-state para CSS glow si está en hold o scrub
-      if (isPaused) {
-        span.setAttribute("data-state", estado);
-      } else {
-        span.removeAttribute("data-state");
+        // Limpiar contenido
+        span.innerHTML = "";
+
+        // Crear elementos por cada dígito y animar si cambió
+        newChars.forEach((c, i) => {
+          const wrapper = document.createElement("span");
+          wrapper.classList.add("digit-wrapper");
+
+          const digit = document.createElement("span");
+          digit.classList.add("digit");
+          digit.textContent = c;
+
+          if (lastChars[i] !== c) {
+            digit.style.transform = "translateY(-100%)";
+            setTimeout(() => {
+              digit.style.transition = "transform 0.3s";
+              digit.style.transform = "translateY(0)";
+            }, 10);
+          }
+
+          wrapper.appendChild(digit);
+          span.appendChild(wrapper);
+        });
+
+        span.dataset.lastText = nuevoValor;
+
+        // Atributo data-state para CSS glow si está en hold o scrub
+        if (isPaused) {
+          span.setAttribute("data-state", estado);
+        } else {
+          span.removeAttribute("data-state");
+        }
       }
-    }
-  });
-}, 1000);
+    });
+  }, 1000);
 
 
   // ===== Estadísticas desde Firebase =====

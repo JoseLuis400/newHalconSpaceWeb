@@ -111,29 +111,30 @@
     outline: none;
 }
 
-/* ===== Grid de tarjetas ===== */
+/* ===== Contenedor de lanzamientos ===== */
 #launchesContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 25px;
     padding: 20px;
+    justify-content: center;
     transition: all 0.4s ease-in-out;
 }
 
 @media (max-width: 1024px) {
-    #launchesContainer {
-        grid-template-columns: repeat(2, 1fr);
+    #launchesContainer .card-lanzamiento {
+        flex-basis: calc(50% - 25px);
     }
 }
 
 @media (max-width: 600px) {
-    #launchesContainer {
-        grid-template-columns: 1fr;
+    #launchesContainer .card-lanzamiento {
+        flex-basis: 100%;
     }
 }
 
-/* ===== Tarjeta de lanzamiento ===== */
-.card-lanzamiento {
+/* ===== Estilos comunes para items de lanzamiento ===== */
+.item-lanzamiento {
     background: #1c1c1e;
     border: 1px solid #2a2a2a;
     border-radius: 12px;
@@ -141,36 +142,36 @@
     transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
 }
 
-.card-lanzamiento:hover {
+.item-lanzamiento:hover {
     transform: translateY(-6px);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
 }
 
 /* Animación al filtrar */
-.card-lanzamiento.fade {
+.item-lanzamiento.fade {
     opacity: 0;
     transform: scale(0.95);
     transition: all 0.3s ease-in-out;
 }
 
-.card-lanzamiento.show {
+.item-lanzamiento.show {
     opacity: 1;
     transform: scale(1);
 }
 
-/* Imagen y estado */
-.card-lanzamiento .img-wrapper {
+/* Imagen y estado común */
+.item-lanzamiento .img-wrapper {
     position: relative;
 }
 
-.card-lanzamiento img {
+.item-lanzamiento img {
     width: 100%;
     height: 190px;
     object-fit: cover;
     display: block;
 }
 
-.card-lanzamiento .estado {
+.item-lanzamiento .estado {
     position: absolute;
     bottom: 10px;
     left: 10px;
@@ -182,11 +183,8 @@
     color: white;
 }
 
-/* Contador estilo tarjeta sobre imagen, arriba a la izquierda */
-.card-lanzamiento .contador {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+/* Contador común */
+.item-lanzamiento .contador {
     background: var(--accent-primary);
     color: var(--text-primary);
     font-size: 0.95rem;
@@ -200,14 +198,15 @@
     border: 1px solid rgba(40, 53, 147, 0.8);
     overflow: visible;
     user-select: none;
-    }
-    .card-lanzamiento .contador:hover {
+}
+
+.item-lanzamiento .contador:hover {
     background: var(--accent-secondary);
     transform: translateY(-2px);
-    }
+}
 
 /* Contenedor de cada dígito para animación */
-.card-lanzamiento .contador .digit-wrapper {
+.item-lanzamiento .contador .digit-wrapper {
     display: inline-block;
     position: relative;
     width: 1.1ch; /* ancho fijo por dígito */
@@ -215,19 +214,19 @@
 }
 
 /* Dígito animable */
-.card-lanzamiento .contador .digit {
+.item-lanzamiento .contador .digit {
     display: block;
     transition: transform 0.4s ease;
 }
 
 /* ===== HOLD y SCRUB glow ===== */
-.card-lanzamiento .contador[data-state="hold"] {
+.item-lanzamiento .contador[data-state="hold"] {
     color: orange;
     text-shadow: 0 0 5px orange;
     animation: holdGlow 1.5s infinite ease-in-out;
 }
 
-.card-lanzamiento .contador[data-state="scrub"] {
+.item-lanzamiento .contador[data-state="scrub"] {
     color: red;
     text-shadow: 0 0 5px red;
     animation: scrubGlow 1s infinite ease-in-out;
@@ -244,31 +243,32 @@
     50% { text-shadow: 0 0 20px red; }
 }
 
-.card-lanzamiento .estado.exito { background: rgba(27, 94, 32, 0.8); }
-.card-lanzamiento .estado.programado { background: rgba(40, 53, 147, 0.8); }
-.card-lanzamiento .estado.fallo { background: rgba(183, 28, 28, 0.8); }
-.card-lanzamiento .estado.hold { background: rgba(255, 165, 0, 0.8); }
-.card-lanzamiento .estado.scrub { background: rgba(201, 0, 0, 0.8); }
+.item-lanzamiento .estado.exito { background: rgba(27, 94, 32, 0.8); }
+.item-lanzamiento .estado.programado { background: rgba(40, 53, 147, 0.8); }
+.item-lanzamiento .estado.fallo { background: rgba(183, 28, 28, 0.8); }
+.item-lanzamiento .estado.hold { background: rgba(255, 165, 0, 0.8); }
+.item-lanzamiento .estado.scrub { background: rgba(201, 0, 0, 0.8); }
 
-/* Info */
-.card-lanzamiento .info {
+/* Info común */
+.item-lanzamiento .info {
     padding: 18px;
 }
 
-.card-lanzamiento h3 {
+.item-lanzamiento h3 {
     margin: 0 0 10px;
     font-size: 1.3rem;
     color: #fff;
 }
 
-/* Botones */
-.card-lanzamiento .links {
+/* Botones comunes */
+.item-lanzamiento .links {
     margin-top: 15px;
+    display: flex;
+    gap: 10px;
 }
 
-.card-lanzamiento .btn {
+.item-lanzamiento .btn {
     display: inline-block;
-    margin-right: 10px;
     padding: 7px 14px;
     font-size: 0.9rem;
     color: #fff;
@@ -278,16 +278,122 @@
     transition: background 0.3s, transform 0.2s;
 }
 
-.card-lanzamiento .btn:hover {
+.item-lanzamiento .btn:hover {
     background: #666;
     transform: scale(1.05);
 }
 
-.card-lanzamiento .btn.live {
+.item-lanzamiento .btn.live {
     background: #e91e63;
 }
 
-.card-lanzamiento .btn.live:hover {
+.item-lanzamiento .btn.live:hover {
     background: #ff4d88;
     transform: scale(1.05);
+}
+
+/* ===== Estilos específicos para vista en tarjetas ===== */
+.card-lanzamiento {
+    flex: 0 1 calc(33.333% - 25px);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-lanzamiento img {
+    height: 190px;
+}
+
+.card-lanzamiento .contador {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+/* ===== Vista LISTA completa ===== */
+.list-lanzamiento {
+    flex: 0 0 80% !important;
+    margin: 0 auto 20px auto;
+    display: flex;               /* flex para alinear izquierda/derecha */
+    justify-content: space-between; /* espacio entre texto y right-side */
+    align-items: flex-start;     /* alinear arriba */
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.list-lanzamiento[data-estado="exito"] {
+    border: 1px solid var(--success);
+}
+
+.list-lanzamiento[data-estado="programado"] {
+    border: 1px solid rgba(40, 53, 147, 0.8);
+}
+
+.list-lanzamiento[data-estado="fallo"] {
+    border: 1px solid var(--danger);
+}
+.list-lanzamiento .data-wrapper {
+    flex: 1;                     /* ocupa todo el espacio disponible */
+    padding: 18px;
+}
+
+.list-lanzamiento .right-side {
+    width: 220px;                /* tamaño fijo a la derecha */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;       /* alinear contenido a la derecha */
+}
+
+.list-lanzamiento .right-side .img-wrapper {
+    position: relative;          /* necesario para el badge */
+    width: 100%;
+}
+
+.list-lanzamiento .right-side img.list-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.list-lanzamiento .right-side .estado {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(0,0,0,0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .list-lanzamiento {
+        flex-direction: column;
+        width: 95%;
+    }
+
+    .list-lanzamiento .right-side {
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .list-lanzamiento .right-side img.list-img {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+    }
+
+    .list-lanzamiento .right-side .estado {
+        position: static;
+        margin-left: 10px;
+        background: var(--accent-primary);
+    }
 }
