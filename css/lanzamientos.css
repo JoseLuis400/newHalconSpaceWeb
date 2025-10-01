@@ -397,3 +397,223 @@
         background: var(--accent-primary);
     }
 }
+
+/* ===== Contenedor del calendario ===== */
+/* ===== Calendario ===== */
+.calendar-view {
+    width: 90%;
+    margin: 0 auto 30px;
+    font-family: Arial, sans-serif;
+    color: var(--text-primary);
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-nav button {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.calendar-nav button:hover {
+    background: var(--accent-primary);
+    color: #fff;
+}
+
+.calendar-nav span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 5px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-weight: bold;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    min-height: 70px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    position: relative;
+    padding: 5px;
+    cursor: default;
+    transition: background 0.2s;
+}
+
+.calendar-day:hover {
+    background: var(--bg-tertiary);
+}
+
+.calendar-day.empty {
+    background: transparent;
+    border: none;
+}
+
+.calendar-day.has-launch {
+    cursor: pointer;
+}
+
+/* Círculos por lanzamiento según estado */
+.launch-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 2px;
+    border: 1px solid #000;
+}
+
+.launch-dot.exito { background: rgba(27, 94, 32, 0.8); }
+.launch-dot.fallo { background: rgba(183, 28, 28, 0.8); }
+.launch-dot.programado { background: rgba(40, 53, 147, 0.8); }
+.launch-dot.hold { background: rgba(255, 165, 0, 0.8); }
+.launch-dot.scrub { background: rgba(201, 0, 0, 0.8); }
+
+/* Modal para calendario */
+/* ===== Modal del calendario premium ===== */
+.calendar-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+    backdrop-filter: blur(4px); /* efecto blur moderno */
+}
+
+.calendar-modal-content {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-radius: 15px;
+    padding: 30px 25px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 85%;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--border);
+}
+
+.calendar-modal .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.calendar-modal .modal-header {
+    text-align: center;
+}
+
+.calendar-modal .close:hover {
+    color: var(--accent-primary);
+    transform: scale(1.25);
+}
+
+/* Contenido scrollable */
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    max-height: 600px;
+    padding-right: 5px; /* espacio para scrollbar */
+}
+
+/* Tarjetas de lanzamiento */
+.modal-body .modal-launch {
+    background: var(--bg-primary);
+    border-radius: 10px;
+    padding: 15px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    border-left: 5px solid var(--accent-primary);
+}
+
+.modal-body .modal-launch:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    background: var(--bg-tertiary);
+}
+
+.modal-body .modal-launch strong {
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.modal-body .modal-launch p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.modal-body .modal-launch a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.modal-body .modal-launch a:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
+/* Scrollbar elegante para modal */
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
