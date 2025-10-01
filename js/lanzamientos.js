@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } else if(currentView==='list'){
       // ===== Vista Lista limpia =====
-      lanzamientos.sort((a,b)=>parseFecha(a.fecha)-parseFecha(b.fecha));
+      lanzamientos.sort((a,b)=>parseFecha(b.fecha)-parseFecha(a.fecha));
       lanzamientos.forEach(l=>{
         const item = document.createElement("div");
         item.className="item-lanzamiento list-lanzamiento";
