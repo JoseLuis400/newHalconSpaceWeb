@@ -15,6 +15,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const normalizeURL = url => {
+  if (!url) return "";
+  url = url.trim();
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  if (!url.startsWith("/")) url = "/" + url;
+  return `https://halconspace.site${url}`;
+};
+
 
 // ===== Función auxiliar para el contador con soporte HOLD/SCRUB =====
 function calcularContador(fechaStr, timeStr, now = null) {
@@ -63,10 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ===== Actualizar cabecera =====
         let imagenUrl = lanzamiento.imagen;
-        if (!imagenUrl.startsWith("https://halconspace.site/")) {
-          imagenUrl = `https://halconspace.site/${lanzamiento.imagen}`;
-        }
-        misionHeader.style.backgroundImage = `url('${imagenUrl}')`;
+        misionHeader.style.backgroundImage = `url('${normalizeURL(lanzamiento.imagen)}')`;
 
         const [dia, mes, año] = lanzamiento.fecha.split("/");
         const meses = [
