@@ -1,0 +1,425 @@
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --accent-primary: #c1272d;
+    --accent-secondary: #ff3b3b;
+    --success: #00ff88;
+    --warning: #ffaa00;
+    --error: #ff4444;
+    --border: #333333;
+    --shadow: rgba(0, 212, 255, 0.1);
+}
+
+/* =======================
+   HERO / CABECERA
+======================= */
+.mision-header {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    margin: -100px 0 0 0;
+    padding: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.mision-header .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(18 ,18 ,18 ,0.5) 0%,
+        rgba(18 ,18 ,18 ,0.1) 40%,
+        rgba(18 ,18 ,18 ,0.85) 100%
+    );
+    z-index: 0;
+}
+
+.mision-content {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    margin-bottom: 5vh;
+    color: #fff;
+}
+
+.mision-content h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.7);
+}
+
+.mision-content p {
+    font-size: 1.1rem;
+    margin: 0.2rem 0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    color: #ddd;
+}
+
+/* ===== Estilo minimalista para el contador T-/T+ ===== */
+#t-counter {
+    display: inline-flex; /* cambiar a flex para alinear dígitos */
+    font-family: "Roboto Mono", monospace; /* tipografía digital minimalista */
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #ffffff;  /* blanco puro */
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    background: rgba(0,0,0,0.4); /* discreto fondo translúcido */
+    backdrop-filter: blur(4px);   /* efecto vidrio esmerilado */
+    transition: color 0.3s ease;
+    letter-spacing: 0.5px;
+    text-align: center;
+    user-select: none;
+    overflow: hidden; /* ocultar desbordes de dígitos */
+    height: 1.5em; /* altura del contador */
+}
+
+/* Contenedor por dígito para animación */
+#t-counter span.digit-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 1ch; /* ancho fijo por dígito */
+    overflow: hidden;
+}
+
+/* Dígito animable */
+#t-counter span.digit {
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+/* HOLD: parpadeo lento naranja */
+#t-counter[data-state="hold"] {
+    color: orange;
+    animation: blinkHold 1s infinite;
+}
+
+/* SCRUB: parpadeo rápido rojo */
+#t-counter[data-state="scrub"] {
+    color: red;
+    animation: blinkScrub 0.5s infinite;
+}
+
+/* Animaciones de parpadeo */
+@keyframes blinkHold {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.4; }
+}
+
+@keyframes blinkScrub {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.2; }
+}
+
+/* =======================
+   SECCIONES GENERALES
+======================= */
+section:not(.mision-header) {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 2.5rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+section h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #ff4081;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.5rem;
+}
+
+section p {
+    color: #e0e0e0;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
+section p a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+section p a:hover {
+    text-decoration: underline;
+}
+
+/* =======================
+   DETALLES TÉCNICOS
+======================= */
+.detalles-tecnicos table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+.detalles-tecnicos th,
+.detalles-tecnicos td {
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detalles-tecnicos th {
+    font-weight: 500;
+    color: #00d4ff;
+    width: 35%;
+}
+
+.detalles-tecnicos td {
+    color: #ccc;
+    font-weight: 400;
+}
+
+.detalles-tecnicos tr:hover {
+    background: rgba(0, 212, 255, 0.08);
+}
+
+.detalles-tecnicos a {
+    color: #00d4ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* =======================
+   GALERÍA
+======================= */
+.galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.galeria video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #000;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.slideshow {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    max-width: 70%;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 768px) {
+    .slideshow {
+      width: 90%;
+      max-width: 800px;
+    }
+}
+
+.slides-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slides-wrapper img {
+    flex: 0 0 100%;
+    height: auto;
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Flechas */
+.controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.controls button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.controls button:hover {
+    color: var(--accent-secondary);
+}
+
+/* Dots */
+.dots {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.dot {
+    display: inline-block;
+    width: 7px;
+    aspect-ratio: 1/1;
+    height: auto;
+    margin: 0 5px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.dot.active {
+    background: var(--accent-primary);
+}
+
+.dot:hover {
+    background: var(--accent-secondary);
+}
+
+@media (max-width: 768px) {
+    .controls button {
+      font-size: 1.5rem;
+      padding: 7px 10px;
+    }
+}
+
+/* =======================
+   VIDEOS
+======================= */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #000;
+}
+
+.video-container iframe,
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =======================
+   STREAM BUTTONS (SLIDE)
+======================= */
+.stream-selector-wrapper {
+    overflow-x: auto;
+    margin-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.stream-selector {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+}
+
+.stream-selector button {
+    flex: 0 0 auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.stream-selector button:hover {
+    background-color: rgba(255, 64, 129, 0.2);
+    border-color: rgba(255,64,129,0.5);
+}
+
+.stream-selector button.active {
+    background-color: #ff4081;
+    color: #fff;
+    border-color: #ff4081;
+    box-shadow: 0 0 10px rgba(255,64,129,0.6);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .stream-selector button {
+        flex: 0 0 auto;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stream-selector button {
+        flex: 0 0 auto;
+        font-size: 0.85rem;
+    }
+}
+
+/* =======================
+   RESPONSIVE GENERAL
+======================= */
+@media (min-width: 769px) {
+    .mision-header {
+        background-position: center 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mision-header {
+        background-position: center 50%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mision-content h2 { font-size: 2.3rem; }
+    section h3 { font-size: 1.8rem; }
+}
+
+@media (max-width: 768px) {
+    .mision-header { height: 70vh; }
+    .mision-content h2 { font-size: 1.8rem; }
+    .mision-content p { font-size: 1rem; }
+    section:not(.mision-header) { margin: 2rem 1rem; padding: 1.5rem; }
+    .galeria { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+    .mision-content h2 { font-size: 1.5rem; }
+    .mision-content p { font-size: 0.9rem; }
+    .galeria { grid-template-columns: 1fr; }
+    .detalles-tecnicos th, 
+    .detalles-tecnicos td { padding: 0.4rem 0.6rem; }
+}

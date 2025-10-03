@@ -1,0 +1,619 @@
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --accent-primary: #c1272d;
+    --accent-secondary: #ff3b3b;
+    --success: #00ff88;
+    --warning: #ffaa00;
+    --error: #ff4444;
+    --border: #333333;
+    --shadow: rgba(0, 212, 255, 0.1);
+}
+
+/* ===== Sección y header ===== */
+.section-header h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+.section-header h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-primary);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* ===== Estadísticas ===== */
+.stats-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+.chart-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+}
+
+.chart-wrapper .chart-box {
+    max-width: 250px;
+    text-align: center;
+}
+
+.chart-wrapper canvas {
+    max-width: 100%;
+    height: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===== Filtros ===== */
+.filters {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.filterr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.filters select,
+.filters #search-name {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Animación al usar filtros */
+.filters select:focus,
+.filters #search-name:focus {
+    transform: scale(1.05);
+    outline: none;
+}
+
+/* ===== Contenedor de lanzamientos ===== */
+#launchesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 20px;
+    justify-content: center;
+    transition: all 0.4s ease-in-out;
+}
+
+@media (max-width: 1024px) {
+    #launchesContainer .card-lanzamiento {
+        flex-basis: calc(50% - 25px);
+    }
+}
+
+@media (max-width: 600px) {
+    #launchesContainer .card-lanzamiento {
+        flex-basis: 100%;
+    }
+}
+
+/* ===== Estilos comunes para items de lanzamiento ===== */
+.item-lanzamiento {
+    background: #1c1c1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+}
+
+.item-lanzamiento:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Animación al filtrar */
+.item-lanzamiento.fade {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s ease-in-out;
+}
+
+.item-lanzamiento.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Imagen y estado común */
+.item-lanzamiento .img-wrapper {
+    position: relative;
+}
+
+.item-lanzamiento img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+}
+
+.item-lanzamiento .estado {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+/* Contador común */
+.item-lanzamiento .contador {
+    background: var(--accent-primary);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    white-space: nowrap;
+    transition: background 0.3s ease, transform 0.3s ease;
+    border: 1px solid rgba(40, 53, 147, 0.8);
+    overflow: visible;
+    user-select: none;
+}
+
+.item-lanzamiento .contador:hover {
+    background: var(--accent-secondary);
+    transform: translateY(-2px);
+}
+
+/* Contenedor de cada dígito para animación */
+.item-lanzamiento .contador .digit-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 1.1ch; /* ancho fijo por dígito */
+    
+}
+
+/* Dígito animable */
+.item-lanzamiento .contador .digit {
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+/* ===== HOLD y SCRUB glow ===== */
+.item-lanzamiento .contador[data-state="hold"] {
+    color: orange;
+    text-shadow: 0 0 5px orange;
+    animation: holdGlow 1.5s infinite ease-in-out;
+}
+
+.item-lanzamiento .contador[data-state="scrub"] {
+    color: red;
+    text-shadow: 0 0 5px red;
+    animation: scrubGlow 1s infinite ease-in-out;
+}
+
+/* Animaciones glow */
+@keyframes holdGlow {
+    0%,100% { text-shadow: 0 0 5px orange; }
+    50% { text-shadow: 0 0 15px orange; }
+}
+
+@keyframes scrubGlow {
+    0%,100% { text-shadow: 0 0 5px red; }
+    50% { text-shadow: 0 0 20px red; }
+}
+
+.item-lanzamiento .estado.exito { background: rgba(27, 94, 32, 0.8); }
+.item-lanzamiento .estado.programado { background: rgba(40, 53, 147, 0.8); }
+.item-lanzamiento .estado.fallo { background: rgba(183, 28, 28, 0.8); }
+.item-lanzamiento .estado.hold { background: rgba(255, 165, 0, 0.8); }
+.item-lanzamiento .estado.scrub { background: rgba(201, 0, 0, 0.8); }
+
+/* Info común */
+.item-lanzamiento .info {
+    padding: 18px;
+}
+
+.item-lanzamiento h3 {
+    margin: 0 0 10px;
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+/* Botones comunes */
+.item-lanzamiento .links {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.item-lanzamiento .btn {
+    display: inline-block;
+    padding: 7px 14px;
+    font-size: 0.9rem;
+    color: #fff;
+    background: #444;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.item-lanzamiento .btn:hover {
+    background: #666;
+    transform: scale(1.05);
+}
+
+.item-lanzamiento .btn.live {
+    background: #e91e63;
+}
+
+.item-lanzamiento .btn.live:hover {
+    background: #ff4d88;
+    transform: scale(1.05);
+}
+
+/* ===== Estilos específicos para vista en tarjetas ===== */
+.card-lanzamiento {
+    flex: 0 1 calc(33.333% - 25px);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-lanzamiento img {
+    height: 190px;
+}
+
+.card-lanzamiento .contador {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+/* ===== Vista LISTA completa ===== */
+.list-lanzamiento {
+    flex: 0 0 80% !important;
+    margin: 0 auto 20px auto;
+    display: flex;               /* flex para alinear izquierda/derecha */
+    justify-content: space-between; /* espacio entre texto y right-side */
+    align-items: flex-start;     /* alinear arriba */
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.list-lanzamiento[data-estado="exito"] {
+    border: 1px solid var(--success);
+}
+
+.list-lanzamiento[data-estado="programado"] {
+    border: 1px solid rgba(40, 53, 147, 0.8);
+}
+
+.list-lanzamiento[data-estado="fallo"] {
+    border: 1px solid var(--danger);
+}
+.list-lanzamiento .data-wrapper {
+    flex: 1;                     /* ocupa todo el espacio disponible */
+    padding: 18px;
+}
+
+.list-lanzamiento .right-side {
+    width: 220px;                /* tamaño fijo a la derecha */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;       /* alinear contenido a la derecha */
+}
+
+.list-lanzamiento .right-side .img-wrapper {
+    position: relative;          /* necesario para el badge */
+    width: 100%;
+}
+
+.list-lanzamiento .right-side img.list-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.list-lanzamiento .right-side .estado {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(0,0,0,0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .list-lanzamiento {
+        flex-direction: column;
+        width: 95%;
+    }
+
+    .list-lanzamiento .right-side {
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .list-lanzamiento .right-side img.list-img {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+    }
+
+    .list-lanzamiento .right-side .estado {
+        position: static;
+        margin-left: 10px;
+        background: var(--accent-primary);
+    }
+}
+
+/* ===== Contenedor del calendario ===== */
+/* ===== Calendario ===== */
+.calendar-view {
+    width: 90%;
+    margin: 0 auto 30px;
+    font-family: Arial, sans-serif;
+    color: var(--text-primary);
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-nav button {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.calendar-nav button:hover {
+    background: var(--accent-primary);
+    color: #fff;
+}
+
+.calendar-nav span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 5px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-weight: bold;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    min-height: 70px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    position: relative;
+    padding: 5px;
+    cursor: default;
+    transition: background 0.2s;
+}
+
+.calendar-day:hover {
+    background: var(--bg-tertiary);
+}
+
+.calendar-day.empty {
+    background: transparent;
+    border: none;
+}
+
+.calendar-day.has-launch {
+    cursor: pointer;
+}
+
+/* Círculos por lanzamiento según estado */
+.launch-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 2px;
+    border: 1px solid #000;
+}
+
+.launch-dot.exito { background: rgba(27, 94, 32, 0.8); }
+.launch-dot.fallo { background: rgba(183, 28, 28, 0.8); }
+.launch-dot.programado { background: rgba(40, 53, 147, 0.8); }
+.launch-dot.hold { background: rgba(255, 165, 0, 0.8); }
+.launch-dot.scrub { background: rgba(201, 0, 0, 0.8); }
+
+/* Modal para calendario */
+/* ===== Modal del calendario premium ===== */
+.calendar-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+    backdrop-filter: blur(4px); /* efecto blur moderno */
+}
+
+.calendar-modal-content {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-radius: 15px;
+    padding: 30px 25px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 85%;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--border);
+}
+
+.calendar-modal .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.calendar-modal .modal-header {
+    text-align: center;
+}
+
+.calendar-modal .close:hover {
+    color: var(--accent-primary);
+    transform: scale(1.25);
+}
+
+/* Contenido scrollable */
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    max-height: 600px;
+    padding-right: 5px; /* espacio para scrollbar */
+}
+
+/* Tarjetas de lanzamiento */
+.modal-body .modal-launch {
+    background: var(--bg-primary);
+    border-radius: 10px;
+    padding: 15px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    border-left: 5px solid var(--accent-primary);
+}
+
+.modal-body .modal-launch:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    background: var(--bg-tertiary);
+}
+
+.modal-body .modal-launch strong {
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.modal-body .modal-launch p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.modal-body .modal-launch a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.modal-body .modal-launch a:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
+/* Scrollbar elegante para modal */
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
