@@ -52,16 +52,26 @@ function loadBoostersData() {
 
       const completedMissions = missions.filter(m => !m.programado);
 
-      return {
-        name: doc.id,
-        type: data.tipo,
-        status: data.estado,
-        flights: completedMissions.length,
-        missions,
-        image: data.img,
-        firstFlight: completedMissions[0]?.date || null,
-        lastFlight: completedMissions[completedMissions.length - 1]?.date || null
-      };
+// Ordenar por fecha para obtener primer y último vuelo correctamente
+const sortedByDate = [...completedMissions].sort((a, b) => {
+  if (!a.date || !b.date) return 0;
+  const [dayA, monthA, yearA] = a.date.split("/");
+  const [dayB, monthB, yearB] = b.date.split("/");
+  const dateA = new Date(yearA, monthA - 1, dayA);
+  const dateB = new Date(yearB, monthB - 1, dayB);
+  return dateA - dateB;
+});
+
+return {
+  name: doc.id,
+  type: data.tipo,
+  status: data.estado,
+  flights: completedMissions.length,
+  missions,
+  image: data.img,
+  firstFlight: sortedByDate[0]?.date || null,
+  lastFlight: sortedByDate[sortedByDate.length - 1]?.date || null
+};
     });
 
     // Orden inverso por ID (B1076 → B1054)
