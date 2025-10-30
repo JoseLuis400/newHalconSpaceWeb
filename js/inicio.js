@@ -69,12 +69,17 @@ function renderLanzamientos(lanzamientos) {
     card.setAttribute("data-fecha", l.fecha);
     card.setAttribute("data-timeutc", l.timeUTC || "00:00:00");
     card.setAttribute("data-contador", l.contador ? "true" : "false");
+    card.setAttribute("data-holdtime", l.holdTime || ""); // Guardar holdTime de Firebase
+
+    // Calcular el valor inicial correcto del contador considerando holdTime
+    const isPaused = (l.estado ?? "").toLowerCase() === "hold" || (l.estado ?? "").toLowerCase() === "scrub";
+    const initialTime = (isPaused && l.holdTime) ? l.holdTime : null;
 
     card.innerHTML = `
       <div class="img-wrapper">
         <img src="${normalizeURL(l.imagen)}" alt="${l.alt ?? ""}">
         <span class="estado ${(l.estado ?? "desconocido").toLowerCase()}">${(l.estado ?? "Desconocido").toUpperCase()}</span>
-        ${l.contador ? `<span class="contador">${calcularContador(l.fecha, l.timeUTC)}</span>` : ""}
+        ${l.contador ? `<span class="contador">${calcularContador(l.fecha, l.timeUTC, initialTime)}</span>` : ""}
       </div>
       <div class="info">
         <h3>${l.nombre}</h3>
@@ -108,10 +113,14 @@ setInterval(() => {
 
     const fecha = card.dataset.fecha;
     const time = card.dataset.timeutc || "00:00:00";
-    let now = isPaused ? new Date(Number(span.dataset.freezeTime || Date.now())) : null;
-
-    if (isPaused && !span.dataset.freezeTime) span.dataset.freezeTime = Date.now();
-    if (!isPaused) delete span.dataset.freezeTime;
+    const holdTime = card.dataset.holdtime; // Obtener holdTime de Firebase
+    
+    let now = null;
+    
+    // Si está en HOLD/SCRUB y tiene holdTime, usar ese momento congelado
+    if (isPaused && holdTime) {
+      now = holdTime; // Usar el timestamp de Firebase
+    }
 
     const nuevoValor = calcularContador(fecha, time, now);
     const lastText = span.dataset.lastText || "";
@@ -133,6 +142,7 @@ setInterval(() => {
       // Animar solo si cambió el carácter
       if (lastChars[i] !== c) {
         digit.style.transform = 'translateY(-100%)';
+        digit.style.transition = 'transform 0.3s ease';
         setTimeout(() => digit.style.transform = 'translateY(0)', 10);
       }
 

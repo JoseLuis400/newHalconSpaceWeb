@@ -95,9 +95,13 @@ document.addEventListener("DOMContentLoaded", () => {
         item.dataset.fecha = l.fecha;
         item.dataset.timeutc = l.timeUTC || "00:00:00";
         item.dataset.contador = l.contador === true ? "true" : "false";
+        item.dataset.holdtime = l.holdTime || ""; // Guardar holdTime de Firebase
 
+        // Calcular el valor inicial correcto del contador considerando holdTime
+        const isPaused = (l.estado ?? "").toLowerCase() === "hold" || (l.estado ?? "").toLowerCase() === "scrub";
+        const initialTime = (isPaused && l.holdTime) ? l.holdTime : null;
         const contadorHTML = l.contador ? 
-          `<span class="contador" style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.5);padding:2px 5px;border-radius:3px;font-weight:bold;">${calcularContador(l.fecha, l.timeUTC)}</span>` 
+          `<span class="contador" style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.5);padding:2px 5px;border-radius:3px;font-weight:bold;">${calcularContador(l.fecha, l.timeUTC, initialTime)}</span>` 
           : "";
 
         item.innerHTML = `
@@ -148,79 +152,66 @@ document.addEventListener("DOMContentLoaded", () => {
     aplicarFiltros();
   };
 
-  // ===== Contador en vivo global =====
-  let contadorInterval = null;
+  // ===== Contador animado con HOLD/SCRUB =====
+  function iniciarContadoresAnimados() {
+    setInterval(() => {
+      document.querySelectorAll(".card-lanzamiento .contador").forEach(span => {
+        const card = span.closest(".card-lanzamiento");
+        if (!card) return;
 
-  function iniciarContadores() {
-    if (contadorInterval) return; // evita duplicados
-    contadorInterval = setInterval(() => {
-      document.querySelectorAll(".item-lanzamiento[data-contador='true'] .contador").forEach(span => {
-        const item = span.closest(".item-lanzamiento");
-        if (!item) return;
-        const fecha = item.dataset.fecha;
-        const timeUTC = item.dataset.timeutc;
-        span.textContent = calcularContador(fecha, timeUTC);
+        const estado = card.dataset.estado;
+        const isPaused = estado === "hold" || estado === "scrub";
+
+        const fecha = card.dataset.fecha;
+        const timeUTC = card.dataset.timeutc || "00:00:00";
+        const holdTime = card.dataset.holdtime; // Obtener holdTime de Firebase
+        
+        let now = null;
+        
+        // Si está en HOLD/SCRUB y tiene holdTime, usar ese momento congelado
+        if (isPaused && holdTime) {
+          now = holdTime; // Usar el timestamp de Firebase
+        }
+
+        const nuevoValor = calcularContador(fecha, timeUTC, now);
+        const lastText = span.dataset.lastText || "";
+
+        // Normalizar longitudes de lastText y nuevoValor
+        const maxLength = Math.max(lastText.length, nuevoValor.length);
+        const lastChars = lastText.padEnd(maxLength, " ").split("");
+        const newChars = nuevoValor.padEnd(maxLength, " ").split("");
+
+        // Limpiar span y reconstruir cada dígito
+        span.innerHTML = "";
+        newChars.forEach((c, i) => {
+          const wrapper = document.createElement("span");
+          wrapper.classList.add("digit-wrapper");
+          const digit = document.createElement("span");
+          digit.classList.add("digit");
+          digit.textContent = c;
+
+          // Animar solo si cambió el carácter
+          if (lastChars[i] !== c) {
+            digit.style.transform = 'translateY(-100%)';
+            digit.style.transition = 'transform 0.3s ease';
+            setTimeout(() => digit.style.transform = 'translateY(0)', 10);
+          }
+
+          wrapper.appendChild(digit);
+          span.appendChild(wrapper);
+        });
+
+        span.dataset.lastText = nuevoValor;
+
+        // Glow si HOLD o SCRUB
+        if (isPaused) {
+          span.setAttribute("data-state", estado);
+        } else {
+          span.removeAttribute("data-state");
+        }
       });
     }, 1000);
   }
-
-  // ===== Contador animado con HOLD/SCRUB =====
-function iniciarContadoresAnimados() {
-  setInterval(() => {
-    document.querySelectorAll(".card-lanzamiento .contador").forEach(span => {
-      const card = span.closest(".card-lanzamiento");
-      if (!card) return;
-
-      const estado = card.dataset.estado;
-      const isPaused = estado === "hold" || estado === "scrub";
-
-      const fecha = card.dataset.fecha;
-      const timeUTC = card.dataset.timeutc || "00:00:00";
-      let now = isPaused ? new Date(Number(span.dataset.freezeTime || Date.now())) : null;
-
-      if (isPaused && !span.dataset.freezeTime) span.dataset.freezeTime = Date.now();
-      if (!isPaused) delete span.dataset.freezeTime;
-
-      const nuevoValor = calcularContador(fecha, timeUTC, now);
-      const lastText = span.dataset.lastText || "";
-
-      // Normalizar longitudes de lastText y nuevoValor
-      const maxLength = Math.max(lastText.length, nuevoValor.length);
-      const lastChars = lastText.padEnd(maxLength, " ").split("");
-      const newChars = nuevoValor.padEnd(maxLength, " ").split("");
-
-      // Limpiar span y reconstruir cada dígito
-      span.innerHTML = "";
-      newChars.forEach((c, i) => {
-        const wrapper = document.createElement("span");
-        wrapper.classList.add("digit-wrapper");
-        const digit = document.createElement("span");
-        digit.classList.add("digit");
-        digit.textContent = c;
-
-        // Animar solo si cambió el carácter
-        if (lastChars[i] !== c) {
-          digit.style.transform = 'translateY(-100%)';
-          digit.style.transition = 'transform 0.3s ease';
-          setTimeout(() => digit.style.transform = 'translateY(0)', 10);
-        }
-
-        wrapper.appendChild(digit);
-        span.appendChild(wrapper);
-      });
-
-      span.dataset.lastText = nuevoValor;
-
-      // Glow si HOLD o SCRUB
-      if (isPaused) {
-        span.setAttribute("data-state", estado);
-      } else {
-        span.removeAttribute("data-state");
-      }
-    });
-  }, 1000);
-}
-
 
   // ===== Filtros y búsqueda =====
   const aplicarFiltros = () => {
@@ -265,10 +256,9 @@ function iniciarContadoresAnimados() {
   onSnapshot(collection(db,"lanzamientos"), snapshot=>{
     allLanzamientos = snapshot.docs.map(docSnap => ({id:docSnap.id, ...docSnap.data()}));
     renderLanzamientos(allLanzamientos);
-    iniciarContadoresAnimados(); // contador animado con HOLD/SCRUB
+    iniciarContadoresAnimados();
   });
   
-
   // ===== Modal calendario =====
   function openModal(launches){
     // Se mantiene igual tu modal
