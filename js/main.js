@@ -69,7 +69,7 @@ document.head.appendChild(inlineScript);
         pumpkins: { enabled: true, interval: 2000 },
         bats: { enabled: true, interval: 4000 },
         spiders: { enabled: true, count: 5 },
-        fog: { enabled: true },
+        fog: { enabled: false },
         webs: { enabled: false }
     };
 
