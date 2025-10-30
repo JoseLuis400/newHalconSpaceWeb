@@ -1,5 +1,4 @@
 // -------------------- Realtime Status --------------------
-// -------------------- Realtime Status --------------------
 async function loadRealtimeStatus() {
     try {
         const response = await fetch('json/icom.json');
@@ -19,9 +18,22 @@ async function loadRealtimeStatus() {
         document.getElementById('sat-lanzados').textContent = totalSatLanzados + " / 960";
         document.getElementById('sat-orbita').textContent = data.general.total_satellites_orbit;
         document.getElementById('sat-operativos').textContent = data.general.total_satellites_operative;
-        document.getElementById('latencia').textContent = data.general.average_latency_ms + ' ms';
+        
+        // Latencia variable más realista: ±1-3ms del valor base
+        const baseLatency = data.general.average_latency_ms;
+        const variacion = (Math.random() * 12 - 6).toFixed(1); // Rango de -3.0 a +3.0 ms con decimales
+        const latenciaVariable = (parseFloat(baseLatency) + parseFloat(variacion)).toFixed(0);
+        document.getElementById('latencia').textContent = latenciaVariable + ' ms';
+        
         document.getElementById('estado-general').textContent = data.general.overall_status;
-        document.getElementById('ultimo-ping').textContent = data.general.last_update;
+        
+        // Mostrar solo la fecha actual en UTC con formato DD/MM/AAAA
+        const ahora = new Date();
+        const dia = String(ahora.getUTCDate()).padStart(2, '0');
+        const mes = String(ahora.getUTCMonth() + 1).padStart(2, '0');
+        const anio = ahora.getUTCFullYear();
+        const fechaUTC = `${dia}/${mes}/${anio}`;
+        document.getElementById('ultimo-ping').textContent = fechaUTC;
 
     } catch (error) {
         console.error('Error cargando datos en tiempo real:', error);
@@ -64,3 +76,6 @@ async function loadMissions() {
 // -------------------- Ejecutar al cargar --------------------
 loadRealtimeStatus();
 loadMissions();
+
+// Actualizar latencia cada 2 segundos
+setInterval(loadRealtimeStatus, 2000);
