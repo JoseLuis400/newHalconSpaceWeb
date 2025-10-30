@@ -44,6 +44,26 @@ function calcularContador(fechaStr, timeStr, now = null) {
   return dias > 0 ? `${signo}${dias}D / ${horas}:${minutos}:${segundos}` : `${signo}${horas}:${minutos}:${segundos}`;
 }
 
+// ===== Función para formatear hora UTC desde ISO string =====
+function formatearHoraUTC(isoString) {
+  const date = new Date(isoString);
+  const horas = String(date.getUTCHours()).padStart(2, "0");
+  const minutos = String(date.getUTCMinutes()).padStart(2, "0");
+  return `${horas}:${minutos}`;
+}
+
+// ===== Función para calcular posición en la barra de ventana =====
+function calcularPosicionEnVentana(start, end, target) {
+  const startTime = new Date(start).getTime();
+  const endTime = new Date(end).getTime();
+  const targetTime = new Date(target).getTime();
+  
+  const totalDuration = endTime - startTime;
+  const targetOffset = targetTime - startTime;
+  
+  return (targetOffset / totalDuration) * 100;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   let contadorInterval = null;
 
@@ -74,30 +94,52 @@ document.addEventListener("DOMContentLoaded", () => {
         misionHeader.style.backgroundImage = `url('${normalizeURL(lanzamiento.imagen)}')`;
 
         const [dia, mes, año] = lanzamiento.fecha.split("/");
-        const meses = [
+        const mesesCompletos = [
           "enero","febrero","marzo","abril","mayo","junio",
           "julio","agosto","septiembre","octubre","noviembre","diciembre"
         ];
-        const fechaFormateada = dia
-          ? `${dia} de ${meses[parseInt(mes,10)-1]} de ${año}`
-          : `${meses[parseInt(mes,10)-1]} de ${año}`;
+        const mesesAbrev = [
+          "ene","feb","mar","abr","may","jun",
+          "jul","ago","sep","oct","nov","dic"
+        ];
 
         let estado = lanzamiento.estado;
         if(estado?.toLowerCase() === "exito") estado = "Éxito";
 
-        let horaEl = "";
+        let lanzamientoEl = "";
+        let ventanaEl = "";
 
-        if(lanzamiento.contador === true) {
-          horaEl = `<p><strong>Hora:</strong> ${lanzamiento.timeUTC} UTC</p>`;
+        // Si existe ventana de lanzamiento Y estado es "programado"
+        if(lanzamiento.window && lanzamiento.window.start && lanzamiento.window.end && lanzamiento.estado?.toLowerCase() === "programado") {
+          const startHora = formatearHoraUTC(lanzamiento.window.start);
+          const endHora = formatearHoraUTC(lanzamiento.window.end);
+          
+          // Formato: Lanzamiento: 30 oct 2025, 22:45:00 UTC
+          const mesAbrev = mesesAbrev[parseInt(mes,10)-1];
+          const lanzamientoTexto = dia
+            ? `${dia} ${mesAbrev} ${año}, ${lanzamiento.timeUTC} UTC`
+            : `${mesAbrev} ${año}, ${lanzamiento.timeUTC} UTC`;
+          
+          lanzamientoEl = `<p><strong>Tiempo:</strong> ${lanzamientoTexto}</p>`;
+          ventanaEl = `<p><strong>Ventana:</strong> ${startHora} - ${endHora} UTC</p>`;
+        } else {
+          // Sin ventana: formato normal con mes completo
+          const mesCompleto = mesesCompletos[parseInt(mes,10)-1];
+          const lanzamientoTexto = dia
+            ? `${dia} ${mesCompleto} ${año}, ${lanzamiento.timeUTC} UTC`
+            : `${mesCompleto} ${año}, ${lanzamiento.timeUTC} UTC`;
+          
+          lanzamientoEl = `<p><strong>Tiempo:</strong> ${lanzamientoTexto}</p>`;
         }
 
         misionContent.innerHTML = `
           <h2>${lanzamiento.nombre}</h2>
           <p><strong>Vehículo:</strong> ${lanzamiento.vehiculo}</p>
-          <p><strong>Fecha:</strong> ${fechaFormateada}</p>
-          ${horaEl}
+          ${lanzamientoEl}
+          ${ventanaEl}
           <p><strong>Estado:</strong> ${estado}</p>
           ${lanzamiento.contador ? `<p><span id="t-counter"></span></p>` : ""}
+          ${lanzamiento.estado?.toLowerCase() === "hold" ? `<p><span id="h-counter"></span></p>` : ""}
         `;
 
         // ===== Manejo dinámico del contador con HOLD/SCRUB =====
@@ -153,6 +195,54 @@ document.addEventListener("DOMContentLoaded", () => {
   if (contadorInterval) clearInterval(contadorInterval);
   actualizarContador();
   contadorInterval = setInterval(actualizarContador, 1000);
+
+  // ===== Contador H+ para HOLD =====
+  if(lanzamiento.estado?.toLowerCase() === "hold" && lanzamiento.holdTime) {
+    const hCounterSpan = document.getElementById("h-counter");
+    
+    function actualizarHoldContador() {
+      const holdStart = new Date(lanzamiento.holdTime);
+      const now = new Date();
+      
+      let diff = Math.floor((now - holdStart) / 1000);
+      if(diff < 0) diff = 0;
+      
+      const dias = Math.floor(diff / 86400);
+      const horas = String(Math.floor((diff % 86400) / 3600)).padStart(2, "0");
+      const minutos = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
+      const segundos = String(diff % 60).padStart(2, "0");
+      
+      const nuevoTexto = dias > 0 
+        ? `H+ ${dias}D / ${horas}:${minutos}:${segundos}` 
+        : `H+ ${horas}:${minutos}:${segundos}`;
+      
+      // Separar texto en caracteres con animación
+      const chars = nuevoTexto.split('');
+      
+      if(!hCounterSpan.dataset.lastText) hCounterSpan.dataset.lastText = nuevoTexto;
+      const lastChars = hCounterSpan.dataset.lastText.split('');
+      
+      hCounterSpan.innerHTML = '';
+      chars.forEach((c, i) => {
+        const span = document.createElement('span');
+        span.classList.add('digit');
+        
+        if(lastChars[i] && lastChars[i] !== c){
+          span.style.transform = 'translateY(100%)';
+          setTimeout(() => { span.style.transform = 'translateY(0)'; }, 10);
+        }
+        
+        span.textContent = c;
+        hCounterSpan.appendChild(span);
+      });
+      
+      hCounterSpan.dataset.lastText = nuevoTexto;
+      hCounterSpan.setAttribute("data-state", "hold");
+    }
+    
+    actualizarHoldContador();
+    setInterval(actualizarHoldContador, 1000);
+  }
 
 } else {
   if (contadorInterval) {
