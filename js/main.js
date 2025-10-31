@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(footer);
 });
 
-
 // Google Analytics
 const gtagScript = document.createElement('script');
 gtagScript.async = true;
