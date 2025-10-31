@@ -32,6 +32,38 @@ function normalizeURL(url) {
   return `https://new.halconspace.site${url}`;
 }
 
+const getFechaHora = (lanzamiento) => {
+  // Priorizar utcTime (formato ISO completo) si existe
+  if (lanzamiento.utcTime) {
+    return new Date(lanzamiento.utcTime);
+  }
+  // Fallback: construir desde fecha + timeUTC
+  const fechaStr = lanzamiento.fecha;
+  const timeStr = lanzamiento.timeUTC || "00:00:00";
+  
+  if (!fechaStr) return new Date(0);
+  const partes = fechaStr.split("/");
+  if (partes.length !== 3) return new Date(0);
+  const [dia, mes, anio] = partes.map(Number);
+  if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return new Date(0);
+  
+  const [h, m, s] = timeStr.split(":").map(Number);
+  return new Date(Date.UTC(anio, mes - 1, dia, h || 0, m || 0, s || 0));
+};
+
+const formatearFechaHora = (lanzamiento) => {
+  const mesesAbrev = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+  const fechaHora = getFechaHora(lanzamiento);
+  
+  const dia = fechaHora.getUTCDate();
+  const mes = mesesAbrev[fechaHora.getUTCMonth()];
+  const anio = fechaHora.getUTCFullYear();
+  const horas = String(fechaHora.getUTCHours()).padStart(2, "0");
+  const minutos = String(fechaHora.getUTCMinutes()).padStart(2, "0");
+  
+  return `${dia} ${mes} ${anio} - ${horas}:${minutos} UTC`;
+};
+
 // ===== Contador dinámico =====
 function calcularContador(fechaStr, timeStr, now = null) {
   const [dia, mes, anio] = fechaStr.split("/").map(Number);
@@ -57,21 +89,42 @@ function renderLanzamientos(lanzamientos) {
   const contenedor = document.getElementById("lanzamientos");
   contenedor.innerHTML = "";
 
-  // Ordenar: futuros primero, luego pasados
-  lanzamientos.sort((a, b) => parseFecha(b.fecha) - parseFecha(a.fecha));
+  // Ordenar por fecha Y hora: más reciente primero
+  lanzamientos.sort((a, b) => {
+    const fechaHoraA = getFechaHora(a);
+    const fechaHoraB = getFechaHora(b);
+    return fechaHoraB - fechaHoraA;
+  });
 
-  const ultimos = lanzamientos.slice(0, 3);
+  const ahora = new Date();
+  
+  // Separar lanzamientos futuros y pasados
+  const futuros = lanzamientos.filter(l => getFechaHora(l) > ahora);
+  const pasados = lanzamientos.filter(l => getFechaHora(l) <= ahora);
 
-  ultimos.forEach(l => {
+  // Ordenar futuros ascendente (el más cercano primero) y pasados descendente (el más reciente primero)
+  futuros.sort((a, b) => getFechaHora(a) - getFechaHora(b));
+  pasados.sort((a, b) => getFechaHora(b) - getFechaHora(a));
+
+  // Seleccionar: máximo 1 futuro + 2 pasados
+  const seleccionados = [];
+  
+  if (futuros.length > 0) {
+    seleccionados.push(futuros[0]); // 1 próximo lanzamiento
+  }
+  
+  const pasadosAMostrar = seleccionados.length === 1 ? 2 : 3;
+  seleccionados.push(...pasados.slice(0, pasadosAMostrar));
+
+  seleccionados.forEach(l => {
     const card = document.createElement("div");
     card.className = "card-lanzamiento";
     card.setAttribute("data-estado", (l.estado ?? "desconocido").toLowerCase());
     card.setAttribute("data-fecha", l.fecha);
     card.setAttribute("data-timeutc", l.timeUTC || "00:00:00");
     card.setAttribute("data-contador", l.contador ? "true" : "false");
-    card.setAttribute("data-holdtime", l.holdTime || ""); // Guardar holdTime de Firebase
+    card.setAttribute("data-holdtime", l.holdTime || "");
 
-    // Calcular el valor inicial correcto del contador considerando holdTime
     const isPaused = (l.estado ?? "").toLowerCase() === "hold" || (l.estado ?? "").toLowerCase() === "scrub";
     const initialTime = (isPaused && l.holdTime) ? l.holdTime : null;
 
@@ -83,7 +136,7 @@ function renderLanzamientos(lanzamientos) {
       </div>
       <div class="info">
         <h3>${l.nombre}</h3>
-        <p><strong>Fecha:</strong> ${l.fecha}</p>
+        <p><strong>Fecha:</strong> ${formatearFechaHora(l)}</p>
         <p><strong>Vehículo:</strong> ${l.vehiculo}</p>
         <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
         <div class="links">
@@ -304,4 +357,3 @@ loadStats();
         showSlide(0);
         setInterval(() => showSlide(current + 1), 5000);
       });
-      
