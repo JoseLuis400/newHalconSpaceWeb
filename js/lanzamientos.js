@@ -297,11 +297,6 @@ document.addEventListener("DOMContentLoaded", () => {
     iniciarContadoresAnimados();
   });
   
-  // ===== Modal calendario =====
-  function openModal(launches){
-    // Se mantiene igual tu modal
-  }
-  
   // ===== Estadísticas desde Firebase =====
   async function loadStats() {
     try {
