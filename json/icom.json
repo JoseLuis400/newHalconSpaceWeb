@@ -1,7 +1,7 @@
 {
     "general": {
-      "total_satellites_orbit": 240,
-      "total_satellites_operative": 168,
+      "total_satellites_orbit": 264,
+      "total_satellites_operative": 209,
       "average_latency_ms": 235,
       "overall_status": "Operativo",
       "last_update": "29/10/2025"
@@ -85,7 +85,15 @@
         "vehiculo": "Falcon 9",
         "satellites_launched": 24,
         "launch_date": "29/10/2025",
-        "article_url": "https://new.halconspace.site/lanzamientos/icom-l9"
+        "article_url": "https://new.halconspace.site/lanzamientos/icom-l10"
+      },
+      {
+        "mission_id": 11,
+        "proveedor": "Halcon Space",
+        "vehiculo": "Falcon 9",
+        "satellites_launched": 24,
+        "launch_date": "29/10/2025",
+        "article_url": "https://new.halconspace.site/lanzamientos/icom-l11"
       }
     ]
   }
