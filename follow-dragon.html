@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon - Telemetría en Tiempo Real</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #808080;
+            --accent-primary: #c1272d;
+            --accent-secondary: #ff3b3b;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff4444;
+            --border: #333333;
+            --shadow: rgba(0, 212, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 30px var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--bg-tertiary);
+        }
+
+        .status.connected {
+            color: var(--success);
+            border-color: var(--success);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .status.disconnected {
+            color: var(--error);
+            border-color: var(--error);
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .telemetry-item {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .telemetry-item:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(193, 39, 45, 0.3);
+        }
+
+        .telemetry-label {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .telemetry-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--text-primary);
+            text-shadow: 0 0 15px var(--accent-secondary);
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .telemetry-unit {
+            font-size: 0.4em;
+            color: var(--text-muted);
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+
+        .timestamp {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        @media (min-width: 768px) {
+            .telemetry-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 DRAGON</h1>
+        <div class="subtitle">Telemetría en Tiempo Real - Sistema de Seguimiento</div>
+        
+        <div id="status" class="status disconnected">
+            <span class="blink">● CONECTANDO CON BASE DE DATOS...</span>
+        </div>
+
+        <div class="telemetry-grid">
+            <div class="telemetry-item">
+                <div class="telemetry-label">Altitud</div>
+                <div class="telemetry-value">
+                    <span id="altitude">---</span>
+                    <span class="telemetry-unit">m</span>
+                </div>
+            </div>
+
+            <div class="telemetry-item">
+                <div class="telemetry-label">Velocidad</div>
+                <div class="telemetry-value">
+                    <span id="velocity">---</span>
+                    <span class="telemetry-unit">km/h</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="timestamp" id="timestamp">
+            Última actualización: ---
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAiLw2zwfsjdMP-IlEoE5JugyFvmaQLFC0",
+            authDomain: "halcon-space-348e7.firebaseapp.com",
+            projectId: "halcon-space-348e7",
+            storageBucket: "halcon-space-348e7.firebasestorage.app",
+            messagingSenderId: "741724706453",
+            appId: "1:741724706453:web:519531e63f2b923f952d9c",
+            measurementId: "G-VG1Y2YMY4W"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const statusEl = document.getElementById('status');
+        const altitudeEl = document.getElementById('altitude');
+        const velocityEl = document.getElementById('velocity');
+        const timestampEl = document.getElementById('timestamp');
+
+        function formatNumber(num) {
+            if (num === undefined || num === null) return '---';
+            return num.toLocaleString('es-ES', { maximumFractionDigits: 2 });
+        }
+
+        function updateTimestamp() {
+            const now = new Date();
+            timestampEl.textContent = `Última actualización: ${now.toLocaleTimeString('es-ES')}`;
+        }
+
+        const docRef = doc(db, 'telemetria', 'estado_actual');
+
+        // Auto-actualización cada 1 segundo
+        setInterval(() => {
+            updateTimestamp();
+        }, 1000);
+
+        onSnapshot(docRef, (doc) => {
+            if (doc.exists()) {
+                const data = doc.data();
+
+                let altitud_actual = data.altitude_m / 1000;
+                
+                altitudeEl.textContent = formatNumber(altitud_actual.toFixed(1));
+                velocityEl.textContent = formatNumber(data.velocity_kmh);
+                
+                statusEl.className = 'status connected';
+                statusEl.innerHTML = '● CONEXIÓN ESTABLECIDA - RECIBIENDO DATOS';
+                
+                updateTimestamp();
+            } else {
+                statusEl.className = 'status disconnected';
+                statusEl.innerHTML = '<span class="blink">● NO HAY DATOS DISPONIBLES</span>';
+            }
+        }, (error) => {
+            console.error('Error:', error);
+            statusEl.className = 'status disconnected';
+            statusEl.innerHTML = '<span class="blink">● ERROR DE CONEXIÓN</span>';
+        });
+    </script>
+</body>
+</html>
