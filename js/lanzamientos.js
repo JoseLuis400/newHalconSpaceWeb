@@ -59,10 +59,36 @@ document.addEventListener("DOMContentLoaded", () => {
     return `https://new.halconspace.site${url}`;
   };
 
-  const getFechaHora = (fechaStr, timeStr = "00:00:00") => {
-    const [dia, mes, anio] = fechaStr.split("/").map(Number);
-    const [h, m, s] = (timeStr || "00:00:00").split(":").map(Number);
-    return new Date(Date.UTC(anio, mes - 1, dia, h, m, s));
+  const getFechaHora = (lanzamiento) => {
+    // Priorizar utcTime (formato ISO completo) si existe
+    if (lanzamiento.utcTime) {
+      return new Date(lanzamiento.utcTime);
+    }
+    // Fallback: construir desde fecha + timeUTC
+    const fechaStr = lanzamiento.fecha;
+    const timeStr = lanzamiento.timeUTC || "00:00:00";
+    
+    if (!fechaStr) return new Date(0);
+    const partes = fechaStr.split("/");
+    if (partes.length !== 3) return new Date(0);
+    const [dia, mes, anio] = partes.map(Number);
+    if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return new Date(0);
+    
+    const [h, m, s] = timeStr.split(":").map(Number);
+    return new Date(Date.UTC(anio, mes - 1, dia, h || 0, m || 0, s || 0));
+  };
+
+  const formatearFechaHora = (lanzamiento) => {
+    const mesesAbrev = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+    const fechaHora = getFechaHora(lanzamiento);
+    
+    const dia = fechaHora.getUTCDate();
+    const mes = mesesAbrev[fechaHora.getUTCMonth()];
+    const anio = fechaHora.getUTCFullYear();
+    const horas = String(fechaHora.getUTCHours()).padStart(2, "0");
+    const minutos = String(fechaHora.getUTCMinutes()).padStart(2, "0");
+    
+    return `${dia} ${mes} ${anio} - ${horas}:${minutos} UTC`;
   };
 
   const calcularContador = (fechaStr, timeStr, now = null) => {
@@ -85,7 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
     contenedor.innerHTML = "";
 
     if(currentView==='card'){
-      lanzamientos.sort((a, b) => parseFecha(b.fecha) - parseFecha(a.fecha));
+      // Ordenar por fecha Y hora: más reciente primero (descendente)
+      lanzamientos.sort((a, b) => {
+        const fechaHoraA = getFechaHora(a);
+        const fechaHoraB = getFechaHora(b);
+        return fechaHoraB - fechaHoraA; // Más reciente primero
+      });
+
       lanzamientos.forEach(l => {
         const item = document.createElement("div");
         item.className = `item-lanzamiento card-lanzamiento`;
@@ -112,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="info">
             <h3>${l.nombre}</h3>
-            <p><strong>Fecha:</strong> ${l.fecha}</p>
+            <p><strong>Fecha:</strong> ${formatearFechaHora(l)}</p>
             <p><strong>Vehículo:</strong> ${l.vehiculo ?? "Desconocido"}</p>
             <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
             <div class="links">
@@ -125,7 +157,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
     } else if(currentView==='list'){
-      lanzamientos.sort((a,b)=>parseFecha(b.fecha)-parseFecha(a.fecha));
+      // Ordenar por fecha Y hora: más reciente primero (descendente)
+      lanzamientos.sort((a, b) => {
+        const fechaHoraA = getFechaHora(a);
+        const fechaHoraB = getFechaHora(b);
+        return fechaHoraB - fechaHoraA; // Más reciente primero
+      });
+
       lanzamientos.forEach(l=>{
         const item = document.createElement("div");
         item.className="item-lanzamiento list-lanzamiento";
@@ -133,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="data-wrapper">
             <h3>${l.vehiculo} • ${l.nombre}</h3>
             <p><strong>Estado:</strong> ${(l.estado ?? "Desconocido").toUpperCase()}</p>
-            <p><strong>Fecha:</strong> ${l.fecha}</p>
+            <p><strong>Fecha:</strong> ${formatearFechaHora(l)}</p>
             <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
             <div class="links">
               ${l.detalleUrl ? `<a href="${normalizeURLArticulo(l.detalleUrl)}" class="btn">Detalles</a>` : ""}
