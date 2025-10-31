@@ -175,6 +175,22 @@
                     <span class="telemetry-unit">km/h</span>
                 </div>
             </div>
+
+            <div class="telemetry-item">
+                <div>Distancia</div>
+                <div class="telemetry-value">
+                    <span id="distance">---</span>
+                    <span class="telemetry-unit">km</span>
+                </div>
+            </div>
+
+            <div class="telemetry-item">
+                <div>Velocidad Relativa</div>
+                <div class="telemetry-value">
+                    <span id="relative-velocity">---</span>
+                    <span class="telemetry-unit">km/h</span>
+                </div>
+            </div>
         </div>
 
         <div class="timestamp" id="timestamp">
@@ -202,67 +218,71 @@
         const statusEl = document.getElementById('status');
         const altitudeEl = document.getElementById('altitude');
         const velocityEl = document.getElementById('velocity');
+        const distanceEl = document.getElementById('distance');
+        const relativeVelocityEl = document.getElementById('relative-velocity');
         const timestampEl = document.getElementById('timestamp');
     
+        let telemetryActive = false; // 🔹 Estado global
+    
         function formatNumber(num) {
-            if (num === undefined || num === null) return '---';
+            if (num === undefined || num === null || isNaN(num)) return '---';
             return num.toLocaleString('es-ES', { maximumFractionDigits: 2 });
         }
     
         function updateTimestamp() {
+            if (!telemetryActive) return;
             const now = new Date();
             const utcTime = now.toLocaleTimeString('es-ES', { timeZone: 'UTC', hour12: false });
             timestampEl.textContent = `Última actualización: ${utcTime} UTC`;
         }
     
-        // Documento principal de telemetría
         const docRef = doc(db, 'telemetria', 'estado_actual');
-    
-        // Documento de control de telemetría
         const controlRef = doc(db, 'lanzamientos', 'kKBPtR3ahN3e2CoRgq1T');
     
-        // Auto-actualización del reloj
         setInterval(updateTimestamp, 1000);
     
-        // 🔹 Escuchar el estado de telemetría_on
+        // 🔹 Escuchar si la telemetría está activa o no
         onSnapshot(controlRef, (doc) => {
             if (doc.exists()) {
                 const data = doc.data();
     
                 if (data.telemetria_on === true) {
-                    // Si la telemetría está activa, escuchar los datos en vivo
+                    telemetryActive = true;
                     statusEl.className = 'status connected';
                     statusEl.innerHTML = '● TELEMETRÍA ACTIVA - RECIBIENDO DATOS';
+                    timestampEl.style.display = 'block';
                 } else {
-                    // Si no está activa
+                    telemetryActive = false;
                     statusEl.className = 'status disconnected';
                     statusEl.innerHTML = '<span class="blink">● SIN SEÑAL DE TELEMETRÍA</span>';
-
-                    document.getElementById('timestamp').style.display = 'none';
-                    
-                    // Limpia los valores mostrados
-                    altitudeEl.textContent = '---';
-                    velocityEl.textContent = '---';
+                    resetTelemetryDisplay();
                 }
             } else {
+                telemetryActive = false;
                 statusEl.className = 'status disconnected';
                 statusEl.innerHTML = '<span class="blink">● SIN SEÑAL DE TELEMETRÍA</span>';
+                resetTelemetryDisplay();
             }
         });
     
-        // 🔹 Escuchar los datos de telemetría en tiempo real
+        // 🔹 Escuchar datos en tiempo real
         onSnapshot(docRef, (doc) => {
+            if (!telemetryActive) return; // Solo si la telemetría está activa
+    
             if (doc.exists()) {
                 const data = doc.data();
+    
+                // 🔸 Conversión de metros a kilómetros (solo para altitud)
                 let altitud_actual = data.altitude_m / 1000;
     
                 altitudeEl.textContent = formatNumber(altitud_actual.toFixed(1));
                 velocityEl.textContent = formatNumber(data.velocity_kmh);
+                distanceEl.textContent = formatNumber(data.objetivo.distancia / 1000); // 🔹 distancia en km
+                relativeVelocityEl.textContent = formatNumber(data.objetivo.velocidad_relativa);
     
                 updateTimestamp();
             } else {
-                altitudeEl.textContent = '---';
-                velocityEl.textContent = '---';
+                resetTelemetryDisplay();
                 statusEl.className = 'status disconnected';
                 statusEl.innerHTML = '<span class="blink">● NO HAY DATOS DISPONIBLES</span>';
             }
@@ -271,7 +291,15 @@
             statusEl.className = 'status disconnected';
             statusEl.innerHTML = '<span class="blink">● ERROR DE CONEXIÓN</span>';
         });
-    </script>
     
-</body>
+        // 🔹 Función para limpiar valores cuando no hay señal
+        function resetTelemetryDisplay() {
+            altitudeEl.textContent = '---';
+            velocityEl.textContent = '---';
+            distanceEl.textContent = '---';
+            relativeVelocityEl.textContent = '---';
+            timestampEl.style.display = 'none';
+        }
+    </script>
+    </body>
 </html>
