@@ -211,7 +211,8 @@
 
         function updateTimestamp() {
             const now = new Date();
-            timestampEl.textContent = `Última actualización: ${now.toLocaleTimeString('es-ES')}`;
+            const utcTime = now.toLocaleTimeString('es-ES', { timeZone: 'UTC', hour12: false });
+            timestampEl.textContent = `Última actualización: ${utcTime} UTC`;
         }
 
         const docRef = doc(db, 'telemetria', 'estado_actual');
