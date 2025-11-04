@@ -197,52 +197,42 @@ document.addEventListener("DOMContentLoaded", () => {
   contadorInterval = setInterval(actualizarContador, 1000);
 
   // ===== Contador H+ para HOLD =====
-  if(lanzamiento.estado?.toLowerCase() === "hold" && lanzamiento.holdTime) {
-    const hCounterSpan = document.getElementById("h-counter");
+if(lanzamiento.estado?.toLowerCase() === "hold" && lanzamiento.holdTime) {
+  const hCounterSpan = document.getElementById("h-counter");
+  
+  function actualizarHoldContador() {
+    const holdStart = new Date(lanzamiento.holdTime);
+    const now = new Date();
     
-    function actualizarHoldContador() {
-      const holdStart = new Date(lanzamiento.holdTime);
-      const now = new Date();
-      
-      let diff = Math.floor((now - holdStart) / 1000);
-      if(diff < 0) diff = 0;
-      
-      const dias = Math.floor(diff / 86400);
-      const horas = String(Math.floor((diff % 86400) / 3600)).padStart(2, "0");
-      const minutos = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
-      const segundos = String(diff % 60).padStart(2, "0");
-      
-      const nuevoTexto = dias > 0 
-        ? `H+ ${dias}D / ${horas}:${minutos}:${segundos}` 
-        : `H+ ${horas}:${minutos}:${segundos}`;
-      
-      // Separar texto en caracteres con animación
-      const chars = nuevoTexto.split('');
-      
-      if(!hCounterSpan.dataset.lastText) hCounterSpan.dataset.lastText = nuevoTexto;
-      const lastChars = hCounterSpan.dataset.lastText.split('');
-      
-      hCounterSpan.innerHTML = '';
-      chars.forEach((c, i) => {
-        const span = document.createElement('span');
-        span.classList.add('digit');
-        
-        if(lastChars[i] && lastChars[i] !== c){
-          span.style.transform = 'translateY(100%)';
-          setTimeout(() => { span.style.transform = 'translateY(0)'; }, 10);
-        }
-        
-        span.textContent = c;
-        hCounterSpan.appendChild(span);
-      });
-      
-      hCounterSpan.dataset.lastText = nuevoTexto;
-      hCounterSpan.setAttribute("data-state", "hold");
-    }
+    let diff = Math.floor((now - holdStart) / 1000);
+    if(diff < 0) diff = 0;
     
-    actualizarHoldContador();
-    setInterval(actualizarHoldContador, 1000);
+    const dias = Math.floor(diff / 86400);
+    const horas = String(Math.floor((diff % 86400) / 3600)).padStart(2, "0");
+    const minutos = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
+    const segundos = String(diff % 60).padStart(2, "0");
+    
+    const nuevoTexto = dias > 0 
+      ? `H+ ${dias}D / ${horas}:${minutos}:${segundos}` 
+      : `H+ ${horas}:${minutos}:${segundos}`;
+    
+    // Usar la misma estructura que el contador T-/T+ (sin animación)
+    const chars = nuevoTexto.split('');
+    hCounterSpan.innerHTML = '';
+    
+    chars.forEach((c) => {
+      const span = document.createElement('span');
+      span.classList.add('digit'); // Misma clase que el contador principal
+      span.textContent = c;
+      hCounterSpan.appendChild(span);
+    });
+    
+    hCounterSpan.setAttribute("data-state", "hold");
   }
+  
+  actualizarHoldContador();
+  setInterval(actualizarHoldContador, 1000);
+}
 
 } else {
   if (contadorInterval) {
