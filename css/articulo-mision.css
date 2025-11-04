@@ -69,7 +69,7 @@
 }
 
 /* ===== Estilo minimalista para el contador T-/T+ ===== */
-#t-counter {
+#t-counter, #h-counter {
     display: inline-flex; /* cambiar a flex para alinear dígitos */
     font-family: "Roboto Mono", monospace; /* tipografía digital minimalista */
     font-size: 1.4rem;
@@ -86,6 +86,18 @@
     user-select: none;
     overflow: hidden; /* ocultar desbordes de dígitos */
     height: 1.5em; /* altura del contador */
+}
+
+#h-counter {
+    color: orange;
+    border: 1px solid orange;
+    animation: border-orange 1s infinite;
+}
+
+@keyframes border-orange {
+    0% { border: 1px solid orange; }
+    50% { border: 2px solid orange; }
+    100% { border: 1px solid orange; }
 }
 
 /* Contenedor por dígito para animación */
