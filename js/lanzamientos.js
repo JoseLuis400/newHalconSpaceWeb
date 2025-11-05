@@ -91,6 +91,31 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${dia} ${mes} ${anio} - ${horas}:${minutos} UTC`;
   };
 
+  const formatearFechaPorTipo = (lanzamiento) => {
+    const fechaHora = getFechaHora(lanzamiento);
+    const dia = fechaHora.getUTCDate();
+    const mes = fechaHora.getUTCMonth();
+    const anio = fechaHora.getUTCFullYear();
+    const mesesLargos = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const mesesAbrev = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+    const horas = String(fechaHora.getUTCHours()).padStart(2, "0");
+    const minutos = String(fechaHora.getUTCMinutes()).padStart(2, "0");
+  
+    const typeDate = lanzamiento.typeDate; // No le pongas valor por defecto aquí
+  
+    if(typeDate === "year_long") {
+      return `NET ${anio}`;
+    } else if (typeDate === "month_long") {
+      return `NET ${mesesLargos[mes]} ${anio}`;
+    } else if (typeDate === "day_long") {
+      return `NET ${dia} ${mesesLargos[mes]} ${anio}`;
+    } else {
+      // Si no existe typeDate o tiene otro valor, usa el formato normal
+      return `${dia} ${mesesAbrev[mes]} ${anio} - ${horas}:${minutos} UTC`;
+    }
+  };
+  
+
   const calcularContador = (fechaStr, timeStr, now = null) => {
     const [dia, mes, anio] = fechaStr.split("/").map(Number);
     const [h, m, s] = (timeStr || "00:00:00").split(":").map(Number);
@@ -144,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="info">
             <h3>${l.nombre}</h3>
-            <p><strong>Fecha:</strong> ${formatearFechaHora(l)}</p>
+            <p><strong>Fecha:</strong> ${formatearFechaPorTipo(l)}</p>
             <p><strong>Vehículo:</strong> ${l.vehiculo ?? "Desconocido"}</p>
             <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
             <div class="links">
@@ -171,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="data-wrapper">
             <h3>${l.vehiculo} • ${l.nombre}</h3>
             <p><strong>Estado:</strong> ${(l.estado ?? "Desconocido").toUpperCase()}</p>
-            <p><strong>Fecha:</strong> ${formatearFechaHora(l)}</p>
+            <p><strong>Fecha:</strong> ${formatearFechaPorTipo(l)}</p>
             <p><strong>Plataforma:</strong> ${l.plataforma ?? "Desconocido"}</p>
             <div class="links">
               ${l.detalleUrl ? `<a href="${normalizeURLArticulo(l.detalleUrl)}" class="btn">Detalles</a>` : ""}

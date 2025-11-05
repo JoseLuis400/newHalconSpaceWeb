@@ -109,28 +109,61 @@ document.addEventListener("DOMContentLoaded", () => {
         let lanzamientoEl = "";
         let ventanaEl = "";
 
-        // Si existe ventana de lanzamiento Y estado es "programado"
-        if(lanzamiento.window && lanzamiento.window.start && lanzamiento.window.end && lanzamiento.estado?.toLowerCase() === "programado") {
-          const startHora = formatearHoraUTC(lanzamiento.window.start);
-          const endHora = formatearHoraUTC(lanzamiento.window.end);
-          
-          // Formato: Lanzamiento: 30 oct 2025, 22:45:00 UTC
-          const mesAbrev = mesesAbrev[parseInt(mes,10)-1];
-          const lanzamientoTexto = dia
-            ? `${dia} ${mesAbrev} ${año}, ${lanzamiento.timeUTC} UTC`
-            : `${mesAbrev} ${año}, ${lanzamiento.timeUTC} UTC`;
-          
-          lanzamientoEl = `<p><strong>Tiempo:</strong> ${lanzamientoTexto}</p>`;
-          ventanaEl = `<p><strong>Ventana:</strong> ${startHora} - ${endHora} UTC</p>`;
-        } else {
-          // Sin ventana: formato normal con mes completo
-          const mesCompleto = mesesCompletos[parseInt(mes,10)-1];
-          const lanzamientoTexto = dia
-            ? `${dia} ${mesCompleto} ${año}, ${lanzamiento.timeUTC} UTC`
-            : `${mesCompleto} ${año}, ${lanzamiento.timeUTC} UTC`;
-          
-          lanzamientoEl = `<p><strong>Tiempo:</strong> ${lanzamientoTexto}</p>`;
-        }
+// Función auxiliar para formatear fecha según typeDate
+function formatearFechaPorTipoArticulo(dia, mes, año, timeUTC, typeDate) {
+  const mesesCompletos = [
+    "enero","febrero","marzo","abril","mayo","junio",
+    "julio","agosto","septiembre","octubre","noviembre","diciembre"
+  ];
+  const mesesAbrev = [
+    "ene","feb","mar","abr","may","jun",
+    "jul","ago","sep","oct","nov","dic"
+  ];
+
+  if(typeDate === "year_long") {
+    return `NET ${año}`;
+  } else if (typeDate === "month_long") {
+    return `NET ${mesesCompletos[mes]} ${año}`;
+  } else if (typeDate === "day_long") {
+    return `NET ${dia} ${mesesCompletos[mes]} ${año}`;
+  } else {
+    // Formato normal
+    const mesTexto = dia ? mesesCompletos[mes] : mesesAbrev[mes];
+    return `${dia ? dia + " " : ""}${mesTexto} ${año}, ${timeUTC} UTC`;
+  }
+}
+
+
+
+// Si existe ventana de lanzamiento Y estado es "programado"
+if(lanzamiento.window && lanzamiento.window.start && lanzamiento.window.end && lanzamiento.estado?.toLowerCase() === "programado") {
+  const startHora = formatearHoraUTC(lanzamiento.window.start);
+  const endHora = formatearHoraUTC(lanzamiento.window.end);
+
+  // Usar typeDate si existe
+  const lanzamientoTexto = formatearFechaPorTipoArticulo(
+    dia,
+    parseInt(mes,10)-1,
+    año,
+    lanzamiento.timeUTC,
+    lanzamiento.typeDate
+  );
+
+  lanzamientoEl = `<p><strong>Tiempo:</strong> ${lanzamientoTexto}</p>`;
+  ventanaEl = `<p><strong>Ventana:</strong> ${startHora} - ${endHora} UTC</p>`;
+} else {
+  // Sin ventana: usar typeDate si existe
+  const lanzamientoTexto = formatearFechaPorTipoArticulo(
+    dia,
+    parseInt(mes,10)-1,
+    año,
+    lanzamiento.timeUTC,
+    lanzamiento.typeDate
+  );
+
+  lanzamientoEl = `<p><strong>Tiempo:</strong> ${lanzamientoTexto}</p>`;
+}
+
 
         misionContent.innerHTML = `
           <h2>${lanzamiento.nombre}</h2>
