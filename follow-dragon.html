@@ -153,7 +153,7 @@
 <body>
     <div class="container">
         <h1>🚀 DRAGON</h1>
-        <div class="subtitle">Telemetría en Tiempo Real - Seguimiento Dragon</div>
+        <div class="subtitle">Telemetría en Tiempo Real  - Seguimiento <span id="nombre-mision">Dragon</span></div>
         
         <div id="status" class="status disconnected">
             <span class="blink">● CONECTANDO CON BASE DE DATOS...</span>
@@ -237,7 +237,7 @@
         }
     
         const docRef = doc(db, 'telemetria', 'estado_actual');
-        const controlRef = doc(db, 'lanzamientos', 'kKBPtR3ahN3e2CoRgq1T');
+        const controlRef = doc(db, 'lanzamientos', '8PhULPbhylVjFyfG8htF');
     
         setInterval(updateTimestamp, 1000);
     
@@ -245,6 +245,12 @@
         onSnapshot(controlRef, (doc) => {
             if (doc.exists()) {
                 const data = doc.data();
+
+                if(data.nombre) {
+                    document.getElementById('nombre-mision').textContent = data.nombre;
+                } else {
+                    document.getElementById('nombre-mision').textContent = 'Misión desconocida';
+                }
     
                 if (data.telemetria_on === true) {
                     telemetryActive = true;
