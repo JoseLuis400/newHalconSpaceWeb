@@ -32,101 +32,107 @@
 <body>
     <div id="menu-container"></div>
 
-    <!-- Header -->
-    <section class="section-principal">
-        <div class="container">
-            <div class="section-header">
-                <h2>Nuestra Flota</h2>
-                <p>Vehículos espaciales de última generación diseñados para misiones de alta precisión</p>
-            </div>
-
-            <!-- Estadísticas generales -->
-            <div class="estadisticas">
-                <div class="estadistica">
-                    <h3 id="totalLanzamientos">0</h3>
-                    <p>Lanzamientos totales</p>
-                </div>
-                <div class="estadistica">
-                    <h3 id="lanzamientosFalcon9">0</h3>
-                    <p>Lanzamientos Falcon 9</p>
-                </div>
-                <div class="estadistica">
-                    <h3 id="misionesFalconHeavy">0</h3>
-                    <p>Misiones Falcon Heavy</p>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-top">
+                <div class="header-content">
+                    <h1 class="header-title">Nuestra Flota</h1>
+                    <p class="header-subtitle">Vehículos espaciales de última generación diseñados para misiones de alta precisión</p>
                 </div>
             </div>
 
-            <section class="galeria-vehiculos">
-                <!-- Vehículo 1: Falcon 9 -->
-                <div class="vehiculo">
-                    <img src="img/fotos/Falcon 9 en SLC-40.jpg" alt="Falcon 9 Block 5">
-                    <h3>Falcon 9 Block 5</h3>
-                    <p>El Falcon 9 es un cohete reutilizable diseñado para misiones de órbita baja, media, geoestacionaria y más allá.</p>
-                    <div class="vehiculo-footer">
-                        <div class="vehiculo-stats">
-                            <div class="stat">
-                                <strong id="exitoFalcon9">0</strong>
-                                <span>Éxito</span>
-                            </div>
-                            <div class="stat">
-                                <strong id="lanzamientostFalcon9">0</strong>
-                                <span>Lanzamientos</span>
-                            </div>
-                        </div>
-                        <a href="vehiculos/falcon9" class="btn btn-secondary">Ver detalles</a>
-                    </div>
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalLanzamientos">0</div>
+                    <div class="stat-label">Lanzamientos Totales</div>
                 </div>
-            
-                <!-- Vehículo 2: Falcon Heavy -->
-                <div class="vehiculo">
-                    <img src="img/fotos/Falcon Heavy.jpg" alt="Falcon Heavy">
-                    <h3>Falcon Heavy</h3>
-                    <p>El Falcon Heavy es un cohete de alta capacidad reutilizable diseñado para misiones de altos requerimientos.</p>
-                    <div class="vehiculo-footer">
-                        <div class="vehiculo-stats">
-                            <div class="stat">
-                                <strong id="exitoFalconHeavy">0</strong>
-                                <span>Éxito</span>
-                            </div>
-                            <div class="stat">
-                                <strong id="lanzamientostFalconHeavy">0</strong>
-                                <span>Lanzamientos</span>
-                            </div>
-                        </div>
-                        <a href="vehiculos/falconHeavy" class="btn btn-secondary">Ver detalles</a>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="lanzamientosFalcon9">0</div>
+                    <div class="stat-label">Lanzamientos Falcon 9</div>
                 </div>
-            
-                <!-- Vehículo 3: Dragon -->
-                <div class="vehiculo">
-                    <img src="img/fotos/Two Dragon SpX and Tundra in HS.jpg" alt="Dragon">
-                    <h3>Dragon</h3>
-                    <p>La cápsula Dragon, adquirida por Halcon Space, permite transporte seguro de tripulación y carga a órbita, así como el retorno de materiales y experimentos a Kerbin. Combina las capacidades de Crew Dragon y Cargo Dragon en una flota unificada.</p>
-                    <div class="vehiculo-footer"></div>
+                <div class="stat-card">
+                    <div class="stat-number" id="misionesFalconHeavy">0</div>
+                    <div class="stat-label">Misiones Falcon Heavy</div>
                 </div>
-            
-                <!-- Vehículo 4: Propulsores -->
-                <div class="vehiculo">
-                    <img src="img/fotos/Landing_barcaza.jpg" alt="Propulsores">
-                    <h3>Propulsores Falcon 9 & Falcon Heavy</h3>
-                    <p>Obtenga información de cada propulsor disponible en Halcon Space, incluyendo modelos retirados.</p>
-                    <div class="vehiculo-footer">
-                        <div class="vehiculo-stats">
-                            <div class="stat">
-                                <strong id="propulsoresActivos">0</strong>
-                                <span>Activos</span>
-                            </div>
-                            <div class="stat">
-                                <strong id="propulsoresNoActivos">0</strong>
-                                <span>No activos</span>
-                            </div>
-                        </div>
-                        <a href="propulsores" class="btn btn-secondary">Ver propulsores</a>
-                    </div>
-                </div>
-            </section>
-            
+            </div>
         </div>
-    </section>
+
+        <!-- Vehicles Grid -->
+        <div class="vehicles-grid">
+            <!-- Falcon 9 -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="img/fotos/Falcon 9 en SLC-40.jpg" alt="Falcon 9 Block 5">
+                </div>
+                <div class="vehicle-content">
+                    <h3 class="vehicle-name">Falcon 9 Block 5</h3>
+                    <p class="vehicle-description">El Falcon 9 es un cohete reutilizable diseñado para misiones de órbita baja, media, geoestacionaria y más allá.</p>
+                    
+                    <div class="vehicle-stats">
+                        <div class="vehicle-stat">
+                            <div class="vehicle-stat-value success" id="exitoFalcon9">0</div>
+                            <div class="vehicle-stat-label">Éxito</div>
+                        </div>
+                        <div class="vehicle-stat">
+                            <div class="vehicle-stat-value warning" id="lanzamientostFalcon9">0</div>
+                            <div class="vehicle-stat-label">Lanzamientos</div>
+                        </div>
+                    </div>
+
+                    <a href="vehiculos/falcon9" class="vehicle-btn">Ver Detalles</a>
+                </div>
+            </div>
+
+            <!-- Falcon Heavy -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://img.halconspace.site/img/misiones/roadster/1.png" alt="Falcon Heavy">
+                </div>
+                <div class="vehicle-content">
+                    <h3 class="vehicle-name">Falcon Heavy</h3>
+                    <p class="vehicle-description">El Falcon Heavy es un cohete de alta capacidad reutilizable diseñado para misiones de altos requerimientos.</p>
+                    
+                    <div class="vehicle-stats">
+                        <div class="vehicle-stat">
+                            <div class="vehicle-stat-value success" id="exitoFalconHeavy">0</div>
+                            <div class="vehicle-stat-label">Éxito</div>
+                        </div>
+                        <div class="vehicle-stat">
+                            <div class="vehicle-stat-value warning" id="lanzamientostFalconHeavy">0</div>
+                            <div class="vehicle-stat-label">Lanzamientos</div>
+                        </div>
+                    </div>
+
+                    <a href="vehiculos/falconHeavy" class="vehicle-btn">Ver Detalles</a>
+                </div>
+            </div>
+
+            <!-- Propulsores -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="img/fotos/Landing_barcaza.jpg" alt="Propulsores">
+                </div>
+                <div class="vehicle-content">
+                    <h3 class="vehicle-name">Propulsores Falcon 9 & Falcon Heavy</h3>
+                    <p class="vehicle-description">Obtenga información de cada propulsor disponible en Halcon Space, incluyendo modelos retirados.</p>
+                    
+                    <div class="vehicle-stats">
+                        <div class="vehicle-stat">
+                            <div class="vehicle-stat-value success" id="propulsoresActivos">0</div>
+                            <div class="vehicle-stat-label">Activos</div>
+                        </div>
+                        <div class="vehicle-stat">
+                            <div class="vehicle-stat-value error" id="propulsoresNoActivos">0</div>
+                            <div class="vehicle-stat-label">No Activos</div>
+                        </div>
+                    </div>
+
+                    <a href="propulsores" class="vehicle-btn">Ver Propulsores</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

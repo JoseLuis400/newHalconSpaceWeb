@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="css/propulsores.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/main.js"></script> <!-- Cargar el menú superior y pie de pagina-->
-    <script type="module" src="js/propulsores.js" defer></script> <!-- Cargar propulsores -->
     
 
     <!-- EMBED DE LA PAGINA -->
@@ -31,36 +30,56 @@
 </head>
 <body>
     <div id="menu-container"></div>
+    <div style="height: 50px;"></div>
     <div class="container">
-        <div class="section-header">
-            <h2 class="header-title">Propulsores</h2>
-            <p class="header-subtitle">Propulsores de vehículos de Halcon Space</p>
+        <div class="header">
+            <div class="header-top">
+                <div class="header-content">
+                    <h1 class="header-title">Propulsores</h1>
+                    <p class="header-subtitle">Flota de primera etapa reutilizable de Halcon Space</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-boosters">0</div>
+                        <div class="stat-label">Propulsores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-flights">0</div>
+                        <div class="stat-label">Vuelos Totales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="active-boosters">0</div>
+                        <div class="stat-label">Activos</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="filters">
-            <button class="filter-btn btn btn-secondary active" data-filter="all">Todos</button>
-            <button class="filter-btn btn btn-secondary" data-filter="activo">Activos</button>
-            <button class="filter-btn btn btn-secondary" data-filter="retirado">Retirados</button>
-            <button class="filter-btn btn btn-secondary" data-filter="destruido">Destruidos</button>
-            <button class="filter-btn btn btn-secondary" data-filter="testing">En Pruebas</button>
-            
-            <!-- Nuevo buscador -->
-            <input type="text" id="search-input" placeholder="Buscar propulsor..." class="search-box">
+
+        <div class="controls">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="activo">Activos</button>
+                <button class="filter-btn" data-filter="retirado">Retirados</button>
+                <button class="filter-btn" data-filter="destruido">Destruidos</button>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Buscar propulsor..." class="search-box">
+            </div>
         </div>
 
         <div class="boosters-grid" id="boosters-grid">
-            <!-- Los propulsores se cargarán aquí dinámicamente -->
+            <div class="loading">Cargando propulsores...</div>
         </div>
+    </div>
 
-        <!-- Modal para detalles del propulsor -->
+    <!-- Modal -->
     <div class="modal" id="booster-modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <div class="modal-body" id="modal-body">
-                <!-- Contenido del modal se carga dinámicamente -->
-            </div>
+            <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
-    </div>
+    <script type="module" src="js/propulsores.js"></script> <!-- Cargar propulsores -->
     
 </body>
 </html>
