@@ -117,10 +117,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
                         <span class="badge type-badge">${booster.type}</span>
                     </div>
                     <div class="booster-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">${booster.flights}</div>
-                            <div class="stat-label-small">Vuelos</div>
-                        </div>
+                        
                     </div>
                     <div class="booster-dates">
                         ${booster.firstFlight ? `<div class="booster-date">Primero: ${formatDate(booster.firstFlight)}</div>` : ''}
