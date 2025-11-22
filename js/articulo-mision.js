@@ -227,7 +227,11 @@ if(lanzamiento.window && lanzamiento.window.start && lanzamiento.window.end && l
 
   const elemento = document.getElementById("propulsorAUsar");
     if (elemento) {
+      if (lanzamiento.propulsor) {
         elemento.textContent = lanzamiento.propulsor;
+      } else {
+        elemento.textContent = "Por confirmar";
+      }
     }
 
   if (contadorInterval) clearInterval(contadorInterval);
