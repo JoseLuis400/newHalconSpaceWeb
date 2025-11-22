@@ -225,12 +225,39 @@ if(lanzamiento.window && lanzamiento.window.start && lanzamiento.window.end && l
     }
   }  
 
-  const elemento = document.getElementById("propulsorAUsar");
-    if (elemento) {
-      if (lanzamiento.propulsor) {
-        elemento.textContent = lanzamiento.propulsor;
+  const coheteUsar = document.getElementById("coheteAUsar");
+    if (coheteUsar) {
+      if (lanzamiento.vehiculo) {
+        
+        if (lanzamiento.vehiculo === "Falcon 9 Block 5") {
+          coheteUsar.innerHTML = `<a href="../vehiculos/falcon9">Falcon 9 Block 5</a>`;
+        } if (lanzamiento.vehiculo === "Falcon Heavy") {
+          coheteUsar.innerHTML = `<a href="../vehiculos/falconHeavy">Falcon Heavy</a>`;
+        }
+
+
+
       } else {
-        elemento.textContent = "Por confirmar";
+        coheteUsar.textContent = "Por confirmar";
+      }
+    }
+
+  const propulsorUsar = document.getElementById("propulsorAUsar");
+    if (propulsorUsar) {
+      if (lanzamiento.propulsor) {
+        propulsorUsar.textContent = lanzamiento.propulsor;
+      } else {
+        propulsorUsar.textContent = "Por confirmar";
+      }
+    }
+  
+  const recuperacionUsar = document.getElementById("recuperacionAUsar");
+    if (recuperacionUsar) {
+      if (lanzamiento.recuperacion) {
+        recuperacionUsar.textContent = lanzamiento.recuperacion.charAt(0).toUpperCase() + lanzamiento.recuperacion.slice(1);
+
+      } else {
+        recuperacionUsar.textContent = "Por confirmar";
       }
     }
 
