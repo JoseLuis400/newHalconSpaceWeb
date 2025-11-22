@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KALYPSO - Halcon Space</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="https://new.halconspace.site/img/KALYPSO%20Mission.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/kalypso.css">
+</head>
+<body>
+    <!-- Encabezado -->
+    <div id="menu-container"></div>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <h1>KALYPSO</h1>
+        <p class="subtitle">Red Global de Comunicaciones Orbitales</p>
+    </div>
+
+
+
+    <!-- Sección: ¿Qué es KALYPSO? -->
+    <div class="container">
+
+        <div class="content-card">
+            <h2>¿Qué es KALYPSO?</h2>
+            <p>
+                KALYPSO es una constelación satelital de órbita baja desarrollada por Halcon Space,
+                en colaboración con Orion Dynamics, destinada a proporcionar una red de comunicaciones orbitales
+                confiable y de cobertura global en el planeta Kerbin.
+            </p>
+            <p>
+                La primera fase del proyecto está compuesta por <strong>480 satélites</strong>, distribuidos en 8 planos orbitales,
+                con una cantidad variable de satélites por plano. Esta configuración optimiza la cobertura 
+                global al concentrar más satélites en planos polares y de inclinación media, donde la demanda 
+                de conectividad es mayor, y reducir la densidad en planos de baja inclinación. Cada plano cuenta con una altitud e 
+                inclinación cuidadosamente calculadas para asegurar cobertura continua en regiones ecuatoriales, medias y polares.
+            </p>
+            <p>
+                Los objetivos principales de KALYPSO incluyen:
+            </p>
+            <ul>
+                <li>Servir como relé de comunicaciones para misiones espaciales tripuladas y no tripuladas</li>
+                <li>Facilitar la transmisión de datos científicos desde satélites, estaciones espaciales y superficies planetarias</li>
+                <li>Proporcionar soporte de navegación, control y sincronización temporal para operaciones complejas en Kerbin y más allá</li>
+            </ul>
+            <p>
+                Con esta arquitectura, KALYPSO se convierte en una pieza fundamental de la infraestructura espacial de Halcon Space,
+                sentando las bases para futuras fases del proyecto que extenderán la red hacia otros cuerpos celestes del sistema kerbal.
+            </p>
+            <!-- Logo de la constelación -->
+        <div class="constellation-logo">
+            <img src="https://new.halconspace.site/img/KALYPSO%20Mission.png" alt="KALYPSO Mission Logo">
+        </div>
+        </div>
+    </div>
+
+    <!-- Estado en tiempo real -->
+    <div class="container">
+        <div class="realtime-status">
+            <div class="realtime-header">
+                <h2>Estado de la Constelación</h2>
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    <span>EN VIVO</span>
+                </div>
+            </div>
+            <div class="realtime-grid">
+                <div class="realtime-item">
+                    <div class="realtime-value" id="satellites-launched">0</div>
+                    <div class="realtime-label">Satélites Lanzados</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="satellites-orbit">0</div>
+                    <div class="realtime-label">Satélites en Órbita</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="satellites-operational">0</div>
+                    <div class="realtime-label">Satélites Operativos</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="orbital-planes">0</div>
+                    <div class="realtime-label">Planos Orbitales</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="latency">--ms</div>
+                    <div class="realtime-label">Latencia Promedio</div>
+                </div>
+            </div>
+            <div class="update-footer">
+                <p class="update-footer-text">
+                    Última actualización: <strong id="last-update">12:34:56 UTC • 22 Nov 2025</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección: Planos Orbitales -->
+    <div class="container">
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Planos Orbitales</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="4">Fase 1 • Satélites v1.0</th>
+                    </tr>
+                    <tr>
+                        <th>Plano #</th>
+                        <th>Altitud (km)</th>
+                        <th>Inclinación (°)</th>
+                        <th>Satélites por plano</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>520</td>
+                        <td>53</td>
+                        <td>70</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>540</td>
+                        <td>75</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>560</td>
+                        <td>90 (polar)</td>
+                        <td>80</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>580</td>
+                        <td>60</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>600</td>
+                        <td>45</td>
+                        <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>620</td>
+                        <td>70</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>640</td>
+                        <td>30</td>
+                        <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>660</td>
+                        <td>85</td>
+                        <td>80</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script type="module">
+        // Importar Firebase (SDK modular)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
+    
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAiLw2zwfsjdMP-IlEoE5JugyFvmaQLFC0",
+            authDomain: "halcon-space-348e7.firebaseapp.com",
+            projectId: "halcon-space-348e7",
+            storageBucket: "halcon-space-348e7.firebasestorage.app",
+            messagingSenderId: "741724706453",
+            appId: "1:741724706453:web:519531e63f2b923f952d9c",
+            measurementId: "G-VG1Y2YMY4W"
+        };
+    
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+    
+        // Referencia al documento Firestore
+        const realtimeRef = doc(db, "kalypso", "realtime");
+    
+        // Función para formatear fecha
+        function formatUTC(dateString) {
+            const date = new Date(dateString);
+            return date.toUTCString().replace("GMT", "UTC");
+        }
+    
+        // Variable para guardar la latencia base desde Firestore
+let baseLatency = null;
+
+// Escuchar cambios en tiempo real desde Firestore
+onSnapshot(realtimeRef, (docSnap) => {
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+
+        // Guardamos la latencia real como referencia
+        baseLatency = data.latency;
+
+        // Actualizar valores normales
+        document.getElementById("satellites-launched").textContent = data.satellitesLaunched;
+        document.getElementById("satellites-orbit").textContent = data.satellitesOrbit;
+        document.getElementById("satellites-operational").textContent = data.satellitesOperational;
+        document.getElementById("orbital-planes").textContent = data.orbitalPlanes;
+
+        // Última actualización
+        if (data.lastUpdate) {
+            document.getElementById("last-update").textContent = formatUTC(data.lastUpdate);
+        }
+    }
+});
+
+// Función para generar variación ±7%
+function fluctuatedLatency(value) {
+    const variation = (Math.random() * 0.14 - 0.07); // entre -7% y +7%
+    return Math.round(value * (1 + variation));
+}
+
+// Animar latencia cada segundo
+setInterval(() => {
+    if (baseLatency !== null) {
+        const liveLatency = fluctuatedLatency(baseLatency);
+        document.getElementById("latency").textContent = liveLatency + " ms";
+    }
+}, 1000);
+
+    </script>
+    
+</body>
+</html>
