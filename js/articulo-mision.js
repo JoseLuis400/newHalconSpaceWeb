@@ -225,6 +225,11 @@ if(lanzamiento.window && lanzamiento.window.start && lanzamiento.window.end && l
     }
   }  
 
+  const elemento = document.getElementById("propulsorAUsar");
+    if (elemento) {
+        elemento.textContent = lanzamiento.propulsor;
+    }
+
   if (contadorInterval) clearInterval(contadorInterval);
   actualizarContador();
   contadorInterval = setInterval(actualizarContador, 1000);
