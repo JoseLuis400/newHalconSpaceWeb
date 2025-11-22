@@ -44,6 +44,7 @@ function calcularContador(fechaStr, timeStr, now = null) {
   return dias > 0 ? `${signo}${dias}D / ${horas}:${minutos}:${segundos}` : `${signo}${horas}:${minutos}:${segundos}`;
 }
 
+
 // ===== Función para formatear hora UTC desde ISO string =====
 function formatearHoraUTC(isoString) {
   const date = new Date(isoString);
@@ -108,6 +109,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let lanzamientoEl = "";
         let ventanaEl = "";
+
+        //// TABLA DE DATOS TECNICOS
+        const coheteUsar = document.getElementById("coheteAUsar");
+    if (coheteUsar) {
+      if (lanzamiento.vehiculo) {
+        
+        if (lanzamiento.vehiculo === "Falcon 9 Block 5") {
+          coheteUsar.innerHTML = `<a href="../vehiculos/falcon9">Falcon 9 Block 5</a>`;
+        } if (lanzamiento.vehiculo === "Falcon Heavy") {
+          coheteUsar.innerHTML = `<a href="../vehiculos/falconHeavy">Falcon Heavy</a>`;
+        }
+
+
+
+      } else {
+        coheteUsar.textContent = "Por confirmar";
+      }
+    }
+
+  const propulsorUsar = document.getElementById("propulsorAUsar");
+    if (propulsorUsar) {
+      if (lanzamiento.propulsor) {
+        propulsorUsar.textContent = lanzamiento.propulsor;
+      } else {
+        propulsorUsar.textContent = "Por confirmar";
+      }
+    }
+  
+  const recuperacionUsar = document.getElementById("recuperacionAUsar");
+    if (recuperacionUsar) {
+      if (lanzamiento.recuperacion) {
+        recuperacionUsar.textContent = lanzamiento.recuperacion.charAt(0).toUpperCase() + lanzamiento.recuperacion.slice(1);
+
+      } else {
+        recuperacionUsar.textContent = "Por confirmar";
+      }
+    }
 
 // Función auxiliar para formatear fecha según typeDate
 function formatearFechaPorTipoArticulo(dia, mes, año, timeUTC, typeDate) {
@@ -225,42 +263,6 @@ if(lanzamiento.window && lanzamiento.window.start && lanzamiento.window.end && l
     }
   }  
 
-  const coheteUsar = document.getElementById("coheteAUsar");
-    if (coheteUsar) {
-      if (lanzamiento.vehiculo) {
-        
-        if (lanzamiento.vehiculo === "Falcon 9 Block 5") {
-          coheteUsar.innerHTML = `<a href="../vehiculos/falcon9">Falcon 9 Block 5</a>`;
-        } if (lanzamiento.vehiculo === "Falcon Heavy") {
-          coheteUsar.innerHTML = `<a href="../vehiculos/falconHeavy">Falcon Heavy</a>`;
-        }
-
-
-
-      } else {
-        coheteUsar.textContent = "Por confirmar";
-      }
-    }
-
-  const propulsorUsar = document.getElementById("propulsorAUsar");
-    if (propulsorUsar) {
-      if (lanzamiento.propulsor) {
-        propulsorUsar.textContent = lanzamiento.propulsor;
-      } else {
-        propulsorUsar.textContent = "Por confirmar";
-      }
-    }
-  
-  const recuperacionUsar = document.getElementById("recuperacionAUsar");
-    if (recuperacionUsar) {
-      if (lanzamiento.recuperacion) {
-        recuperacionUsar.textContent = lanzamiento.recuperacion.charAt(0).toUpperCase() + lanzamiento.recuperacion.slice(1);
-
-      } else {
-        recuperacionUsar.textContent = "Por confirmar";
-      }
-    }
-
   if (contadorInterval) clearInterval(contadorInterval);
   actualizarContador();
   contadorInterval = setInterval(actualizarContador, 1000);
@@ -370,8 +372,6 @@ if(lanzamiento.estado?.toLowerCase() === "hold" && lanzamiento.holdTime) {
   })();
 
 });
-
-//// GALERÍA DE FOTOS (corrigiendo cálculo de ancho)
 
 //// GALERÍA DE FOTOS - usando imágenes del HTML directamente
 
