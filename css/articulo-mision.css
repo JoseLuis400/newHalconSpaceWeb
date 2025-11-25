@@ -214,6 +214,10 @@ section p a:hover {
     font-weight: bold;
 }
 
+.detalles-tecnicos #recuperacionAUsar {
+    text-transform: uppercase;
+}
+
 /* =======================
     Tripulación
 ======================= */
