@@ -221,6 +221,8 @@
         const distanceEl = document.getElementById('distance');
         const relativeVelocityEl = document.getElementById('relative-velocity');
         const timestampEl = document.getElementById('timestamp');
+
+        let id_mission = 'CmHUvng0Ag9DL6Fo5bwi';
     
         let telemetryActive = false; // 🔹 Estado global
     
@@ -237,7 +239,7 @@
         }
     
         const docRef = doc(db, 'telemetria', 'estado_actual');
-        const controlRef = doc(db, 'lanzamientos', '8PhULPbhylVjFyfG8htF');
+        const controlRef = doc(db, 'lanzamientos', id_mission);
     
         setInterval(updateTimestamp, 1000);
     
