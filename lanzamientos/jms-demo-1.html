@@ -43,8 +43,6 @@
                 <!-- contenido será reemplazado por JS -->
             </div>
         </section>
-        
-              
 
         <!-- Introducción -->
         <section class="introduccion">
@@ -59,6 +57,20 @@
             </p>   
         </section>
 
+        <section class="tripulacion">
+            <h3>Tripulación de misión</h3>
+            <div class="tripulantes">
+                <div class="tripulante1">
+                    <img src="https://img.halconspace.site/img/misiones/jms-demo-1/josep.png" alt="Josep">
+                    <p><strong>Josep Kerman</strong><br>Piloto</p>
+                </div>
+                <div class="tripulante2">
+                    <img src="https://img.halconspace.site/img/misiones/jms-demo-1/sofia.png" alt="Sofia">
+                    <p><strong>Sofia Kerman</strong><br>Ingeniero</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Detalles técnicos -->
         <section class="detalles-tecnicos">
             <h3>Detalles Técnicos</h3>
@@ -70,6 +82,32 @@
               <tr><th>Órbita :</th><td>700km y 45°</td></tr>
               <tr><th>Recuperación :</th><td id="recuperacionAUsar"></td></tr>
             </table>
+        </section>
+
+        <!-- Seguimiento de misión -->
+        <section class="seguimiento">
+            <h3>Seguimiento en tiempo real</h3>
+            <iframe src="https://new.halconspace.site/follow-dragon" frameborder="0" style="width: 100%; height: 700px; border-radius: 20px;"></iframe>
+         </section>
+
+         <!-- Imágenes destacadas -->
+        <section class="imagenes">
+            <h3>Imágenes de la misión</h3>
+                <div class="slideshow">
+                    <div class="slides-wrapper" id="slides-wrapper">
+                        <img src="https://img.halconspace.site/img/misiones/jms-demo-1/tripulacion.png" alt="">
+                    </div>
+                    <div class="controls">
+                      <button id="prev">&#10094;</button>
+                      <button id="next">&#10095;</button>
+                    </div>
+                    <div class="dots" id="dots"></div>
+                  </div>
+            </div>
+            <h3>Videos</h3>
+            <div class="galeria vid">
+                <!-- Insertar videos -->
+            </div>
         </section>
 
     </main>
