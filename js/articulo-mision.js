@@ -128,6 +128,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    function formatearRecuperacion(recuperacion) {
+      if (!recuperacion) return "Por confirmar";
+    
+      // Caso LZ2 → LZ-2
+      if (/^LZ\d+$/i.test(recuperacion)) {
+        return recuperacion.toUpperCase().replace(/^LZ(\d+)$/, "LZ-$1");
+      }
+    
+      // Capitalizar primera letra para otros casos
+      return recuperacion.charAt(0).toUpperCase() + recuperacion.slice(1);
+    }
+    
+
   const propulsorUsar = document.getElementById("propulsorAUsar");
     if (propulsorUsar) {
       if (lanzamiento.propulsor) {
@@ -137,15 +150,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   
-  const recuperacionUsar = document.getElementById("recuperacionAUsar");
+    const recuperacionUsar = document.getElementById("recuperacionAUsar");
     if (recuperacionUsar) {
-      if (lanzamiento.recuperacion) {
-        recuperacionUsar.textContent = lanzamiento.recuperacion.charAt(0).toUpperCase() + lanzamiento.recuperacion.slice(1);
-
-      } else {
-        recuperacionUsar.textContent = "Por confirmar";
-      }
+      recuperacionUsar.textContent = formatearRecuperacion(lanzamiento.recuperacion);
     }
+    
 
 // Función auxiliar para formatear fecha según typeDate
 function formatearFechaPorTipoArticulo(dia, mes, año, timeUTC, typeDate) {
