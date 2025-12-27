@@ -86,7 +86,7 @@ body {
 }
 
 /* Imagen */
-.update img {
+.update img, .update video {
     max-width: 75%;
     transition: all 0.4s ease;
     margin: 0 auto;
@@ -95,7 +95,7 @@ body {
     padding: 10px;
 }
 
-.update img:hover {
+.update img:hover, .update video:hover {
     transform: scale(1.03);
     border-radius: 75px;
 }
